@@ -7,9 +7,30 @@ using namespace std;
 
 void Swimming()
 {
+    cout<<endl<<endl<<"##################################################################";
     int x = rand()%101+1;
+    int choice;
+    if(x<31)
+    {
+        cout<<"    Lad na horyzoncie!"<<endl
+            <<"    Kapitanie co zamierzasz?"<<endl<<endl
+            <<"    1.Schodzimy na wyspe! Kamraci! Arghhhh...(Rabowanie)"<<endl
+            <<"    2.Odwrot taktyczny! Arghhhh...(Ucieczka)"<<endl<<endl;
+        cin>>choice;
+        if(x<11)
+        {
 
+        }
+    }
+    else if(x<36)
+    {
 
+    }
+    else if(x<51)
+    {
+
+    }
+    cout<<endl<<endl;
 }
 
 class CrewMember
@@ -64,13 +85,15 @@ void menu()
     do
     {
         cout<<"------------------------------------------------------------------"<<endl
-            <<"    1.Stworz statek"<<endl
-            <<"    2.Zatrudnij zaloganta"<<endl
-            <<"    3.Plyn"<<endl
-            <<"    4.Walcz z wrogim statkiem"<<endl
-            <<"    5.Rabuj wyspe"<<endl
-            <<"    6.Ulepsz statek"<<endl
-            <<"    7.Opusc Statek"<<endl
+            <<"    1.Cala Naprzod tchorzliwe fladry! Arghhhh..."<<endl
+            <<"    2.W szeregu zbiorka krzywonogie niedolegi! Arghhhh...(wglad w zaloge)"
+            <<"    2.Powiekszy flote! Arghhhh...(Nowy statek)"<<endl
+            <<"    3.Wincyj mord do wykarmienia! Arghhhh...(Zatrudnij)"<<endl
+            <<"    4.Najwyzszy czas zatopic moja szable w czyjejs krwi! Arghhhh...(Atak na wroga)"<<endl
+
+
+            <<"    7.Trzeba zalatac lajbe! Arghhhh...(Ulepszanie)"<<endl
+            <<"    8.Za burte szczuru ladowy? Arghhhh...(Koniec)"<<endl
             <<"------------------------------------------------------------------"<<endl;
         cout<<"Co zamierzasz zrobic?: ";
         cin>>choice;
@@ -90,12 +113,14 @@ void menu()
             break;
         case 7:
             break;
+        case 8:
+            break;
         default:
             cout<<"Twoj wybor nie pasuje do podanych";
         }
         cout<<endl<<endl<<endl<<endl<<endl;
     }
-    while(choice != 7);
+    while(choice != 8);
 }
 
 int main()
@@ -103,7 +128,8 @@ int main()
     string PlayerName;
     string ShipName;
     srand(time(NULL));
-    cout<<"Budzisz sie rano przy kolejnej butelce rumu"<<endl
+    cout<<"##################################################################"<<endl
+        <<"Budzisz sie rano przy kolejnej butelce rumu"<<endl
         <<"Postanawiasz wypic kolejny lyk skoro swit"<<endl
         <<"Butelka jest pusta T_T"<<endl
         <<"Rozbijasz skarbonke"<<endl
@@ -113,7 +139,8 @@ int main()
     getline(cin, PlayerName);
     cout<<"Podaj nazwe statku "<<PlayerName<<"..."<<endl;
     getline(cin, ShipName);
-    cout<<"A wiec powodzenia glup...eee...podrozniku! :D"<<endl;
+    cout<<"A wiec powodzenia glup...eee...podrozniku! :D"<<endl
+        <<"##################################################################"<<endl<<endl;
     menu();
 
     return 0;

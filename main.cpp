@@ -63,7 +63,8 @@ void Swimming()
     {
 
     }
-    cout<<endl<<endl;
+    else cout<<"Wszêdzie tylko woda na widoku! Arghhhh..."<<endl;
+    cout<<endl;
 }
 
 class CrewMember
@@ -93,7 +94,7 @@ private:
     int hp;                             // koszt = hp*3
     int cannons;                        // koszt = 200
     int masts;                          // koszt = 300
-    float rum;                     // koszt = 5, 1/10 rumu wypijana przez 1 zaloganta przez 1 wykonanie funkcji swimming()
+    float rum;                          // koszt = 5, 1/10 rumu wypijana przez 1 zaloganta przez 1 wykonanie funkcji swimming()
     int money;
     // Domyœlny statek kosztuje 2000 zlota
     int cost = hp*3+cannons*200+masts*300;
@@ -128,20 +129,11 @@ void menu()
         switch(choice)
         {
         case 1:
+            Swimming();
             break;
         case 2:
             break;
         case 3:
-            break;
-        case 4:
-            break;
-        case 5:
-            break;
-        case 6:
-            break;
-        case 7:
-            break;
-        case 8:
             break;
         default:
             cout<<"Zla decyzja mlokosie! Arghhhh...";

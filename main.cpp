@@ -7,19 +7,52 @@ using namespace std;
 
 void Swimming()
 {
-    cout<<endl<<endl<<"##################################################################";
+    //rum-=0.1*liczbazalogi
+    cout<<endl<<"##################################################################"<<endl;
     int x = rand()%101+1;
     int choice;
     if(x<31)
     {
         cout<<"    Lad na horyzoncie!"<<endl
             <<"    Kapitanie co zamierzasz?"<<endl<<endl
-            <<"    1.Schodzimy na wyspe! Kamraci! Arghhhh...(Rabowanie)"<<endl
-            <<"    2.Odwrot taktyczny! Arghhhh...(Ucieczka)"<<endl<<endl;
+            <<"    1.Schodzimy na wyspe kamraci! Arghhhh..."<<endl
+            <<"    2.Odwrot taktyczny! Arghhhh..."<<endl;
         cin>>choice;
-        if(x<11)
+        cout<<"##################################################################"<<endl<<endl;
+        if(x<11 && choice==1)
         {
+            do
+            {
 
+                cout<<"------------------------------------------------------------------"<<endl
+                    <<"    Kapitanie! Wyspa jest zamieszkana!"
+                    <<"    1.Powiekszy flote! Arghhhh...(Nowy statek)"<<endl
+                    <<"    2.Wincyj mord do wykarmienia! Arghhhh...(Zatrudnij)"<<endl
+                    <<"    3.Trzeba zalatac lajbe! Arghhhh...(Ulepszanie)"<<endl
+                    <<"    4.Gdzie tu sprzedaja moj rum?! Arghhhh...(Kupowanie rumu)"<<endl
+                    <<"    5.Pladrujcie! Gwalccie! I niczego nie zalujcie! Arghhhh...(Pladrowanie)"<<endl
+                    <<"    6.Wszyscy nieudacznicy zyciowi! Oplywamy! Arghhhh..."<<endl;
+                cin>>choice;
+                cout<<"------------------------------------------------------------------"<<endl;
+                switch(choice)
+                {
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    break;
+                default:
+                    cout<<"Zla decyzja mlokosie! Arghhhh...";
+                }
+            }
+            while(choice!=6 && choice!=5);
         }
     }
     else if(x<36)
@@ -40,7 +73,7 @@ private:
     int attack;
     int defense;
     string name;
-    // Domyœlny za³ogant kosztuje 160 zlota
+    // Domyœlny za³ogant kosztuje 90-210 sztuk zlota
     int cost = hp+attack*3+defense*2;
 public:
     CrewMember(string name)
@@ -60,6 +93,7 @@ private:
     int hp;                             // koszt = hp*3
     int cannons;                        // koszt = 200
     int masts;                          // koszt = 300
+    float rum;                     // koszt = 5, 1/10 rumu wypijana przez 1 zaloganta przez 1 wykonanie funkcji swimming()
     int money;
     // Domyœlny statek kosztuje 2000 zlota
     int cost = hp*3+cannons*200+masts*300;
@@ -86,17 +120,11 @@ void menu()
     {
         cout<<"------------------------------------------------------------------"<<endl
             <<"    1.Cala Naprzod tchorzliwe fladry! Arghhhh..."<<endl
-            <<"    2.W szeregu zbiorka krzywonogie niedolegi! Arghhhh...(wglad w zaloge)"
-            <<"    2.Powiekszy flote! Arghhhh...(Nowy statek)"<<endl
-            <<"    3.Wincyj mord do wykarmienia! Arghhhh...(Zatrudnij)"<<endl
-            <<"    4.Najwyzszy czas zatopic moja szable w czyjejs krwi! Arghhhh...(Atak na wroga)"<<endl
-
-
-            <<"    7.Trzeba zalatac lajbe! Arghhhh...(Ulepszanie)"<<endl
-            <<"    8.Za burte szczuru ladowy? Arghhhh...(Koniec)"<<endl
-            <<"------------------------------------------------------------------"<<endl;
-        cout<<"Co zamierzasz zrobic?: ";
+            <<"    2.W szeregu zbiorka krzywonogie niedolegi! Arghhhh...(Wglad w zaloge)"<<endl
+            <<"    3.Za burte szczuru ladowy? Arghhhh...(Koniec)"<<endl
+            <<"    Co zamierzasz zrobic Kapitanie?: ";
         cin>>choice;
+        cout<<"------------------------------------------------------------------"<<endl;
         switch(choice)
         {
         case 1:
@@ -116,15 +144,16 @@ void menu()
         case 8:
             break;
         default:
-            cout<<"Twoj wybor nie pasuje do podanych";
+            cout<<"Zla decyzja mlokosie! Arghhhh...";
         }
-        cout<<endl<<endl<<endl<<endl<<endl;
+        cout<<endl<<endl;
     }
     while(choice != 8);
 }
 
 int main()
 {
+    int Survival=0;
     string PlayerName;
     string ShipName;
     srand(time(NULL));

@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1489947500 source:d:\codeprace\jak statki na niebie!\main.cpp
+	<iostream>
+	<vector>
+	<cstdlib>
+	<ctime>
+

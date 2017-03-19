@@ -5,6 +5,93 @@
 
 using namespace std;
 
+void vowel(string &name)//samog³oska
+{
+    int x;
+    x=rand()%6;
+    if(x==0) name+="a";
+    else if(x==1) name+="e";
+    else if(x==2) name+="i";
+    else if(x==3) name+="o";
+    else if(x==4) name+="u";
+    else if(x==5) name+="y";
+}
+
+void consonant(string &name)//spó³g³oska
+{
+    int x;
+    x=rand()%19;
+    if(x==0) name+="b";
+    else if(x==1) name+="c";
+    else if(x==2) name+="d";
+    else if(x==3) name+="f";
+    else if(x==4) name+="g";
+    else if(x==5) name+="h";
+    else if(x==6) name+="j";
+    else if(x==7) name+="k";
+    else if(x==8) name+="l";
+    else if(x==9) name+="m";
+    else if(x==10) name+="n";
+    else if(x==11) name+="p";
+    else if(x==12) name+="q";
+    else if(x==13) name+="r";
+    else if(x==14) name+="s";
+    else if(x==15) name+="t";
+    else if(x==16) name+="v";
+    else if(x==17) name+="x";
+    else if(x==18) name+="z";
+}
+
+void NameGenerator(string &name)
+{
+    int x;
+    x = rand()%4+5;
+    if(x%2==0) vowel(name);
+    else x++;
+    consonant(name);
+    x-=2;
+    for(int i=0; i<x/2; i++)
+    {
+        vowel(name);
+        consonant(name);
+    }
+}
+
+void NewShip()
+{
+
+}
+
+void HireCrewMember()
+{
+
+}
+
+void Upgrade()
+{
+
+}
+
+void BuyingRum()
+{
+
+}
+
+void Plundering()
+{
+
+}
+
+void Island()
+{
+
+}
+
+void Scancrew()
+{
+
+}
+
 void Swimming()
 {
     //rum-=0.1*liczbazalogi
@@ -37,14 +124,19 @@ void Swimming()
                 switch(choice)
                 {
                 case 1:
+                    NewShip();
                     break;
                 case 2:
+                    HireCrewMember();
                     break;
                 case 3:
+                    Upgrade();
                     break;
                 case 4:
+                    BuyingRum();
                     break;
                 case 5:
+                    Plundering();
                     break;
                 case 6:
                     break;
@@ -110,6 +202,7 @@ public:
     }
     void Swimming();
     void Fight();
+    void BuyingRum();
     void Plundering();
     void Upgrade();
 };
@@ -132,6 +225,7 @@ void menu()
             Swimming();
             break;
         case 2:
+            Scancrew();
             break;
         case 3:
             break;
@@ -153,7 +247,7 @@ int main()
         <<"Budzisz sie rano przy kolejnej butelce rumu"<<endl
         <<"Postanawiasz wypic kolejny lyk skoro swit"<<endl
         <<"Butelka jest pusta T_T"<<endl
-        <<"Rozbijasz skarbonke"<<endl
+        <<"Rozbijasz butelke o skarbonke"<<endl
         <<"Bierzesz 3000 sztuk zlota i idziesz do portu"<<endl
         <<"Widzisz niesamowita oferte statku za jedyne 2000 sztuk zlota"<<endl
         <<"Sprzedawca Cie pyta o imie..."<<endl;
@@ -163,6 +257,5 @@ int main()
     cout<<"A wiec powodzenia glup...eee...podrozniku! :D"<<endl
         <<"##################################################################"<<endl<<endl;
     menu();
-
     return 0;
 }

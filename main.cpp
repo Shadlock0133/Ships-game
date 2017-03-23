@@ -5,7 +5,7 @@
 
 using namespace std;
 
-void vowel(string &name)//samog�oska
+void vowel(string &name)//samogloska
 {
     int x;
     x=rand()%6;
@@ -17,7 +17,7 @@ void vowel(string &name)//samog�oska
     else if(x==5) name+="y";
 }
 
-void consonant(string &name)//sp��g�oska
+void consonant(string &name)//spolgloska
 {
     int x;
     x=rand()%19;
@@ -45,7 +45,7 @@ void consonant(string &name)//sp��g�oska
 void NameGenerator(string &name)
 {
     int x;
-    x = rand()%4+5;
+    x = rand()%5+4;
     if(x%2==0) vowel(name);
     else x++;
     consonant(name);
@@ -223,7 +223,7 @@ void Swimming()
     {
 
     }
-    else cout<<"Wsz�dzie tylko woda na widoku! Arghhhh..."<<endl;
+    else cout<<"Wszedzie tylko woda na widoku! Arghhhh..."<<endl;
     cout<<endl;
 }
 
@@ -235,7 +235,7 @@ void menu()
         cout<<"------------------------------------------------------------------"<<endl
             <<"    1.Cala Naprzod tchorzliwe fladry! Arghhhh..."<<endl
             <<"    2.W szeregu zbiorka krzywonogie niedolegi! Arghhhh...(Wglad w zaloge)"<<endl
-            <<"    3.Za burte szczuru ladowy? Arghhhh...(Koniec)"<<endl
+            <<"    3.Za burte szczurze ladowy? Arghhhh...(Koniec)"<<endl
             <<"    Co zamierzasz zrobic Kapitanie?: ";
         cin>>choice;
         cout<<"------------------------------------------------------------------"<<endl;
@@ -259,6 +259,8 @@ void menu()
 
 int main()
 {
+    //tepe skorupiaki, zgnile dorsze, bezuzyteczne malpiszony, mlokos, tchorzliwe fladry, szczury ladowe, krzywonogie niedolegi, nieudacznicy zyciowi,spruchniałe kołki, psie z kulawą nogą,nieokrzesane bydlaki
+    //Do armat slepe oszołomy! Arghhhh...
     int Survival=0;
     string PlayerName;
     string ShipName;
@@ -277,5 +279,8 @@ int main()
     cout<<"A wiec powodzenia glup...eee...podrozniku! :D"<<endl
         <<"##################################################################"<<endl<<endl;
     menu();
+    string name;
+    NameGenerator(name);
+    cout<<name;
     return 0;
 }

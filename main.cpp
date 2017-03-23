@@ -194,7 +194,7 @@ void Swimming()
     cout<<endl<<"##################################################################"<<endl;
     int x = rand()%101+1;
     int choice;
-    if(x<31)
+    if(x<51)
     {
         cout<<"    Lad na horyzoncie!"<<endl
         <<"    Kapitanie co zamierzasz?"<<endl<<endl
@@ -202,7 +202,7 @@ void Swimming()
         <<"    2.Odwrot taktyczny! Arghhhh..."<<endl;
         cin>>choice;
         cout<<"##################################################################"<<endl<<endl;
-        if(x<11 && choice==1)
+        if(x<26 && choice==1)
         {
             do
             {

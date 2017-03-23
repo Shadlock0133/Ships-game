@@ -5,7 +5,7 @@
 
 using namespace std;
 
-void vowel(string &name)//samog³oska
+void vowel(string &name)//samogï¿½oska
 {
     int x;
     x=rand()%6;
@@ -17,7 +17,7 @@ void vowel(string &name)//samog³oska
     else if(x==5) name+="y";
 }
 
-void consonant(string &name)//spó³g³oska
+void consonant(string &name)//spï¿½ï¿½gï¿½oska
 {
     int x;
     x=rand()%19;
@@ -57,9 +57,13 @@ void NameGenerator(string &name)
     }
 }
 
-void NewShip()
+template <typename T>
+T inputNewStat(string name)
 {
-
+    T choice;
+    cout<<name<<": ";
+    cin>>choice;
+    return choice;
 }
 
 void HireCrewMember()
@@ -92,73 +96,6 @@ void Scancrew()
 
 }
 
-void Swimming()
-{
-    //rum-=0.1*liczbazalogi
-    cout<<endl<<"##################################################################"<<endl;
-    int x = rand()%101+1;
-    int choice;
-    if(x<31)
-    {
-        cout<<"    Lad na horyzoncie!"<<endl
-            <<"    Kapitanie co zamierzasz?"<<endl<<endl
-            <<"    1.Schodzimy na wyspe kamraci! Arghhhh..."<<endl
-            <<"    2.Odwrot taktyczny! Arghhhh..."<<endl;
-        cin>>choice;
-        cout<<"##################################################################"<<endl<<endl;
-        if(x<11 && choice==1)
-        {
-            do
-            {
-
-                cout<<"------------------------------------------------------------------"<<endl
-                    <<"    Kapitanie! Wyspa jest zamieszkana!"
-                    <<"    1.Powiekszy flote! Arghhhh...(Nowy statek)"<<endl
-                    <<"    2.Wincyj mord do wykarmienia! Arghhhh...(Zatrudnij)"<<endl
-                    <<"    3.Trzeba zalatac lajbe! Arghhhh...(Ulepszanie)"<<endl
-                    <<"    4.Gdzie tu sprzedaja moj rum?! Arghhhh...(Kupowanie rumu)"<<endl
-                    <<"    5.Pladrujcie! Gwalccie! I niczego nie zalujcie! Arghhhh...(Pladrowanie)"<<endl
-                    <<"    6.Wszyscy nieudacznicy zyciowi! Oplywamy! Arghhhh..."<<endl;
-                cin>>choice;
-                cout<<"------------------------------------------------------------------"<<endl;
-                switch(choice)
-                {
-                case 1:
-                    NewShip();
-                    break;
-                case 2:
-                    HireCrewMember();
-                    break;
-                case 3:
-                    Upgrade();
-                    break;
-                case 4:
-                    BuyingRum();
-                    break;
-                case 5:
-                    Plundering();
-                    break;
-                case 6:
-                    break;
-                default:
-                    cout<<"Zla decyzja mlokosie! Arghhhh...";
-                }
-            }
-            while(choice!=6 && choice!=5);
-        }
-    }
-    else if(x<36)
-    {
-
-    }
-    else if(x<51)
-    {
-
-    }
-    else cout<<"Wszêdzie tylko woda na widoku! Arghhhh..."<<endl;
-    cout<<endl;
-}
-
 class CrewMember
 {
 private:
@@ -166,7 +103,7 @@ private:
     int attack;
     int defense;
     string name;
-    // Domyœlny za³ogant kosztuje 90-210 sztuk zlota
+    // Domyï¿½lny zaï¿½ogant kosztuje 90-210 sztuk zlota
     int cost = hp+attack*3+defense*2;
 public:
     CrewMember(string name)
@@ -188,16 +125,22 @@ private:
     int masts;                          // koszt = 300
     float rum;                          // koszt = 5, 1/10 rumu wypijana przez 1 zaloganta przez 1 wykonanie funkcji swimming()
     int money;
-    // Domyœlny statek kosztuje 2000 zlota
+    // Domyï¿½lny statek kosztuje 2000 zlota
     int cost = hp*3+cannons*200+masts*300;
     vector<CrewMember> crew;
 public:
     Ship(string name)
     {
-        hp = 500;
-        cannons = 1;
-        masts = 1;
-        money = 1000;
+        Ship(name, 500, 1, 1, 0.0, 1000);
+    }
+    Ship(string name, int hp, int cannon, int masts, float rum, int money)
+    {
+        name = name;
+        hp = hp;
+        cannon = cannon;
+        masts = masts;
+        rum = rum;
+        money = money;
         crew = vector<CrewMember>();
     }
     void Swimming();
@@ -206,6 +149,83 @@ public:
     void Plundering();
     void Upgrade();
 };
+
+void NewShip()
+{
+    string name = inputNewStat<string>("Podaj nazwe nowego statku: ");
+    int masts = inputNewStat<int>("Podaj ilosc masztow: ");
+    int hp = inputNewStat<int>("Podaj ilosc hp: ");
+    int cannon = inputNewStat<int>("Podaj ilosc dzial: ");
+
+    Ship newShip = Ship(name, hp, cannon, masts, 0);
+}
+
+void Swimming()
+{
+    //rum-=0.1*liczbazalogi
+    cout<<endl<<"##################################################################"<<endl;
+    int x = rand()%101+1;
+    int choice;
+    if(x<31)
+    {
+        cout<<"    Lad na horyzoncie!"<<endl
+        <<"    Kapitanie co zamierzasz?"<<endl<<endl
+        <<"    1.Schodzimy na wyspe kamraci! Arghhhh..."<<endl
+        <<"    2.Odwrot taktyczny! Arghhhh..."<<endl;
+        cin>>choice;
+        cout<<"##################################################################"<<endl<<endl;
+        if(x<11 && choice==1)
+        {
+            do
+            {
+
+                cout<<"------------------------------------------------------------------"<<endl
+                <<"    Kapitanie! Wyspa jest zamieszkana!"
+                <<"    1.Powiekszy flote! Arghhhh...(Nowy statek)"<<endl
+                <<"    2.Wincyj mord do wykarmienia! Arghhhh...(Zatrudnij)"<<endl
+                <<"    3.Trzeba zalatac lajbe! Arghhhh...(Ulepszanie)"<<endl
+                <<"    4.Gdzie tu sprzedaja moj rum?! Arghhhh...(Kupowanie rumu)"<<endl
+                <<"    5.Pladrujcie! Gwalccie! I niczego nie zalujcie! Arghhhh...(Pladrowanie)"<<endl
+                <<"    6.Wszyscy nieudacznicy zyciowi! Oplywamy! Arghhhh..."<<endl;
+                cin>>choice;
+                cout<<"------------------------------------------------------------------"<<endl;
+                switch(choice)
+                {
+                    case 1:
+                    NewShip();
+                    break;
+                    case 2:
+                    HireCrewMember();
+                    break;
+                    case 3:
+                    Upgrade();
+                    break;
+                    case 4:
+                    BuyingRum();
+                    break;
+                    case 5:
+                    Plundering();
+                    break;
+                    case 6:
+                    break;
+                    default:
+                    cout<<"Zla decyzja mlokosie! Arghhhh...";
+                }
+            }
+            while(choice!=6 && choice!=5);
+        }
+    }
+    else if(x<36)
+    {
+
+    }
+    else if(x<51)
+    {
+
+    }
+    else cout<<"Wszï¿½dzie tylko woda na widoku! Arghhhh..."<<endl;
+    cout<<endl;
+}
 
 void menu()
 {

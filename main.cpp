@@ -66,6 +66,16 @@ T inputNewStat(string name)
     return choice;
 }
 
+int inputNewStat(string name, int lower_limit, int upper_limit)
+{
+    int result;
+    do
+    {
+        result = inputNewStat<int>(name);
+    } while(result < lower_limit || result > upper_limit);
+    return result;
+}
+
 void HireCrewMember()
 {
 
@@ -153,11 +163,29 @@ public:
 void NewShip()
 {
     string name = inputNewStat<string>("Podaj nazwe nowego statku: ");
-    int masts = inputNewStat<int>("Podaj ilosc masztow: ");
-    int hp = inputNewStat<int>("Podaj ilosc hp: ");
-    int cannon = inputNewStat<int>("Podaj ilosc dzial: ");
+    int masts = inputNewStat("Podaj ilosc masztow: ", 1, 3);
+    int hp_low, hp_high, can_low, can_high;
+    switch (masts) {
+        case 1:
+            hp_low = 500;
+            hp_high = 1000;
+            can_high = 4;
+            break;
+        case 2:
+            hp_low = 1000;
+            hp_high = 5000;
+            can_high = 12;
+            break;
+        case 3:
+            hp_low = 5000;
+            hp_high = 25000;
+            can_high = 40;
+            break;
+    }
+    int hp = inputNewStat("Podaj ilosc hp: ", hp_low, hp_high);
+    int cannon = inputNewStat("Podaj ilosc dzial: ", 1, can_high);
 
-    Ship newShip = Ship(name, hp, cannon, masts, 0);
+    Ship newShip = Ship(name, hp, cannon, masts, 0.0, 0);
 }
 
 void Swimming()

@@ -29,6 +29,15 @@ int inputNewStat(string name, int lower_limit, int upper_limit)
     return result;
 }
 
+class Player//klasa gracza
+{
+    int money;
+    float rum;                          // koszt = 5, 1/10 rumu wypijana przez 1 zaloganta przez 1 wykonanie funkcji swimming()
+public:
+    void BuyingRum();//uzupelnienie zapasow rumu
+    void Swimming();//zmniejszenie rumu co akcje
+};
+
 class CrewMember//klasa pirata
 {
 private:
@@ -53,34 +62,31 @@ class Ship//klasa statku
 private:
     string name;
     int hp;                             // koszt = hp*3
-    int cannons;                         // koszt = 200
+    int hpmax;
+    int cannons;                        // koszt = 200
     int masts;                          // koszt = 300
-    float rum;                          // koszt = 5, 1/10 rumu wypijana przez 1 zaloganta przez 1 wykonanie funkcji swimming()
-    int money;
     // Domyslny statek kosztuje 2000 zlota
-    int cost = hp*3+cannons*200+masts*300;
+    int cost = hpmax*3+cannons*200+masts*300;
     vector<CrewMember> crew;
 
 public:
     //konstruktor domyslny
     Ship(string name)
     {
-        Ship(name, 500, 1, 1, 0.0, 1000);
+        Ship(name,500, 500, 1, 1);
     }
     //konstruktor zwykly
-    Ship(string name, int hp, int cannons, int masts, float rum, int money)
+    Ship(string name, int hp, int hpmax, int cannons, int masts)
     {
         name = name;
         hp = hp;
+        hpmax = hpmax;
         cannons = cannons;
         masts = masts;
-        rum = rum;
-        money = money;
         crew = vector<CrewMember>();
     }
     void Swimming();//zmniejszenie rumu co akcje
     void NewShip();//nowy statek do floty
-    void BuyingRum();//uzupelnienie zapasow rumu
     void Plundering();//pladrowanie wyspy
     void Upgrade();//
     void Fight();
@@ -217,9 +223,10 @@ void NewShip()//tworzenie nowego statku
         cann_high = 40;
         break;
     }
-    int hp = inputNewStat("    Podaj jego wytrzymalosc", hp_low, hp_high);
+    int hpmax = inputNewStat("    Podaj jego wytrzymalosc", hp_low, hp_high);
+    int hp = hpmax;
     int cannons = inputNewStat("    No dobrze, a ile bys chcial miec na nim armat?", 1, cann_high);
-    int cost = hp*3+cannons*200+masts*300;
+    int cost = hpmax*3+cannons*200+masts*300;
 
     do
     {
@@ -232,7 +239,7 @@ void NewShip()//tworzenie nowego statku
         if(answer=="T" || answer=="t")//potwierdzenie kupna
         {
             string name = inputNewStat<string>("    Pozostalo juz tylko podac zmyslna nazwe dla Twojego nowego okretu!");
-            Ship newShip = Ship(name, hp, cannons, masts, 0.0, 0);
+            Ship newShip = Ship(name, hp, hpmax, cannons, masts);
             answer = "koniec";
         }
         else if(answer=="N" || answer=="n")//odmowa kupna

@@ -7,7 +7,7 @@
 #include <ctime>
 #include <windows.h>
 
-#define MAX 9999
+#define MAX 99999
 using namespace std;
 
 template <typename T>
@@ -31,6 +31,7 @@ int inputNewStat(string name, int lower_limit, int upper_limit)
 
 class Player//klasa gracza
 {
+    string name;
     int money;
     float rum;                          // koszt = 5, 1/10 rumu wypijana przez 1 zaloganta przez 1 wykonanie funkcji swimming()
 public:
@@ -397,8 +398,8 @@ int main()
     //Niech to dunder swisnie! Arghhhh...
     //Zobaczymy sie w schowku Dawy'ego Jones'a! Arghhhh...
     //
-    string PlayerName;
-    string ShipName;
+    Player PlayerName;
+    string ShipName,Name;
     srand(time(NULL));
     cout<<"###############################################################################"<<endl
         <<"Budzisz sie rano przy kolejnej butelce rumu"<<endl
@@ -407,8 +408,9 @@ int main()
         <<"Rozbijasz butelke o skarbonke"<<endl
         <<"Bierzesz 3000 sztuk zlota i idziesz do portu"<<endl
         <<"Widzisz niesamowita oferte statku za jedyne 2000 sztuk zlota"<<endl
-        <<"Sprzedawca Cie pyta o imie..."<<endl;
-    getline(cin, PlayerName);
+        <<"Sprzedawca pyta Cie o imie..."<<endl;
+    getline(cin, Name);
+    PlayerName = Name;
     cout<<"Podaj nazwe statku "<<PlayerName<<"..."<<endl;
     getline(cin, ShipName);
     cout<<"A wiec powodzenia glup...eee...podrozniku! :D"<<endl

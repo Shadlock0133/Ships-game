@@ -1,3 +1,6 @@
+//Gra Jak Statki Na Niebie
+//projekt #2 na laboratoria z PROI
+
 #include <iostream>
 #include <vector>
 #include <cstdlib>
@@ -26,7 +29,7 @@ int inputNewStat(string name, int lower_limit, int upper_limit)
     return result;
 }
 
-class CrewMember
+class CrewMember//klasa pirata
 {
 private:
     string name;
@@ -45,7 +48,7 @@ public:
 
 };
 
-class Ship
+class Ship//klasa statku
 {
 private:
     string name;
@@ -120,7 +123,7 @@ void consonant(string &name)//spolgloska
     else if(x==18) name+="z";
 }
 
-void NameGenerator(string &name)
+void NameGenerator(string &name)//generowanie imion dla piratow
 {
     int x;
     x = rand()%5+4;
@@ -407,3 +410,5 @@ int main()
 
     return 0;
 }
+
+//koniec

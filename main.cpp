@@ -25,7 +25,8 @@ int inputNewStat(string name, int lower_limit, int upper_limit)
     do
     {
         result = inputNewStat<int>(name);
-    } while(result < lower_limit || result > upper_limit);
+    }
+    while(result < lower_limit || result > upper_limit);
     return result;
 }
 
@@ -38,6 +39,12 @@ public:
     void BuyingRum();//uzupelnienie zapasow rumu
     void Swimming();//zmniejszenie rumu co akcje
 };
+
+ostream& operator<<(std::ostream& out, const Player& p)
+{
+    out << p.name;
+    return out;
+}
 
 class CrewMember//klasa pirata
 {

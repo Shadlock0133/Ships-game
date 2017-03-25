@@ -6,6 +6,9 @@
 #include <cstdlib>
 #include <ctime>
 #include <windows.h>
+#include "Player.h"
+#include "Ship.h"
+#include "CrewMember.h"
 
 #define MAX 99999
 using namespace std;
@@ -29,76 +32,6 @@ int inputNewStat(string name, int lower_limit, int upper_limit)
     while(result < lower_limit || result > upper_limit);
     return result;
 }
-
-class Player//klasa gracza
-{
-    string name;
-    int money;
-    float rum;                          // koszt = 5, 1/10 rumu wypijana przez 1 zaloganta przez 1 wykonanie funkcji swimming()
-public:
-    void BuyingRum();//uzupelnienie zapasow rumu
-    void Swimming();//zmniejszenie rumu co akcje
-};
-
-ostream& operator<<(std::ostream& out, const Player& p)
-{
-    out << p.name;
-    return out;
-}
-
-class CrewMember//klasa pirata
-{
-private:
-    string name;
-    int hp;
-    int attack;
-    int defense;
-    // Domyslny pirat kosztuje 180-330 sztuk zlota
-    int cost = hp+attack*3+defense*2;
-public:
-    //konstruktor domyslny
-    CrewMember(string name)
-    {
-//        CrewMember(name,50,30,20);
-    }
-    //konstruktor zwykly
-
-};
-
-class Ship//klasa statku
-{
-private:
-    string name;
-    int hp;                             // koszt = hp*3
-    int hpmax;
-    int cannons;                        // koszt = 200
-    int masts;                          // koszt = 300
-    // Domyslny statek kosztuje 2000 zlota
-    int cost = hpmax*3+cannons*200+masts*300;
-    vector<CrewMember> crew;
-
-public:
-    //konstruktor domyslny
-    Ship(string name)
-    {
-        Ship(name,500, 500, 1, 1);
-    }
-    //konstruktor zwykly
-    Ship(string name, int hp, int hpmax, int cannons, int masts)
-    {
-        name = name;
-        hp = hp;
-        hpmax = hpmax;
-        cannons = cannons;
-        masts = masts;
-        crew = vector<CrewMember>();
-    }
-    void Swimming();//zmniejszenie rumu co akcje
-    void NewShip();//nowy statek do floty
-    void Plundering();//pladrowanie wyspy
-    void Upgrade();//
-    void Fight();
-};
 
 void vowel(string &name)//samogloska
 {
@@ -199,12 +132,7 @@ void Plundering()//pladrowanie wioski, zarobek, ale blokada do korzystania z inn
 
 }
 
-void Scancrew()//wglad w ilosc okretow, zaloge na nich i ich statystyki
-{
-
-}
-
-void NewShip()//tworzenie nowego statku
+void NewShip(Player& player)//tworzenie nowego statku
 {
     system("cls");
     string answer;
@@ -248,6 +176,7 @@ void NewShip()//tworzenie nowego statku
         {
             string name = inputNewStat<string>("    Pozostalo juz tylko podac zmyslna nazwe dla Twojego nowego okretu!");
             Ship newShip = Ship(name, hp, hpmax, cannons, masts);
+            player.AddShip(newShip);
             answer = "koniec";
         }
         else if(answer=="N" || answer=="n")//odmowa kupna
@@ -279,7 +208,7 @@ void Treassure()//znaleziono wyspe ze skarbem
     //dodac skarb do kasy statku
 }
 
-void Island(int x)//wyspa jest: zamieszkana, ze skabem lub pusta. Odpowiednio od wyspy mozna wykonac specjalne dla niej akcje
+void Island(int x, Player& player)//wyspa jest: zamieszkana, ze skabem lub pusta. Odpowiednio od wyspy mozna wykonac specjalne dla niej akcje
 {
     int choice;//wybor akcji
     int choice1 = 0;//czy korzystalismy opcji kupienia statku? 0-nie, 1-tak. Mozna tylko raz kupic statek na wyspie
@@ -307,7 +236,7 @@ void Island(int x)//wyspa jest: zamieszkana, ze skabem lub pusta. Odpowiednio od
             switch(choice)
             {
             case 1:
-                if(choice1==0) NewShip();
+                if(choice1==0) NewShip(player);
                 else cout<<"    Wincej panu juz nie pomoge."<<endl;
                 choice1 = 1;
                 break;
@@ -341,7 +270,7 @@ void Island(int x)//wyspa jest: zamieszkana, ze skabem lub pusta. Odpowiednio od
     }
 }
 
-void Swimming()
+void Swimming(Player& player)
 {
     //rum-=0.1*liczbazalogi
     system("cls");
@@ -349,7 +278,7 @@ void Swimming()
     int x = rand()%101+1;//losowanie od 0 do 100 akcji, odpowiednio: wyspy, wrogich piratow, marynarki, niczego
     if(x<36)//wyspa
     {
-        Island(x);
+        Island(x,player);
     }
     else if(x<76)//wrodzy piraci
     {
@@ -367,7 +296,7 @@ void Swimming()
     cout<<"###############################################################################"<<endl<<endl;
 }
 
-void menu()
+void menu(Player& player)
 {
     int choice;//wybor akcji
     do
@@ -382,10 +311,10 @@ void menu()
         switch(choice)
         {
         case 1:
-            Swimming();
+            Swimming(player);
             break;
         case 2:
-            Scancrew();
+            player.Scancrew();
             break;
         case 3:
             break;
@@ -405,7 +334,7 @@ int main()
     //Niech to dunder swisnie! Arghhhh...
     //Zobaczymy sie w schowku Dawy'ego Jones'a! Arghhhh...
     //
-    Player PlayerName;
+    Player player;
     string ShipName,Name;
     srand(time(NULL));
     cout<<"###############################################################################"<<endl
@@ -417,12 +346,16 @@ int main()
         <<"Widzisz niesamowita oferte statku za jedyne 2000 sztuk zlota"<<endl
         <<"Sprzedawca pyta Cie o imie..."<<endl;
     getline(cin, Name);
-    PlayerName = Name;
-    cout<<"Podaj nazwe statku "<<PlayerName<<"..."<<endl;
-    getline(cin, ShipName);
+    //player.name = Name;
+    player.setName(Name);
+    cout<<"Podaj nazwe statku "<<player.getName()<<"..."<<endl;
+    //getline(cin, ShipName);
+    cin>>ShipName;
+    Ship ship(ShipName);
+    player.AddShip(ship);
     cout<<"A wiec powodzenia glup...eee...podrozniku! :D"<<endl
         <<"###############################################################################"<<endl<<endl;
-    menu();
+    menu(player);
 
     return 0;
 }

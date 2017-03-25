@@ -1,11 +1,8 @@
 #ifndef SHIP_H
 #define SHIP_H
 
-#include <iostream>
 #include <vector>
 #include "CrewMember.h"
-
-using namespace std;
 
 class Ship//klasa statku
 {
@@ -17,9 +14,9 @@ private:
     int masts;                          // koszt = 300
     // Domyslny statek kosztuje 2000 zlota
     int cost = hpmax*3+cannons*200+masts*300;
-    vector<CrewMember> crews;
 
 public:
+    vector<CrewMember> crews;
     //konstruktor prosty
     Ship(string name_)
     : Ship(name_,500, 500, 1, 1)
@@ -37,11 +34,12 @@ public:
         crews = vector<CrewMember>();
     }
     vector<CrewMember> &GetCrews() {return crews;};
-    void Swimming();//zmniejszenie rumu co akcje
-    void Plundering();//pladrowanie wyspy
-    void Upgrade();//
+    void AddCrewMember(CrewMember crew);
+    void HireCrewMember();
     void Fight();
-    friend ostream& operator<<(std::ostream& out, const Ship& p);
+    friend ostream& operator<<(std::ostream& out, const Ship& s);
 };
 
 #endif // SHIP_H
+
+//koniec

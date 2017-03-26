@@ -19,7 +19,7 @@ public:
     vector<CrewMember> crews;
     //konstruktor prosty
     Ship(string name_)
-    : Ship(name_,500, 500, 1, 1)
+        : Ship(name_,500, 500, 1, 1)
     {
 
     }
@@ -33,17 +33,42 @@ public:
         masts = masts_;
         crews = vector<CrewMember>();
     }
-    vector<CrewMember> &GetCrews() {return crews;};
+    vector<CrewMember> &GetCrews()
+    {
+        return crews;
+    };
     void AddCrewMember(CrewMember crew);
-    void Repair() { hp = hpmax; }//
+    void Repair()
+    {
+        hp = hpmax;    //
+    }
     friend ostream& operator<<(std::ostream& out, const Ship& s);
-    int getHP() { return hp; }
-    int getHPMax() { return hpmax; }
-    int getCannons() { return cannons; }
-    int getMasts() { return masts; }
-    int getCost() { return cost; }
+    int getHP()
+    {
+        return hp;
+    }
+    int getHPMax()
+    {
+        return hpmax;
+    }
+    int getCannons()
+    {
+        return cannons;
+    }
+    int getMasts()
+    {
+        return masts;
+    }
+    int getCost()
+    {
+        return cost;
+    }
     void setHPMax( int hpmax_ );
-    void setCannons(int cannons_) { cannons += cannons_; }
+    void setCannons(int cannons_)
+    {
+        cannons += cannons_;
+    }
+
 };
 
 #endif // SHIP_H

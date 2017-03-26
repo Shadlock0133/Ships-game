@@ -22,7 +22,7 @@ public:
     string NameGenerator();//
     //konstruktor domyslny
     CrewMember()
-    :CrewMember(NameGenerator(),rand()%51+50,rand()%21+30)
+        :CrewMember(NameGenerator(),rand()%51+50,rand()%21+30)
     {
 
     }
@@ -35,11 +35,26 @@ public:
         cost = getAttack()*3+getHP();
     }
     friend ostream& operator<<(std::ostream& out, const CrewMember& c);
-    string getName() { return name; }
-    void setName( string name_ ) { name = name_; }
-    int getAttack() { return attack; }
-    int getHP() { return hp; }
-    int getCost() { return cost; }
+    string getName()
+    {
+        return name;
+    }
+    void setName( string name_ )
+    {
+        name = name_;
+    }
+    int getAttack()
+    {
+        return attack;
+    }
+    int getHP()
+    {
+        return hp;
+    }
+    int getCost()
+    {
+        return cost;
+    }
 };
 
 #endif //CREWMEMBER_H

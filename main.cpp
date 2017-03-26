@@ -11,8 +11,11 @@ void menu(Player& player)
         cout<<"-------------------------------------------------------------------------------"<<endl
             <<"        1.Cala Naprzod tchorzliwe fladry! Arghhhh..."<<endl
             <<"        2.W szeregu zbiorka krzywonogie niedolegi! Arghhhh...(Wglad w zaloge)"<<endl
+//            <<"        3.  ***SAVE***"<<endl
+//            <<"        4.  ***LOAD***"<<endl
+//            <<"        4.  ***OPTIONS***"<<endl
             <<"        3.Za burte szczurze ladowy? Arghhhh...(GAME OVER)"<<endl
-            //<<"        4.<szept>Csiii...Mam kody. Arghhhh...</szept>"<<endl
+            //<<"        11.<szept>Csiii...Mam kody. Arghhhh...</szept>"<<endl
             <<"    Co zamierzasz zrobic Kapitanie?: "<<endl<<"        ";
 
         cin>>choice;
@@ -26,12 +29,12 @@ void menu(Player& player)
             player.Scancrew();
             break;
         case 3:
-            cout<<"Zeganaj mam nadzieje ze te piekne chwile spedzone razem"<<endl<<"byly dla Ciebie tak mile jak dla mnie "<<player.getName()<<"! <3"<<endl;
+            cout<<"    Zeganaj mam nadzieje ze te piekne chwile spedzone razem"<<endl<<"byly dla Ciebie tak mile jak dla mnie "<<player.getName()<<"! <3"<<endl;
             break;
-        case 4:
+        case 11:
             player.CodesMenu();
         default:
-            cout<<"Zla decyzja mlokosie! Arghhhh...";
+            cout<<"        Zla decyzja mlokosie! Arghhhh...";
         }
         cout<<endl;
     }

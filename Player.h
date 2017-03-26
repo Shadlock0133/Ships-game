@@ -2,9 +2,11 @@
 #define PLAYER_H
 
 #include "Ship.h"
+#include "Enemy.h"
 
 class Player//klasa gracza
 {
+private:
     string name;
     int money;
     float rum;// koszt = 5, 1/10 rumu wypijana przez 1 zaloganta przez 1 wykonanie funkcji swimming()
@@ -13,7 +15,7 @@ class Player//klasa gracza
 public:
     //konstruktor prosty
     Player(string name_)
-    : Player(name_, 1000, 10.0, 1)
+        : Player(name_, 1000, 10.0, 0)
     {
 
     }
@@ -33,15 +35,21 @@ public:
     void Scancrew();//
     void NewShip();//
     void Treassure();//
-    void Fighting();//
     void Island(int x);//
     void Upgrade();//
     void HireCrewMember();
+    void Fighting();//
     void Plundering();//pladrowanie wyspy
     bool UpgradeTransaction(int cost);
     friend ostream& operator<<(std::ostream& out, const Player& p);
-    string getName() { return name; }
-    void setName( string name_ ) { name = name_; }
+    string getName()
+    {
+        return name;
+    }
+    void setName( string name_ )
+    {
+        name = name_;
+    }
     void CodesMenu();
     void Codes();
 };

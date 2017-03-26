@@ -2,7 +2,7 @@
 
 ostream& operator<<(std::ostream& out, const CrewMember& c)
 {
-    out<<"Imie: "<<c.name<<" Zycie: "<<c.hp<<" Atak: "<<c.attack;
+    out<<"|Imie: "<<c.name<<"| |Zycie: "<<c.hp<<"| |Atak: "<<c.attack<<"|";
     return out;
 }
 

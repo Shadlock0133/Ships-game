@@ -35,9 +35,15 @@ public:
     }
     vector<CrewMember> &GetCrews() {return crews;};
     void AddCrewMember(CrewMember crew);
-    void HireCrewMember();
-    void Fight();
+    void Repair() { hp = hpmax; }//
     friend ostream& operator<<(std::ostream& out, const Ship& s);
+    int getHP() { return hp; }
+    int getHPMax() { return hpmax; }
+    int getCannons() { return cannons; }
+    int getMasts() { return masts; }
+    int getCost() { return cost; }
+    void setHPMax( int hpmax_ );
+    void setCannons(int cannons_) { cannons += cannons_; }
 };
 
 #endif // SHIP_H

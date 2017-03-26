@@ -1,6 +1,40 @@
 #include "Player.h"
 #define MAX 99999
 
+void Player::CodesMenu()
+{
+    int choice;
+    cout<<"            1.***PODAJ KOD***"<<endl
+        <<"            2.***WYJSCIE***"<<endl<<"        ";
+    do
+    {
+        cin>>choice;
+        switch(choice)
+        {
+        case 1:
+            Codes();
+            break;
+        case 2:
+            break;
+        default:
+            cout<<"            ***PODAJ JESZCZE RAZ!***"<<endl<<"        ";
+        }
+    }
+    while(choice!=2);
+}
+
+void Player::Codes()
+{
+    string code;
+    //#MONEY,#REPAIRALL,#RUM
+    cout<<"            ***KOD:*** ";
+    cin>>code;
+    if(code=="#MONEY") money+=10000;
+    else if(code=="#REPAIRALL") for(int i=0;i<ships.size();i++) ships[0].Repair();
+    else if(code=="#RUM") rum+=1000;
+    else cout<<"            ***NIE MA TAKIEGO KODU***"<<endl;
+}
+
 template <typename T>
 T inputNewStat(string text)
 {
@@ -42,57 +76,26 @@ void Player::Start()
         <<"Rozbijasz butelke o skarbonke"<<endl
         <<"Bierzesz 3000 sztuk zlota i idziesz do portu"<<endl
         <<"Widzisz niesamowita oferte statku za jedyne 2000 sztuk zlota"<<endl
-        <<"    Jak Cie zwa mlody odkrywco..."<<endl;
+        <<"    Jak Cie zwa mlody odkrywco..."<<endl<<"        ";
     getline(cin, Name);
     setName(Name);
-    cout<<"Podaj nazwe statku, "<<getName()<<"..."<<endl;
+    cout<<"Podaj nazwe statku, "<<getName()<<"..."<<endl<<"        ";
     getline(cin, ShipName);
     Ship ship(ShipName);
     AddShip(ship);
     CrewMember crewm;
     ships[0].AddCrewMember(crewm);
-    cout<<"    A wiec powodzenia glup...eee...podrozniku! :D"<<endl
-        <<".   .   .   .   ."<<endl
+    /*int a = crewm.getCost();
+    cout<<"cena: "<<a<<endl;*/
+    cout<<"    A wiec powodzenia glup...eee...podrozniku! :D"<<endl<<endl
+        <<"."<<endl
+        <<"."<<endl
+        <<"."<<endl
         <<"    Sir! Booo...jaaa...Zawsze chcialem zostac piratem i przezywac przygody!"<<endl
         <<"        Podaj swe imie chlopcze! Arghhhh..."<<endl
-        <<"    "<<ships[0].crews[0].getName()<<""<<endl
+        <<"    "<<ships[0].crews[0].getName()<<" Kapitanie!"<<endl
+        <<"        A wiec "<<ships[0].crews[0].getName()<<", RUSZAJMY KU PRZYGODZIE!"<<endl
         <<"###############################################################################"<<endl<<endl;
-}
-
-void Player::Scancrew()//wglad w ilosc okretow, zaloge na nich i ich statystyki
-{
-    float a = numbercrew, rumConsumption = a/10;
-    cout<<"###############################################################################"<<endl
-        <<"Witaj "<<name<<"! Oto Twoja potega!: "<<endl
-        <<"    Tyle masz sztuk zlota: "<<money<<endl
-        <<"    Tyle masz rumu: "<<rum<<"(-"<<rumConsumption<<")"<<endl
-        <<"    Lista "<<ships.size();
-    if(ships.size()==1) cout<<" statku "<<": "<<endl;
-    else cout<<" statkow "<<": "<<endl;
-    string answer="";
-    int choice;
-    for(int i=0; i<ships.size(); i++)
-    {
-        cout<<"        "<<i+1<<". "<<ships[i]<<endl;
-    }
-    cout<<"    Liczba zalogi ogolem: "<<numbercrew<<endl;
-    while(answer=="N" || answer=="n")
-    {
-        cout<<"    Czy chcesz przejrzec zaloge(T/N)?: "<<endl;
-        cin>>answer;
-        if(answer=="T" || answer=="t")
-        {
-            cout<<"    Ktorego statku?"<<endl;
-            cin>>choice;
-            for(int i=0; i<ships[choice-1].GetCrews().size(); i++)
-            {
-                cout<<"        "<<i+1<<". "<<ships[choice-1].crews[i]<<endl;
-            }
-        }
-        else if(answer=="N" || answer=="n") ;
-        else cout<<"    Mozesz powtorzyc?"<<endl;
-    }
-    cout<<"###############################################################################"<<endl;
 }
 
 void Player::Treassure()//znaleziono wyspe ze skarbem
@@ -106,9 +109,8 @@ void Player::Treassure()//znaleziono wyspe ze skarbem
 
 void Player::BuyingRum()//kupowanie rumu
 {
-    system("cls");
     string answer;
-    cout<<"    *HICK* Witaaaam szanowneeego paaana!"<<endl
+    cout<<"    *HICK* Witaaaam szanowneeego paaana w barze!"<<endl
         <<"    *HICK* W czyyym moglbym pomoc?"<<endl
         <<"    *HICK* Chwila, chwila! Nooo tak RUM! Juz podaje!"<<endl;
     int rum2 = inputNewStat("    *HICK* Tylkoooo... Ile paaan go sobie zyczy?", 0, MAX);
@@ -121,9 +123,13 @@ void Player::BuyingRum()//kupowanie rumu
 
         if(answer=="T" || answer=="t")
         {
-            cout<<"    *HICK* Na miejscu czy na wynos?: Na wynos -.-"<<endl;
-            money -= rum2*5;
-            rum += rum2;
+            if(rum*5<money)
+            {
+                cout<<"    *HICK* Na miejscu czy na wynos?: Na wynos -.-"<<endl;
+                money -= rum2*5;
+                rum += rum2;
+            }
+            else cout<<"    Wypad z baru biedoku jeden, Ty! A kysz!"<<endl<<endl;
             answer = "koniec";
         }
         else if(answer=="N" || answer=="n")
@@ -131,14 +137,13 @@ void Player::BuyingRum()//kupowanie rumu
             cout<<"    *HICK* Eh... Nie to nie! Wincyj Rumu dla mnie!"<<endl;
             answer = "koniec";
         }
-        else cout<<"    *HICK* Mozesz powtorzyc?"<<endl;
+        else cout<<"    *HICK* Mozesz powtorzyc?"<<endl<<"        ";
     }
     while(answer!="koniec");
 }
 
 void Player::NewShip()//tworzenie nowego statku
 {
-    system("cls");
     string answer;
     int x = rand()%4;//losowanie znizki
     if(x==0) cout<<"JEST ZNIZKA!!!"<<endl;
@@ -166,21 +171,30 @@ void Player::NewShip()//tworzenie nowego statku
     int hpmax = inputNewStat("    Podaj jego wytrzymalosc", hp_low, hp_high);
     int hp = hpmax;
     int cannons = inputNewStat("    No dobrze, a ile bys chcial miec na nim armat?", 1, cann_high);
-    int cost = hpmax*3+cannons*200+masts*300;
-
+    CrewMember crewm;
+    cout<<"    Potrzebujesz jeszcze ciesli do statku, ale spokojna glowa mamy tu jednego!"<<endl
+        <<"    "<<crewm.getName()<<"! Zostaniesz ciesla na tym okrecie."<<endl
+        <<"    Tak jest! To dla mnie zaszczyt poznac pana, Kapitanie!"<<endl;
+    int cost = hpmax*3 + cannons*200 + masts*300 + crewm.getCost();
     do
     {
         if(x!=4)
         {
-            cout<<"    Teraz najmniej ciekawa rzecz... Koszt wynosi: "<<cost<<endl<<"Wyrazasz zgode(T/N)?: ";
+            cout<<"    Teraz najmniej ciekawa rzecz... Koszt wynosi: "<<cost<<endl<<"    Wyrazasz zgode(T/N)?: ";
             cin>>answer;
         }
         if(answer=="T" || answer=="t")//potwierdzenie kupna
         {
-            string name = inputNewStat<string>("    Pozostalo juz tylko podac zmyslna nazwe dla Twojego nowego okretu!");
-            Ship newShip = Ship(name, hp, hpmax, cannons, masts);
-            money -= cost;
-            AddShip(newShip);
+            if(cost<money)
+            {
+                string name = inputNewStat<string>("    Pozostalo juz tylko podac zmyslna nazwe dla Twojego nowego okretu!");
+                Ship newShip = Ship(name, hp, hpmax, cannons, masts);
+                money -= cost;
+                AddShip(newShip);
+                newShip.AddCrewMember(crewm);
+                numbercrew++;
+            }
+            else cout<<"    Wypad z baru biedoku jeden, Ty! A kysz!"<<endl<<endl;
             answer = "koniec";
         }
         else if(answer=="N" || answer=="n")//odmowa kupna
@@ -198,6 +212,7 @@ void Player::NewShip()//tworzenie nowego statku
             }
             x = 4;
         }
+
         else cout<<"    Mozesz powtorzyc?"<<endl;
     }
     while(answer!="koniec");
@@ -205,63 +220,78 @@ void Player::NewShip()//tworzenie nowego statku
 
 void Player::Island(int x)//wyspa jest: zamieszkana, ze skabem lub pusta. Odpowiednio od wyspy mozna wykonac specjalne dla niej akcje
 {
-    int choice;//wybor akcji
-    int choice1 = 0;//czy korzystalismy opcji kupienia statku? 0-nie, 1-tak. Mozna tylko raz kupic statek na wyspie
+    int a = 0;//nie mozna okrasc wioski na ktorej sie rozmawialo z tubylcami
+    int choice1,choice2;//wybor akcji
+    int used = 0;//czy korzystalismy opcji kupienia statku? 0-nie, 1-tak. Mozna tylko raz kupic statek na wyspie
     cout<<"    Lad na horyzoncie!"<<endl
-        <<"    Kapitanie co zamierzasz?"<<endl<<endl
+        <<"    Kapitanie co zamierzasz?"<<endl
         <<"        1.Schodzimy na wyspe kamraci! Arghhhh..."<<endl
-        <<"        2.Odwrot taktyczny bezuzyteczne malpiszony! Arghhhh..."<<endl;
-    cin>>choice;
+        <<"        2.Odwrot taktyczny bezuzyteczne malpiszony! Arghhhh..."<<endl<<"        ";
+    do
+    {
+        cin>>choice1;
 
-    if(x<21 && choice==1)//zamieszkana wyspa
-    {
-        cout<<"-------------------------------------------------------------------------------"<<endl
-            <<"    Kapitanie! Wyspa jest zamieszkana!"<<endl
-            <<"        1.Powiekszmy flote! Arghhhh...(Nowy statek)"<<endl
-            <<"        2.Wincyj mord do wykarmienia! Arghhhh...(Zatrudnij)"<<endl
-            <<"        3.Trzeba zalatac lajbe! Arghhhh...(Ulepszanie)"<<endl
-            <<"        4.Gdzie tu sprzedaja moj rum?! Arghhhh...(Kupowanie rumu)"<<endl
-            <<"        5.Pladrujcie! Gwalccie! Rabujcie! I niczego nie zalujcie!"<<endl<<"          Arghhhh...(Pladrowanie)"<<endl
-            <<"        6.Wszyscy nieudacznicy zyciowi! Odplywamy! Arghhhh..."<<endl;
-        cin>>choice;
-        do
+        if(x<21 && choice1==1)//zamieszkana wyspa
         {
-            switch(choice)
+            cout<<"-------------------------------------------------------------------------------"<<endl
+                <<"    Kapitanie! Wyspa jest zamieszkana!"<<endl;
+            cout<<"        1.Powiekszmy flote! Arghhhh...(Nowy statek)"<<endl
+                <<"        2.Wincyj mord do wykarmienia! Arghhhh...(Zatrudnij)"<<endl
+                <<"        3.Trzeba zalatac lajbe! Arghhhh...(Ulepszanie)"<<endl
+                <<"        4.Gdzie tu sprzedaja moj rum?! Arghhhh...(Kupowanie rumu)"<<endl
+                <<"        5.Wszyscy nieudacznicy zyciowi! Odplywamy! Arghhhh..."<<endl
+                <<"        6.Pladrujcie! Gwalccie! Rabujcie! I niczego nie zalujcie!"<<endl<<"          Arghhhh...(Pladrowanie)"<<endl<<"        ";
+            do
             {
-            case 1:
-                if(choice1==0) NewShip();
-                else cout<<"    Wincej panu juz nie pomoge."<<endl;
-                choice1 = 1;
-                break;
-            case 2:
-                //HireCrewMember();
-                break;
-            case 3:
-                Upgrade();
-                break;
-            case 4:
-                BuyingRum();
-                break;
-            case 5:
-                Plundering();
-                break;
-            case 6:
-                break;
-            default:
-                cout<<"    Zla decyzja mlokosie! Arghhhh..."<<endl;
+                cin>>choice2;
+                switch(choice2)
+                {
+                case 1:
+                    if(used==0) NewShip();
+                    else cout<<"    Wincej panu juz nie moge pomoc."<<endl;
+                    used = 1;
+                    break;
+                case 2:
+                    HireCrewMember();
+                    break;
+                case 3:
+                    Upgrade();
+                    break;
+                case 4:
+                    BuyingRum();
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    if(a!=1) Plundering();
+                    else cout<<"    Kapitanieee...chcesz okrasc wioske, z ktorej uslug korzystales? Brzydko :("<<endl;
+                    break;
+                default:
+                    cout<<"    Kapitanie?"<<endl;
+                }
+                if((choice2!=6 || a!=0) && choice2!=5) cout<<"    Co dalej Kapitanie?"<<endl<<"        ";
+                if(choice2!=6 && choice2!=5) a = 1;
             }
-            cout<<"-------------------------------------------------------------------------------"<<endl;
+            while((choice2!=6 || a==1) && choice2!=5);
+            cout<<"-------------------------------------------------------------------------------"<<endl<<endl;
         }
-        while(choice!=6 && choice!=5);
+        else if(x<31 && choice1==1)//pusta wyspa
+        {
+            cout<<"    Kapitanie! Na tej wyspie nic nie ma!"<<endl;
+        }
+        else if(x<36 && choice1==1)//wyspa ze skarbem
+        {
+            Treassure();
+        }
+        else if(choice1!=1 && choice1!=2) cout<<"    Mozesz powtorzyc Kapitanie?"<<endl<<"        ";
+
     }
-    else if(x<31 && choice==1)//pusta wyspa
-    {
-        cout<<"    Kapitanie! Na tej wyspie nic nie ma!"<<endl;
-    }
-    else if(x<36 && choice==1)//wyspa ze skarbem
-    {
-        Treassure();
-    }
+    while(choice1!=2 && choice1!=1);
+}
+
+void Player::Fighting()
+{
+
 }
 
 void Player::Swimming()
@@ -277,47 +307,231 @@ void Player::Swimming()
     else if(x<76)//wrodzy piraci
     {
         cout<<"    Kapitanie! Czarna bandera na horyzoncie!"<<endl;
+        Fighting();
     }
     else if(x<86)//marynarka
     {
         cout<<"    Kapitanie! Marynka kieruje sie w nasza strone!"<<endl
             <<"        Cala wstecz spruchniale kolki! Arghhhh..."<<endl
-            <<"        Jesli wam zycie mile i jeszcze kiedys spotkac panny ujrzec chcecie"<<endl
+            <<"        Jesli wam zycie mile i jeszcze kiedys panny ujrzec chcecie"<<endl
             <<"        to do wiosel zgnile dorsze! Arghhhh..."<<endl;
-        //piraci do wiosel, zmiejsza to zadowolenie -5%
+        //piraci do wiosel, zmiejsza to zadowolenie -5%(jeszcze nie wprowadzono)
     }
     else cout<<"    Wszedzie tylko woda na widoku! Arghhhh..."<<endl;//nic :|
     cout<<"###############################################################################"<<endl<<endl;
 }
 
-void Player::Upgrade()//mozliwosc ulepszenia konkretnego statkua dokladnie: ilosci armat, wytrzymalosc
+bool Player::UpgradeTransaction(int cost)
 {
-    int choice;
-    cout<<"###############################################################################"<<endl
-        <<"    Zapraszam, zapraszam do mego bogatego warsztatu!"<<endl
-        <<"    W czym moge pomoc?"<<endl
-        <<"    1. W naprawie zniszczen?"<<endl
-        <<"    2. W poprawieniu jakosci?"<<endl
-        <<"    3. Moze dorzucic kilka armat?"<<endl;
-    switch(choice)
+    string answer;
+    cout<<"    To bedzie "<<cost<<" sztuk zlota."<<endl
+        <<"    Zgoda?(T/N): ";
+    do
+        {
+            cin>>answer;
+            if(answer=="T" || answer=="t")
+            {
+                if(cost<money)
+                {
+                    money -= cost;
+                    cout<<"    Gotowe!"<<endl;
+                    return 1;
+                }
+                else
+                {
+                    cout<<"    Wypad z baru biedoku jeden, Ty! A kysz!"<<endl<<endl;
+                    return 0;
+                }
+            }
+            else if(answer=="N" || answer=="n")
+            {
+                cout<<"    Mowi sie trudno, zegnam."<<endl;
+                return 0;
+            }
+            else cout<<"    To jak?"<<endl<<"        ";
+        }
+        while(true);
+
+}
+
+void Player::Upgrade()//mozliwosc ulepszenia konkretnego statkua dokladnie: naprawa, ilosci armat, wytrzymalosc
+{
+    int choice1,choice2;
+    int cost;
+    int newcannons;
+    int newhpmax;
+    cout<<"    Zapraszam, zapraszam do mego bogatego warsztatu!"<<endl
+        <<"    Ktory stateczek mam operowac? :)"<<endl;
+    for(int i=0; i<ships.size(); i++)
+    {
+        cout<<"    "<<i+1<<". "<<ships[i]<<endl;
+    }
+    cout<<"        ";
+    cin>>choice1;
+    cout<<"    Zatem, co robimy?"<<endl
+        <<"    1. Naprawiamy?"<<endl
+        <<"    2. Wieksza Wytrzymalosc?"<<endl
+        <<"    3. Moze dorzucic kilka armat?"<<endl
+        <<"    4. Czy moze sie pan rozmyslil?"<<endl<<"        ";
+
+    do
+    {
+    cin>>choice2;
+    switch(choice2)
     {
     case 1:
-
+        cost = ships[choice1-1].getHPMax()-ships[choice1-1].getHP();
+        if(UpgradeTransaction(cost)==1) ships[choice1-1].Repair();
         break;
     case 2:
-
+        cout<<"    Jaka chcemy miec wytrzymalosc?: ";
+        cin>>newhpmax;
+        if(newhpmax>ships[choice1-1].getHPMax())
+        {
+            cost = (newhpmax - ships[choice1-1].getHPMax())*2;
+            if(UpgradeTransaction(cost)==1) ships[choice1-1].setHPMax(newhpmax);
+        }
+        else cout<<"    Przepraszam. Ja nie zmniejsze. :|"<<endl;
         break;
     case 3:
-
+        cout<<"    To ile ich dodac?: ";
+        cin>>newcannons;
+        cost = newcannons*200;
+        if(UpgradeTransaction(cost)==1) ships[choice1-1].setCannons(newcannons);
+        break;
+    case 4:
         break;
     default:
         cout<<"    Przykro nie oferuje takich uslug"<<endl;
     }
+    cout<<"    Co dalej?"<<endl<<"        ";
+    }
+    while(choice2!=4);
+    cout<<endl;
+}
+
+void Player::Plundering()//pladrowanie wioski, zarobek, badz strata ale blokada do korzystania z innych opcji na zamieszkanej wyspie
+{
+    int x = (rand()%20+30)*numbercrew;//obrona wioski
+    int gold = rand()%201+100;
+    if(gold>money) gold = 0;
+    int attackcrew = 0;// suma ataku zalogi
+    for(int i=0; i<ships.size(); i++)
+    {
+        for(int j=0; j<ships[i].crews.size(); j++)
+        {
+            attackcrew += ships[i].crews[j].getAttack();
+        }
+    }
+    cout<<"            ***ATAK ZALOGI: "<<attackcrew<<" ***"<<endl;
+    cout<<"            ***OBRONA WIOSKI: "<<x<<" ***"<<endl;
+    if(x<attackcrew)
+    {
+        cout<<"        NAPRZOD TEPE SKORUPIAKI! ICH OBRONA PADLA PRZED NASZA POTEGA!!!"<<endl<<"        Arghhhh..."<<endl
+            <<"            ***WIOSKA ZOSTALA OGRABIONA Z WSZELKICH DOBR!***"<<endl
+            <<"               ***UDALO CI SIE UKRASC "<<gold<<" SZTUK ZLOTA***"<<endl
+            <<"        Co tak stoicie i gapicie sie spruchniale kolki! Na okret!"<<endl<<"        Odplywamy! Arghhhh..."<<endl;
+        money += gold;
+    }
+    else
+    {
+        cout<<"    Wynoscie sie stad parszywi piraci!"<<endl
+            <<"    Niczego juz tu poza ponizeniem nie znajdziecie!"<<endl
+            <<"            ***UCIEKAJAC W POSPIECHU TRACISZ "<<gold/2<<" SZTUK ZLOTA***"<<endl;
+        money -= gold/2;
+    }
+}
+
+void Player::Scancrew()//wglad w ilosc okretow, zaloge na nich i ich statystyki
+{
+    float a = numbercrew, rumConsumption = a/10;
+    cout<<"###############################################################################"<<endl
+        <<"Witaj "<<name<<"! Oto Twoja potega!: "<<endl
+        <<"    Tyle masz sztuk zlota: "<<money<<endl
+        <<"    Tyle masz rumu: "<<rum<<"(-"<<rumConsumption<<")"<<endl
+        <<"    Lista "<<ships.size();
+    if(ships.size()==1) cout<<" statku "<<": "<<endl;
+    else cout<<" statkow "<<": "<<endl;
+    string answer="";
+    int choice;
+    for(int i=0; i<ships.size(); i++)
+    {
+        cout<<"        "<<i+1<<". "<<ships[i]<<endl;
+    }
+    cout<<"    Liczba zalogi ogolem: "<<numbercrew<<endl;
+    while(answer!="N" && answer!="n")
+    {
+        cout<<"    Czy chcesz przejrzec statek?(T/N): ";
+        cin>>answer;
+        if(answer=="T" || answer=="t")
+        {
+            cout<<"    Ktory statek?: ";
+            cin>>choice;
+            cout<<"->Masztow: "<<ships[choice-1].getMasts()<<endl
+                <<"->Wytrzmyalosc: ["<<ships[choice-1].getHP()<<"/"<<ships[choice-1].getHPMax()<<"]"<<endl
+                <<"->Armat: "<<ships[choice-1].getCannons()<<endl
+                <<"    Zaloga:"<<endl;
+            for(int i=0; i<ships[choice-1].GetCrews().size(); i++)
+            {
+                cout<<"->"<<i+1<<". "<<ships[choice-1].crews[i]<<endl;
+            }
+        }
+        else if(answer=="N" || answer=="n") ;
+        else cout<<"    Mozesz powtorzyc?"<<endl;
+    }
     cout<<"###############################################################################"<<endl;
 }
 
-void Player::Plundering()//pladrowanie wioski, zarobek, ale blokada do korzystania z innych opcji na zamieszkanej wyspie
+void Player::HireCrewMember()//zatrudnianie piratow do konkretnego okretu z losowymi statystykami
 {
-
+    int newmembers = 0;//nowi piraci
+    int choice;
+    string answer;
+    int cost =0;
+    int a = 0;//akceptacja kupna
+    cout<<"    Zapraszam do koszar! Mamy tu swietnych wojownikow!"<<endl
+        <<"    Piraci?! Hmmm... Alez oczywiscie ze ich tez mamy!"<<endl
+        <<"    Ilu pan potrzebuje?: ";
+    cin>>newmembers;
+    cout<<"    Na ktory statek ich zaprowadzic?:"<<endl;
+    for(int i=0; i<ships.size(); i++)
+    {
+        cout<<"    "<<i+1<<". "<<ships[i]<<endl;
+    }
+    cout<<"        ";
+    cin>>choice;
+    cout<<"    Jak wejda na lajbe, to sie rozliczymy."<<endl
+        <<"    Bedzie to kosztowac do "<<newmembers*250<<" sztuk zlota."<<endl
+        <<"    Zgadza sie pan?(T/N): ";
+    do
+    {
+        cin>>answer;
+        if(answer=="T" || answer=="t")
+        {
+            if(newmembers*250<money)
+            {
+                a = 1;
+                cout<<"    Zatem chodzmy zobaczyc jak sie prezentuja!"<<endl;
+            }
+            else cout<<"    Wypad z baru biedoku jeden, Ty! A kysz!"<<endl<<endl;
+            answer = "koniec";
+        }
+        else if(answer=="N" || answer=="n")
+        {
+            cout<<"    Ehhh...No coz, to do innego razu."<<endl;
+            answer = "koniec";
+        }
+        else cout<<"    Nie uslyszalem"<<endl<<"        ";
+    }
+    while(answer!="koniec");
+    for(int i=0; i<newmembers; i++)
+    {
+        CrewMember crewm;
+        cost += crewm.getCost();
+        ships[choice-1].AddCrewMember(crewm);
+        numbercrew++;
+    }
+    cout<<"    A wiec wyszlo "<<cost<<". Zycze milego dnia."<<endl;
 }
+
 //koniec

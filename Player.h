@@ -8,8 +8,7 @@ class Player//klasa gracza
     string name;
     int money;
     float rum;// koszt = 5, 1/10 rumu wypijana przez 1 zaloganta przez 1 wykonanie funkcji swimming()
-    // ships.size()
-    int numbercrew;// =
+    int numbercrew;//
     vector<Ship> ships;
 public:
     //konstruktor prosty
@@ -34,16 +33,17 @@ public:
     void Scancrew();//
     void NewShip();//
     void Treassure();//
+    void Fighting();//
     void Island(int x);//
     void Upgrade();//
+    void HireCrewMember();
     void Plundering();//pladrowanie wyspy
+    bool UpgradeTransaction(int cost);
     friend ostream& operator<<(std::ostream& out, const Player& p);
     string getName() { return name; }
     void setName( string name_ ) { name = name_; }
-    /*int getMoney() { return money; }
-    void setMoney( int money_ ) { money = money_; }
-    int getRum() { return rum; }
-    void setRum( int rum_ ) { rum = rum_; }*/
+    void CodesMenu();
+    void Codes();
 };
 
 #endif // PLAYER_H

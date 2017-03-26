@@ -11,9 +11,12 @@ void Ship::AddCrewMember(CrewMember crewmember)
     crews.push_back(crewmember);
 }
 
-void Ship::HireCrewMember()//zatrudnianie piratow do konkretnego okretu z losowymi statystykami
+void Ship::setHPMax( int hpmax_ )
 {
-
+    int increase;
+    increase = hpmax_ - hpmax;
+    hpmax = hpmax_;
+    hp += increase;
 }
 
 //koniec

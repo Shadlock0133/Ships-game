@@ -13,12 +13,17 @@ private:
     string name;
     int hp;
     int attack;
-    //int satisfaction;
+    static int satisfaction;
     //int level;
+
     int cost;//Domyslny pirat kosztuje 140-250 sztuk zlota
 public:
     void consonant(string& name);//
     void vowel(string& name);//
+   /* void Mspolgloska(string& name);
+    void Wspolgloska(string& name);
+    void Msamogloska(string& name);
+    void Wsamogloska(string& name);*/
     string NameGenerator();//
     //konstruktor domyslny
     CrewMember()
@@ -33,6 +38,11 @@ public:
         hp = hp_;
         attack = attack_;
         cost = getAttack()*3+getHP();
+    }
+
+    ~CrewMember()
+    {
+        //cout<<"";
     }
     friend ostream& operator<<(std::ostream& out, const CrewMember& c);
     string getName()

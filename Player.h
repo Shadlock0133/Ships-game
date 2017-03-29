@@ -29,6 +29,8 @@ public:
         ships = vector<Ship>();
     }
     void Start();
+    void CodesMenu();
+    void Codes();
     void AddShip(Ship ship);
     void BuyingRum();//uzupelnienie zapasow rumu
     void Swimming();//
@@ -38,9 +40,12 @@ public:
     void Island(int x);//
     void Upgrade();//
     void HireCrewMember();
+    void PiratesDetected();
     void Fighting();//
+    void Boarding();
     void Plundering();//pladrowanie wyspy
     bool UpgradeTransaction(int cost);
+    void menu();//
     friend ostream& operator<<(std::ostream& out, const Player& p);
     string getName()
     {
@@ -50,8 +55,7 @@ public:
     {
         name = name_;
     }
-    void CodesMenu();
-    void Codes();
+
 };
 
 #endif // PLAYER_H

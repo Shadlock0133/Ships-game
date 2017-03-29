@@ -12,9 +12,6 @@ private:
     int hpmax;
     int cannons;                        // koszt = 200
     int masts;                          // koszt = 300
-    // Domyslny statek kosztuje 2000 zlota
-    int cost = hpmax*3+cannons*200+masts*300;
-
 public:
     vector<CrewMember> crews;
     //konstruktor prosty
@@ -43,6 +40,10 @@ public:
         hp = hpmax;    //
     }
     friend ostream& operator<<(std::ostream& out, const Ship& s);
+    int setHP(int hp_)
+    {
+        hp = hp_;
+    }
     int getHP()
     {
         return hp;
@@ -58,10 +59,6 @@ public:
     int getMasts()
     {
         return masts;
-    }
-    int getCost()
-    {
-        return cost;
     }
     void setHPMax( int hpmax_ );
     void setCannons(int cannons_)

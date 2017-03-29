@@ -8,8 +8,8 @@ class Enemy//klasa przeciwnika
 private:
     string name;
     int numbercrew;//
-    vector<Ship> ships;
 public:
+    vector<Ship> ships2;
     //konstruktor domyslny
     Enemy()
         : Enemy("", 0)
@@ -23,9 +23,10 @@ public:
         name_ = crewm.getName();
         name = name_;
         numbercrew = numbercrew_;
-        ships = vector<Ship>();
+        ships2 = vector<Ship>();
     }
     void AddShip(Ship ship);
+    void Hit(int which, int DMG);
 };
 
 #endif // ENEMY_H

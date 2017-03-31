@@ -11,8 +11,8 @@ private:
     int money;
     float rum;// koszt = 5, 1/10 rumu wypijana przez 1 zaloganta przez 1 wykonanie funkcji swimming()
     int numbercrew;//
-    vector<Ship> ships;
 public:
+    vector<Ship> ships;
     //konstruktor prosty
     Player(string name_)
         : Player(name_, 1000, 10.0, 0)
@@ -46,6 +46,7 @@ public:
     void Plundering();//pladrowanie wyspy
     bool UpgradeTransaction(int cost);
     void menu();//
+    void EndGame();
     friend ostream& operator<<(std::ostream& out, const Player& p);
     string getName()
     {

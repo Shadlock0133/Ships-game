@@ -12,7 +12,6 @@ void gotoxy(int x, int y)
 }
 
 
-
 void ani3()
 {
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),11);
@@ -131,9 +130,15 @@ void animacja(int numer)
         }
 }
 
-void EndGame()
+void Player::EndGame()
 {
-    system("CLS");
+    system("cls");
+    cout<<"    Zeganaj mam nadzieje ze te piekne chwile spedzone razem"<<endl<<"    byly dla Ciebie tak mile jak dla mnie "<<getName()<<"! <3"<<endl<<endl<<endl<<endl
+        <<"    ZARTOWALEM!"<<endl
+        <<"    UMRZYJ!!!"<<endl
+        <<"            ***WCISNIJ ENTER BY KONTYNUOWAC***"<<endl<<"        ";
+    char c = getchar();
+    system("cls");
     gotoxy(19,1);
     cout <<"COMPUTER <          >";
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),8);
@@ -154,9 +159,8 @@ void EndGame()
     gotoxy(17,13);
     cout <<"GAME OVER!"<<endl;
     Sleep (2000);
-    system("CLS");
+    system("cls");
 }
-
 
 
 
@@ -196,6 +200,7 @@ void Player::AddShip(Ship ship)
 void Player::CodesMenu()
 {
     char choice;
+    system("cls");
     cout<<"            1.***PODAJ KOD***"<<endl
         <<"            2.***WYJSCIE***"<<endl<<"        ";
     do
@@ -250,7 +255,6 @@ void Player::Start()
     Ship ship(ShipName);
     AddShip(ship);
     CrewMember crewm;
-
     ships[0].AddCrewMember(crewm);
     numbercrew++;
     cout<<"    A wiec powodzenia glup...eee...podrozniku! :D"<<endl<<endl
@@ -296,7 +300,6 @@ void Player::menu()
             Scancrew();
             break;
         case '3':
-            cout<<"    Zeganaj mam nadzieje ze te piekne chwile spedzone razem"<<endl<<"byly dla Ciebie tak mile jak dla mnie "<<getName()<<"! <3"<<endl;
             EndGame();
             break;
         case 'x':
@@ -322,7 +325,8 @@ void Player::Treassure()//znaleziono wyspe ze skarbem
 void Player::BuyingRum()//kupowanie rumu
 {
     string answer;
-    cout<<"    *HICK* Witaaaam szanowneeego paaana w barze!"<<endl
+    cout<<endl<<"###################################### BAR #####################################"<<endl
+        <<"    *HICK* Witaaaam szanowneeego paaana w barze!"<<endl
         <<"    *HICK* W czyyym moglbym pomoc?"<<endl
         <<"    *HICK* Chwila, chwila! Nooo tak RUM! Juz podaje!"<<endl;
     int rum2 = inputNewStat("    *HICK* Tylkoooo... Ile paaan go sobie zyczy?: ", 0, MAX-rum);
@@ -330,13 +334,13 @@ void Player::BuyingRum()//kupowanie rumu
 
     do
     {
-        cout<<"    *HICK* Znaczy... "<<rum2*5<<" lepiej(T/N)?: ";
+        cout<<"    *HICK* Znaczy... "<<rum2*15<<" lepiej(T/N)?: ";
         cin>>answer;
         cin.clear();
         cin.ignore( 1000, '\n' );
         if(answer=="T" || answer=="t")
         {
-            if(rum*15<money)
+            if(rum*15<=money)
             {
                 cout<<"    *HICK* Na miejscu czy na wynos?: Na wynos -.-"<<endl;
                 money -= rum2*15;
@@ -353,13 +357,15 @@ void Player::BuyingRum()//kupowanie rumu
         else cout<<"    *HICK* Mozesz powtorzyc?"<<endl<<"        ";
     }
     while(answer!="koniec");
+    cout<<"################################################################################"<<endl;
 }
 
 void Player::NewShip()//tworzenie nowego statku
 {
     string answer;
     int x = rand()%4;//losowanie znizki
-    if(x==0) cout<<"JEST ZNIZKA!!!"<<endl;
+    cout<<endl<<"################################### DOKI ######################################"<<endl;
+    if(x==0) cout<<"            ***JEST ZNIZKA!!!***"<<endl;
     cout<<"    Witaj w dokach podrozniku!"<<endl;
     int masts = inputNewStat(" Z ilu masztow ma skladac sie Twoj okret?: ", 1, 3);
     int hp_low, hp_high, cann_low, cann_high;
@@ -389,6 +395,7 @@ void Player::NewShip()//tworzenie nowego statku
         <<"    "<<crewm.getName()<<"! Zostaniesz ciesla na tym okrecie."<<endl
         <<"    Tak jest! To dla mnie zaszczyt poznac pana, Kapitanie!"<<endl;
     int cost = hpmax*3 + cannons*200 + masts*300 + crewm.getCost();
+    cout<<crewm;
     do
     {
         if(x!=4)
@@ -400,13 +407,14 @@ void Player::NewShip()//tworzenie nowego statku
         }
         if(answer=="T" || answer=="t")//potwierdzenie kupna
         {
-            if(cost<money)
+            if(cost<=money)
             {
-                string name = inputNewStat<string>("    Pozostalo juz tylko podac zmyslna nazwe dla Twojego nowego okretu!: ");
+                string name = inputNewStat<string>("Pozostalo juz tylko podac zmyslna nazwe dla Twojego nowego okretu!: ");
                 Ship newShip = Ship(name, hp, hpmax, cannons, masts);
                 money -= cost;
                 AddShip(newShip);
-                newShip.AddCrewMember(crewm);
+                int nrship = ships.size()-1;
+                ships[nrship].AddCrewMember(crewm);
                 numbercrew++;
             }
             else cout<<"    Wypad z baru biedoku jeden, Ty! A kysz!"<<endl<<endl;
@@ -433,6 +441,7 @@ void Player::NewShip()//tworzenie nowego statku
         else cout<<"    Mozesz powtorzyc?"<<endl;
     }
     while(answer!="koniec");
+    cout<<"###############################################################################"<<endl;
 }
 
 void Player::Island(int x)//wyspa jest: zamieszkana, ze skabem lub pusta. Odpowiednio od wyspy mozna wykonac specjalne dla niej akcje
@@ -578,13 +587,14 @@ void Player::Fighting()
     {
         x = rand()%20;
         y = rand()%21+40;
+        cout<<"        ";
         cin>>choice;
         cin.clear();
         cin.ignore( 1000, '\n' );
         switch(choice)
         {
         case '1':
-            if(x<6)
+            if(x<11)
             {
                 part1 = 0;
                 hit = 1;
@@ -592,7 +602,7 @@ void Player::Fighting()
             else cout<<"            ***MISSED***"<<endl;
             break;
         case '2':
-            if(x<7)
+            if(x<14)
             {
                 part2 = 0;
                 hit = 1;
@@ -600,7 +610,7 @@ void Player::Fighting()
             else cout<<"            ***MISSED***"<<endl;
             break;
         case '3':
-            if(x<6)
+            if(x<15)
             {
                 part3 = 0;
                 hit = 1;
@@ -608,7 +618,7 @@ void Player::Fighting()
             else cout<<"            ***MISSED***"<<endl;
             break;
         case '4':
-            if(x<6)
+            if(x<15)
             {
                 part4 = 0;
                 hit = 1;
@@ -616,7 +626,7 @@ void Player::Fighting()
             else cout<<"            ***MISSED***"<<endl;
             break;
         case '5':
-            if(x<7 && part2==0)
+            if(x<6 && part2==0)
             {
                 Boarding();
             }
@@ -641,8 +651,15 @@ void Player::Fighting()
         if(enemy.ships2[0].getHP()>0) cout<<"ENEMY: ["<<enemy.ships2[0].getHP()<<"/"<<enemy.ships2[0].getHPMax()<<"]"<<endl;
         else if(enemy.ships2[0].getHP()<=0)
         {
+            int gold = rand()%201;
             choice = '7';
-            cout<<"    STATEK ZOSTAL ZNISZCZONY KAPITANIE!"<<endl;
+            cout<<"    STATEK ZOSTAL ZNISZCZONY KAPITANIE!"<<endl
+                <<"            ***UDALO CI SIE WYLOWIC CZESC SKARBOW WROGA***"<<endl
+                <<"            ***ZDOBYWASZ "<<gold<<" SZTUK ZLOTA"<<endl;
+            for(int i=0; i<ships.size(); i++)
+                for(int j=0; j<ships[i].crews.size(); j++)
+                    ships[i].crews[j]++;
+            money += gold;
         }
 
         //reset tury
@@ -739,7 +756,8 @@ void Player::Upgrade()//mozliwosc ulepszenia konkretnego statkua dokladnie: napr
 {
     char choice2;
     int choice1, cost, newcannons, newhpmax;
-    cout<<"    Zapraszam, zapraszam do mego bogatego warsztatu!"<<endl;
+    cout<<endl<<"################################## WARSZTAT ###################################"<<endl
+        <<"    Zapraszam, zapraszam do mego bogatego warsztatu!"<<endl;
     for(int i=0; i<ships.size(); i++)
     {
         cout<<"    "<<i+1<<". "<<ships[i]<<endl;
@@ -786,10 +804,10 @@ void Player::Upgrade()//mozliwosc ulepszenia konkretnego statkua dokladnie: napr
         default:
             cout<<"    Przykro nie oferuje takich uslug"<<endl;
         }
-        cout<<"    Co dalej?"<<endl<<"        ";
+        if(choice2!='4') cout<<"    Co dalej?"<<endl<<"        ";
     }
     while(choice2!='4');
-    cout<<endl;
+    cout<<"################################################################################"<<endl;
 }
 
 void Player::Plundering()//pladrowanie wioski, zarobek, badz strata ale blokada do korzystania z innych opcji na zamieszkanej wyspie
@@ -805,8 +823,9 @@ void Player::Plundering()//pladrowanie wioski, zarobek, badz strata ale blokada 
             attackcrew += ships[i].crews[j].getAttack();
         }
     }
-    cout<<"            ***ATAK ZALOGI: "<<attackcrew<<" ***"<<endl;
-    cout<<"            ***OBRONA WIOSKI: "<<x<<" ***"<<endl;
+    cout<<endl<<"################################ PLADROWANIE ##################################"<<endl
+        <<"            ***ATAK ZALOGI: "<<attackcrew<<" ***"<<endl
+        <<"            ***OBRONA WIOSKI: "<<x<<" ***"<<endl;
     if(x<attackcrew)
     {
         cout<<"        NAPRZOD TEPE SKORUPIAKI! ICH OBRONA PADLA PRZED NASZA POTEGA!!!"<<endl<<"        Arghhhh..."<<endl
@@ -823,14 +842,16 @@ void Player::Plundering()//pladrowanie wioski, zarobek, badz strata ale blokada 
         if(money==0) cout<<"    BIEDOKI JEDNE,WY!"<<endl;
         money -= gold;
     }
+    cout<<"###############################################################################"<<endl;
 }
 
 void Player::Scancrew()//wglad w ilosc okretow, zaloge na nich i ich statystyki
 {
     float a = numbercrew, rumConsumption = a/10;
     string answer="";
+    system("cls");
     int choice;
-    cout<<"###############################################################################"<<endl
+    cout<<endl<<"################################## EKWIPUNEK ##################################"<<endl
         <<"Witaj "<<name<<"! Oto Twoja potega!: "<<endl
         <<"    Tyle masz sztuk zlota: "<<money<<endl
         <<"    Tyle masz rumu: "<<rum<<"(-"<<rumConsumption<<")"<<endl
@@ -873,7 +894,8 @@ void Player::HireCrewMember()//zatrudnianie piratow do konkretnego okretu z loso
     string answer;
     int cost =0;
     int a = 0;//akceptacja kupna
-    cout<<"    Zapraszam do koszar! Mamy tu swietnych wojownikow!"<<endl
+    cout<<endl<<"################################## KOSZARY ####################################"<<endl
+        <<"    Zapraszam do koszar! Mamy tu swietnych wojownikow!"<<endl
         <<"    Piraci?! Hmmm... Alez oczywiscie ze ich tez mamy!"<<endl;
     newmembers = inputNewStat("Ilu pan potrzebuje, proponuje od jednego do dziesieciu?: ",1, 10);
     cout<<"    Na ktory statek ich zaprowadzic?:"<<endl;
@@ -895,7 +917,7 @@ void Player::HireCrewMember()//zatrudnianie piratow do konkretnego okretu z loso
         cin.ignore( 1000, '\n' );
         if(answer=="T" || answer=="t")
         {
-            if(newmembers*250<money)
+            if(newmembers*250<=money)
             {
                 a = 1;
                 cout<<"    Zatem chodzmy zobaczyc jak sie prezentuja!"<<endl;
@@ -918,7 +940,8 @@ void Player::HireCrewMember()//zatrudnianie piratow do konkretnego okretu z loso
         ships[choice-1].AddCrewMember(crewm);
         numbercrew++;
     }
-    cout<<"    A wiec wyszlo "<<cost<<". Zycze milego dnia."<<endl;
+    cout<<"    A wiec wyszlo "<<cost<<". Zycze milego dnia."<<endl
+        <<"###############################################################################"<<endl;
 }
 
 //koniec

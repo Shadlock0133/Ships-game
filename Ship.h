@@ -16,7 +16,7 @@ public:
     vector<CrewMember> crews;
     //konstruktor prosty
     Ship(string name_)
-        : Ship(name_,500, 500, 1, 1)
+        : Ship(name_, 500, 500, 1, 1)
     {
 
     }

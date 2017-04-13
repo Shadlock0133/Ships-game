@@ -4,7 +4,7 @@
 #include <fstream>
 
 #define MAX 9999
-
+/*
 void gotoxy(int x, int y)
 {
     COORD c;
@@ -131,10 +131,10 @@ void animacja(int numer)
             Sleep(130);
         }
 }
-
+*/
 void Player::EndGame()
 {
-    system("cls");
+    /*system("cls");
     cout<<"    Zeganaj mam nadzieje ze te piekne chwile spedzone razem"<<endl<<"    byly dla Ciebie tak mile jak dla mnie "<<getName()<<"! <3"<<endl<<endl<<endl<<endl
         <<"    ZARTOWALEM!"<<endl
         <<"    UMRZYJ!!!"<<endl
@@ -161,7 +161,7 @@ void Player::EndGame()
     gotoxy(17,13);
     cout <<"GAME OVER!"<<endl;
     Sleep (2000);
-    system("cls");
+    system("cls");*/
 }
 
 
@@ -335,7 +335,7 @@ void Player::Option()
     switch(choice)
     {
     case '1':
-        int colour;
+        /*int colour;
         cout<<"            ***JAKI KOLOR TEKSTU BYS CHCIAL? ***"<<endl;
         for(int i=0; i<16; i++)
         {
@@ -345,7 +345,7 @@ void Player::Option()
         cout<<endl;
         cin>>colour;
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),colour);
-        break;
+        break;*/
     case '2':
         cout<<"            ***KTORYM OKRETEM BEDZIESZ TERAZ DOWODZIL?***"<<endl;
         for(int i=0; i<ships.size(); i++)

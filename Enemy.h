@@ -25,8 +25,9 @@ public:
         numbercrew = numbercrew_;
         ships2 = vector<Ship>();
     }
+
     void AddShip(Ship ship);
-    void Hit(int which, int DMG);
+    void Hit(int DMG);
 };
 
 #endif // ENEMY_H

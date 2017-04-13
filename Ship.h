@@ -40,6 +40,10 @@ public:
         hp = hpmax;    //
     }
     friend ostream& operator<<(std::ostream& out, const Ship& s);
+    string getName()
+    {
+        return name;
+    }
     int setHP(int hp_)
     {
         hp = hp_;

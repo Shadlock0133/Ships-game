@@ -8,6 +8,9 @@ class Player//klasa gracza
 {
 private:
     string name;
+    int whichship;
+    int experience;
+    int level;
     int money;
     float rum;// koszt = 5, 1/10 rumu wypijana przez 1 zaloganta przez 1 wykonanie funkcji swimming()
     int numbercrew;//
@@ -15,18 +18,19 @@ public:
     vector<Ship> ships;
     //konstruktor prosty
     Player(string name_)
-        : Player(name_, 1000, 10.0, 0)
+        : Player(name_, 1000, 10.0, 0, 0)
     {
 
     }
     //konstruktor zwykly
-    Player(string name_, int money_, float rum_, int numbercrew_)
+    Player(string name_, int money_, float rum_, int numbercrew_, int whichship_)
     {
         name = name_;
         money = money_;
         rum = rum_;
         numbercrew = numbercrew_;
         ships = vector<Ship>();
+        whichship = whichship_;
     }
     void Start();
     void CodesMenu();
@@ -36,17 +40,21 @@ public:
     void Swimming();//
     void Scancrew();//
     void NewShip();//
-    void Treassure();//
+    void Treasure();//
     void Island(int x);//
     void Upgrade();//
     void HireCrewMember();
     void PiratesDetected();
     void Fighting();//
     void Boarding();
+    void Option();
     void Plundering();//pladrowanie wyspy
     bool UpgradeTransaction(int cost);
     void menu();//
     void EndGame();
+    void SaveGame();
+    void LoadGame();
+    void statek(Enemy enemy);
     friend ostream& operator<<(std::ostream& out, const Player& p);
     string getName()
     {
@@ -56,7 +64,10 @@ public:
     {
         name = name_;
     }
-
+    void setShip( int whichship_ )
+    {
+        whichship = whichship_;
+    }
 };
 
 #endif // PLAYER_H

@@ -10,7 +10,7 @@ int main()
     //Niech to dunder swisnie! Arghhhh...
     //Zobaczymy sie w luku Dawy'ego Jones'a! Arghhhh...
     srand(time(NULL));
-    testAll();
+    //testAll();
     Player player("");
     player.Start();
     player.menu();

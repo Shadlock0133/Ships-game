@@ -51,6 +51,10 @@ public:
     {
         name = name_;
     }
+    int getLevel()
+    {
+        return level;
+    }
     int getAttack()
     {
         return attack;

@@ -1,6 +1,8 @@
 #include <cstdio>
 #include "Player.h"
 #include <windows.h>
+#include <fstream>
+
 #define MAX 9999
 
 void gotoxy(int x, int y)
@@ -280,11 +282,11 @@ void Player::menu()
         cout<<"-------------------------------------------------------------------------------"<<endl
             <<"        1.Cala Naprzod tchorzliwe fladry! Arghhhh..."<<endl
             <<"        2.W szeregu zbiorka krzywonogie niedolegi! Arghhhh...(Wglad w zaloge)"<<endl
-//            <<"        3.  ***SAVE***"<<endl
-//            <<"        4.  ***LOAD***"<<endl
-//            <<"        5.  ***OPTIONS***"<<endl
-            <<"        3.Za burte szczurze ladowy? Arghhhh...(GAME OVER)"<<endl
-            //<<"        11.<szept>Csiii...Mam kody. Arghhhh...</szept>"<<endl
+            <<"        3.  ***SAVE***"<<endl
+            <<"        4.  ***LOAD***"<<endl
+            <<"        5.  ***OPTIONS***"<<endl
+            <<"        6.Za burte szczurze ladowy? Arghhhh...(GAME OVER)"<<endl
+            //<<"        x.<szept>Csiii...Mam kody. Arghhhh...</szept>"<<endl
             <<"    Co zamierzasz zrobic Kapitanie?: "<<endl<<"        ";
 
         cin>>choice;
@@ -300,6 +302,15 @@ void Player::menu()
             Scancrew();
             break;
         case '3':
+            SaveGame();
+            break;
+        case '4':
+            LoadGame();
+            break;
+        case '5':
+            Option();
+            break;
+        case '6':
             EndGame();
             break;
         case 'x':
@@ -310,16 +321,52 @@ void Player::menu()
         }
         cout<<endl;
     }
-    while(choice != '3');
+    while(choice != '6');
 }
 
-void Player::Treassure()//znaleziono wyspe ze skarbem
+void Player::Option()
 {
-    int treassure = rand()%900+100;
+    cout<<"            ***CO CHCESZ ROBIC?***"<<endl
+        <<"            ***1.ZMIENIC KOLOR TEKSTU***"<<endl
+        <<"            ***2.ZMIENIC OKRET***"<<endl<<"        ";
+    char choice;
+    cin>>choice;
+    int nrship;
+    switch(choice)
+    {
+    case '1':
+        int colour;
+        cout<<"            ***JAKI KOLOR TEKSTU BYS CHCIAL? ***"<<endl;
+        for(int i=0; i<16; i++)
+        {
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),i);
+            cout<<"["<<i<<"] ";
+        }
+        cout<<endl;
+        cin>>colour;
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),colour);
+        break;
+    case '2':
+        cout<<"            ***KTORYM OKRETEM BEDZIESZ TERAZ DOWODZIL?***"<<endl;
+        for(int i=0; i<ships.size(); i++)
+        {
+            cout<<"        "<<i+1<<". "<<ships[i]<<endl;
+        }
+        nrship = inputNewStat("",0,ships.size());
+        setShip(nrship);
+        break;
+    default:
+        cout<<"            ***ZLE WYBRANO***"<<endl;
+    }
+}
+
+void Player::Treasure()//znaleziono wyspe ze skarbem
+{
+    int Treasure = rand()%900+100;
     cout<<"    Kapitanie! Tam na piasku jest namalowany wielki czerwony ''X''"<<endl
         <<"            *****ZNALEZIONO STARA SKRZYNIE!*****"<<endl
-        <<"            ***W SKRZYNI BYLO "<<treassure<<" SZTUK ZLOTA***"<<endl;
-    money += treassure;
+        <<"            ***W SKRZYNI BYLO "<<Treasure<<" SZTUK ZLOTA***"<<endl;
+    money += Treasure;
 }
 
 void Player::BuyingRum()//kupowanie rumu
@@ -395,7 +442,6 @@ void Player::NewShip()//tworzenie nowego statku
         <<"    "<<crewm.getName()<<"! Zostaniesz ciesla na tym okrecie."<<endl
         <<"    Tak jest! To dla mnie zaszczyt poznac pana, Kapitanie!"<<endl;
     int cost = hpmax*3 + cannons*200 + masts*300 + crewm.getCost();
-    cout<<crewm;
     do
     {
         if(x!=4)
@@ -510,7 +556,7 @@ void Player::Island(int x)//wyspa jest: zamieszkana, ze skabem lub pusta. Odpowi
         }
         else if(x<36 && choice1=='1')//wyspa ze skarbem
         {
-            Treassure();
+            Treasure();
         }
         else if(choice1!='1' && choice1!='2') cout<<"    Mozesz powtorzyc Kapitanie?"<<endl<<"        ";
 
@@ -520,61 +566,55 @@ void Player::Island(int x)//wyspa jest: zamieszkana, ze skabem lub pusta. Odpowi
 
 void Player::Boarding()
 {
+    for(int i=0; i<ships[whichship].crews.size(); i++)
+    {
 
+    }
+}
+
+void Player::statek(Enemy enemy)
+{
+    int exp, mas;//ilosc masztow statku gracza
+    mas = ships[whichship].getMasts();
+    int hpmax_, hp_, cannons_, masts_ = mas, y = rand()%5;
+    if(y==0 && mas>1) mas -= rand()%2;
+    switch(mas)
+    {
+    case 1:
+        hpmax_ = rand()%6*100+500;
+        cannons_ += rand()%4+1;
+        break;
+    case 2:
+        hpmax_ += rand()%21*200+1000;
+        cannons_ += rand()%10+3;
+        break;
+    case 3:
+        hpmax_ +=rand()%41*500+5000;
+        cannons_ += rand()%31+10;
+        break;
+    }
+    hp_ = hpmax_;
+    Ship ship_("", hp_, hpmax_, cannons_, masts_);
+    enemy.AddShip(ship_);
+    for(int i=0; i<cannons_-rand()%6-2; i++)
+    {
+        CrewMember crewm;
+        ship_.AddCrewMember(crewm);
+    }
 }
 
 void Player::Fighting()
 {
     Enemy enemy;
-    int x = rand()%2;
-    int mas;//ilosc masztow statku gracza;
-    for(int i=0; i<ships.size()+x; i++)
-    {
-        if(i!=ships.size()) mas = ships[i].getMasts();
-        int hpmax_, hp_, cannons_, masts_ = mas, y = rand()%5;
-        if(y==0 && mas>1) mas -= rand()%2;
-        switch(mas)
-        {
-        case 1:
-            hpmax_ = rand()%3*hpmax_+500;
-            cannons_ += rand()%3;
-            break;
-        case 2:
-            hpmax_ += rand()%5*hpmax_+1000;
-            cannons_ += rand()%5;
-            break;
-        case 3:
-            hpmax_ +=rand()%10*hpmax_+5000;
-            cannons_ += rand()%10;
-            break;
-        }
-        hp_ = hpmax_;
-        Ship ship_("", hp_, hpmax_, cannons_, masts_);
-        enemy.AddShip(ship_);
-        for(int i=0; i<numbercrew/ships.size(); i++)
-        {
-            CrewMember crewm;
-            ship_.AddCrewMember(crewm);
-        }
-    }
+    statek(enemy);
+    cout<<"DZIALAM"<<endl;
     cout<<"        BOCIANIE GNIAZDO?! JAK SYTUACJA?!"<<endl
-        <<"    Maja "<<enemy.ships2.size();
-    if(enemy.ships2.size()==1) cout<<" statek";
-    else if(enemy.ships2.size()%10<5 && enemy.ships2.size()%10>0 && (enemy.ships2.size()>20 || enemy.ships2.size()<10))
-        cout<<" statki";
-    else cout<<" statkow";
-    cout<<endl;
-    // do //petla do ataku kilku statkow
-    // {
+        <<"    Maja "<<enemy.ships2[1].getMasts()<<endl;
+
     char choice;
     bool hit = 0, part1 = 1, part2 = 1, part3 = 1, part4 = 1;
-    int DMG = 0,y,numbercannons = 0;//y- atak od jednej armaty
+    int DMG = 0,y,x,numbercannons = ships[whichship].getCannons();//y- atak od jednej armaty
     float attackratio = 1.0;
-
-    for(int i=0; i<ships.size(); i++)
-    {
-        numbercannons += ships[0].getCannons();
-    }
     cout<<"    Kapitanie rozkazuj!"<<endl
         <<"        1. OSTRZAL W DZIOB! Arghhhh...(1.5xDMG)"<<endl
         <<"        2. OSTRZAL W BURTE! Arghhhh...(Umozliwia 5.)"<<endl
@@ -647,7 +687,7 @@ void Player::Fighting()
             cout<<"    Co takiego?!"<<endl;
         }
         DMG = numbercannons*y*attackratio;
-        if(hit==1) enemy.Hit(1, DMG);
+        if(hit==1) enemy.Hit(DMG);
         if(enemy.ships2[0].getHP()>0) cout<<"ENEMY: ["<<enemy.ships2[0].getHP()<<"/"<<enemy.ships2[0].getHPMax()<<"]"<<endl;
         else if(enemy.ships2[0].getHP()<=0)
         {
@@ -812,16 +852,13 @@ void Player::Upgrade()//mozliwosc ulepszenia konkretnego statkua dokladnie: napr
 
 void Player::Plundering()//pladrowanie wioski, zarobek, badz strata ale blokada do korzystania z innych opcji na zamieszkanej wyspie
 {
-    int x = (rand()%20+30)*numbercrew;//obrona wioski
-    int gold = rand()%201+100;
+    int x = (rand()%21+50)*ships[whichship].crews.size();//obrona wioski
+    int gold = (rand()%6+5)*ships[whichship].crews.size()*level;
     if(gold>money) gold = 0;
     int attackcrew = 0;// suma ataku zalogi
-    for(int i=0; i<ships.size(); i++)
+    for(int j=0; j<ships[whichship].crews.size(); j++)
     {
-        for(int j=0; j<ships[i].crews.size(); j++)
-        {
-            attackcrew += ships[i].crews[j].getAttack();
-        }
+        attackcrew += ships[whichship].crews[j].getAttack();
     }
     cout<<endl<<"################################ PLADROWANIE ##################################"<<endl
         <<"            ***ATAK ZALOGI: "<<attackcrew<<" ***"<<endl
@@ -853,10 +890,11 @@ void Player::Scancrew()//wglad w ilosc okretow, zaloge na nich i ich statystyki
     int choice;
     cout<<endl<<"################################## EKWIPUNEK ##################################"<<endl
         <<"Witaj "<<name<<"! Oto Twoja potega!: "<<endl
+        <<"    Plywasz aktualnie statkiem: "<<ships[whichship].getName()<<endl
         <<"    Tyle masz sztuk zlota: "<<money<<endl
         <<"    Tyle masz rumu: "<<rum<<"(-"<<rumConsumption<<")"<<endl
         <<"    Lista "<<ships.size();
-    if(ships.size()==1) cout<<" statku "<<": "<<endl;
+    if(ships.size()==1) cout<<" statku"<<": "<<endl;
     else cout<<" statkow "<<": "<<endl;
     for(int i=0; i<ships.size(); i++)
     {
@@ -942,6 +980,77 @@ void Player::HireCrewMember()//zatrudnianie piratow do konkretnego okretu z loso
     }
     cout<<"    A wiec wyszlo "<<cost<<". Zycze milego dnia."<<endl
         <<"###############################################################################"<<endl;
+}
+
+void Player::SaveGame()
+{
+    /* char AppDataFolder[ MAX_PATH ];
+     SHGetFolderPathA( 0, CSIDL_APPDATA, 0, SHGFP_TYPE_DEFAULT, AppDataFolder );
+     cin.get();
+     string core;
+     core = string( AppDataFolder ) + string( "\\SLOTS\\SAVES\\" ) + getName() + "\\" + getName() + ".txt";
+     cout << core;
+     system(( "explorer" + core ).c_str() );*/ //do wczytu
+
+
+
+
+    string fileplayer;
+    string path = "mkdir %APPDATA%\\SLOTS\\Saves\\"+getName();
+    system(path.c_str());
+
+
+    fileplayer = "%APPDATA%\\SLOTS\\Saves\\"+getName()+"\\"+getName()+".txt";
+    ofstream file;
+    file.open(fileplayer.c_str());
+    cout<<fileplayer;
+    file<<experience<<endl<<level<<endl<<money<<endl<<rum<<endl<<numbercrew<<endl;
+    file.close();
+
+    for(int i=0; i<ships.size(); i++)
+    {
+        //<<ships[0].crews[0].getSatisfaction()<<endl
+        string fileship;
+        fileship = "%APPDATA%\\SLOTS\\Saves\\Oj_Jeszcze_Nie_Tu\\Coraz_Blizej\\Jeszcze_Kilka_Folderow\\No_Ale_Nie_Poddawaj_sie\\Prosze_Juz_Ostatnie\\Dobra_Przestane\\Ostatni_raz\\Znaczy_Tamto_To_byl_Przedprzedostatni\\Dont_Worry_It_is_a_prank\\"+getName()+"\\"+ships[i].getName()+".txt";
+        file.open(fileship.c_str());
+        file<<ships[i].getHP()<<endl<<ships[i].getHPMax()<<endl<<ships[i].getCannons()<<endl<<ships[i].getMasts()<<endl<<endl;
+        for(int j=0; j<ships[i].crews.size(); j++)
+        {
+            file<<ships[i].crews[j].getName()<<endl<<ships[i].crews[j].getHP()<<endl<<ships[i].crews[j].getAttack()<<endl<<ships[i].crews[j].getLevel()<<endl<<ships[i].crews[j].getCost()<<endl<<endl;
+        }
+        file.close();
+    }
+}
+
+void Player::LoadGame()
+{
+    string fileplayer, player;
+    cout<<"            ***PODAJ IMIE GRACZA DO WCZYTANIA: *** ";
+    cin>>fileplayer;
+    player = fileplayer;
+    fileplayer = "%APPDATA%\\SLOTS\\Saves\\"+fileplayer+"\\"+fileplayer+".txt";
+    cout<<fileplayer;
+    fstream file;
+    file.open(fileplayer.c_str());
+    if(file.is_open())
+    {
+        setName(player);
+        string experience_, level_, rum_, money_, numbercrew_;
+        file.open(fileplayer.c_str());
+        getline(file, experience_);
+        getline(file, level_);
+        getline(file, money_);
+        getline(file, rum_);
+        getline(file, numbercrew_);
+        cout<<"money: "<<money_.c_str()<<endl;
+        /*experience = experience_;
+        level = level_;
+        money = money_;
+        rum = rum_;
+        numbercrew = numbercrew_;*/
+        file.close();
+    }
+    else cout<<"            ***NIE UDALO SIE OTWORZYC SAVE***"<<endl;
 }
 
 //koniec

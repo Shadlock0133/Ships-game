@@ -27,7 +27,7 @@ public:
     }
 
     void AddShip(Ship ship);
-    void Hit(int DMG);
+    void CreateShip(int mas);
 };
 
 #endif // ENEMY_H

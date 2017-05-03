@@ -1,7 +1,5 @@
 #include "CrewMember.h"
 
-int CrewMember::satisfaction = 50;
-
 ostream& operator<<(std::ostream& out, const CrewMember& c)
 {
     out<<"|Imie: "<<c.name<<"| |Zycie: "<<c.hp<<"| |Atak: "<<c.attack<<"| |Lvl: "<<c.level<<"|";

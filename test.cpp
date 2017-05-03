@@ -6,7 +6,6 @@ void testAll()
 {
     test1();
     test2();
-    test3();
 }
 
 void test1()
@@ -33,18 +32,6 @@ void test2()
     cout<<"brak hp wynosi: "<<p.ships[0].getHPMax()-p.ships[0].getHP()<<endl;
     p.ships[0].Repair();
     cout<<"brak hp wynosi: "<<p.ships[0].getHPMax()-p.ships[0].getHP()<<endl;
-}
-
-void test3()
-{
-    Player p("Adam");
-    Ship s1("Nebula");
-    p.AddShip(s1);
-    CrewMember c1;
-    p.ships[0].AddCrewMember(c1);
-    cout<<"Zadowolenie: "<<p.ships[0].crews[0].getSatisfaction()<<endl;
-    CrewMember::setSatisfaction(60);
-    cout<<"Zadowolenie: "<<c1.getSatisfaction()<<endl;
 }
 
 //koniec

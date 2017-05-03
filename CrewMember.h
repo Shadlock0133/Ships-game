@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <cmath>
 
 using namespace std;
 
@@ -15,7 +16,6 @@ private:
     int attack;
     int level;
     int cost;//Domyslny pirat kosztuje 160-250 sztuk zlota
-    static int satisfaction;
 public:
     void consonant(string& name);//
     void vowel(string& name);//
@@ -67,8 +67,6 @@ public:
     {
         return cost;
     }
-    static void setSatisfaction( int satisfaction_ ) { satisfaction = satisfaction_; }
-    static int getSatisfaction() { return satisfaction; }
 };
 
 #endif //CREWMEMBER_H

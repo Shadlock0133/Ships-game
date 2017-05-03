@@ -6,9 +6,15 @@ ostream& operator<<(std::ostream& out, const Ship& s)
     return out;
 }
 
+void Ship::Hit(int DMG)
+{
+    int hp_ = getHP()-DMG;
+    setHP(hp_);
+}
+
 void Ship::AddCrewMember(CrewMember crewmember)
 {
-    crews.push_back(crewmember);
+    crews.Push_back(crewmember);
 }
 
 void Ship::setHPMax( int hpmax_ )

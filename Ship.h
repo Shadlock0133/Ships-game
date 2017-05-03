@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "CrewMember.h"
+#include "MyVector.h"
 
 class Ship//klasa statku
 {
@@ -12,11 +13,12 @@ private:
     int hpmax;
     int cannons;                        // koszt = 200
     int masts;                          // koszt = 300
+    int countcrew;
 public:
-    vector<CrewMember> crews;
+    MyVector<CrewMember> crews;
     //konstruktor prosty
     Ship(string name_)
-        : Ship(name_, 500, 500, 1, 1)
+        : Ship(name_, 500, 500, 2, 1)
     {
 
     }
@@ -28,9 +30,9 @@ public:
         hpmax = hpmax_;
         cannons = cannons_;
         masts = masts_;
-        crews = vector<CrewMember>();
+        crews = MyVector<CrewMember>();
     }
-    vector<CrewMember> &GetCrews()
+    MyVector<CrewMember> &GetCrews()
     {
         return crews;
     };
@@ -44,9 +46,21 @@ public:
     {
         return name;
     }
-    int setHP(int hp_)
+    void setHP(int hp_)
     {
         hp = hp_;
+    }
+    void setMasts(int masts_)
+    {
+        masts = masts_;
+    }
+    void setCountCrew(int countcrew_)
+    {
+        countcrew = countcrew_;
+    }
+    int getCountCrew()
+    {
+        return countcrew;
     }
     int getHP()
     {
@@ -67,8 +81,9 @@ public:
     void setHPMax( int hpmax_ );
     void setCannons(int cannons_)
     {
-        cannons += cannons_;
+        cannons = cannons_;
     }
+    void Hit(int DMG);
 
 };
 

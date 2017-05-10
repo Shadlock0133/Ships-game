@@ -6,27 +6,24 @@
 class Enemy//klasa przeciwnika
 {
 private:
-    string name;
     int numbercrew;//
 public:
     vector<Ship> ships2;
-    //konstruktor domyslny
+    ///konstruktor domyslny, tworzy przeciwnika z zerowa iloscia piratow
     Enemy()
-        : Enemy("", 0)
+        : Enemy(0)
     {
 
     }
-    //konstruktor zwykly
-    Enemy(string name_, int numbercrew_)
+    ///konstruktor zwykly laczy z klasa statkow
+    Enemy(int numbercrew_)
     {
-        CrewMember crewm;
-        name_ = crewm.getName();
-        name = name_;
         numbercrew = numbercrew_;
         ships2 = vector<Ship>();
     }
-
+    ///dodaje statek
     void AddShip(Ship ship);
+    ///tworzy statek o okreslonych parametrach
     void CreateShip(int mas);
 };
 

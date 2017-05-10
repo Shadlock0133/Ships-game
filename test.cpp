@@ -1,37 +1,74 @@
-
-#include "test.h"
-#include "Player.h"
-
-void testAll()
-{
-    test1();
-    test2();
-}
+#include "Test.h"
+#include <cstdlib>
+#include <windows.h>
+#include <cstdio>
 
 void test1()
 {
-    Ship s1("Nebula", 600, 600, 3, 1);
-    Ship s2("Omega", 500, 500, 4, 1);
-    Player p("Adam");
-    p.AddShip(s1);
-    p.AddShip(s2);
-    CrewMember c1, c2, c3, c4;
-    cout<<"c3: "<<c3<<endl;
-    p.ships[0].AddCrewMember(c1);
-    p.ships[0].AddCrewMember(c2);
-    p.ships[0].AddCrewMember(c3);
-    p.ships[1].AddCrewMember(c4);
-    cout<<"c3: "<<p.ships[0].crews[2]<<endl;
+    cout<<"TEST1!"<<endl;
+    MyVector<CrewMember> v;
+    for(int i=0;i<10;i++)
+    {
+        CrewMember c;
+        v+(c);
+    }
+    cout<<v.Sizevec()<<endl;
+    for(int i=0;i<v.Sizevec();i++)
+    {
+        string n = v[i].getName();
+        int h = v[i].getHP(), a = v[i].getAttack(), l = v[i].getLevel();
+        printf("->%3d. |Imie: %12s| |Zycie: %3d| |Atak: %3d| |Lvl: %2d|\n", i, n.c_str(), h, a, l);
+    }
+    cout<<endl;
+    v.Swap(0,1);
+    v.Remove(3);
+    v-(3);
+    for(int i=0;i<v.Sizevec();i++)
+    {
+        string n = v[i].getName();
+        int h = v[i].getHP(), a = v[i].getAttack(), l = v[i].getLevel();
+        printf("->%3d. |Imie: %12s| |Zycie: %3d| |Atak: %3d| |Lvl: %2d|\n", i, n.c_str(), h, a, l);
+    }
+    cout<<endl;
+    v.Clear();
+    /*try
+    {
+        v[8];
+    }
+    catch( out_of_range e )
+    {
+        cout << e.what() << endl;
+    }*/
 }
-
 void test2()
 {
-    Player p("Adam");
-    Ship s1("Nebula", 600, 800, 3, 1);
-    p.AddShip(s1);
-    cout<<"brak hp wynosi: "<<p.ships[0].getHPMax()-p.ships[0].getHP()<<endl;
-    p.ships[0].Repair();
-    cout<<"brak hp wynosi: "<<p.ships[0].getHPMax()-p.ships[0].getHP()<<endl;
+    cout<<"TEST2!"<<endl;
+    MyVector<CrewMember> v;
+    for(int i=0;i<100000;i++)
+    {
+        CrewMember c;
+        v.Push_back(c);
+    }
+    int i = 5000;
+    string n = v[i].getName();
+    int h = v[i].getHP(), a = v[i].getAttack(), l = v[i].getLevel();
+    printf("->%5d. |Imie: %12s| |Zycie: %3d| |Atak: %3d| |Lvl: %2d|\n", i, n.c_str(), h, a, l);
+    i = 50000;
+    n = v[i].getName();
+    h = v[i].getHP();
+    a = v[i].getAttack();
+    l = v[i].getLevel();
+    printf("->%5d. |Imie: %12s| |Zycie: %3d| |Atak: %3d| |Lvl: %2d|\n", i, n.c_str(), h, a, l);
+    i = 99999;
+    n = v[i].getName();
+    h = v[i].getHP();
+    a = v[i].getAttack();
+    l = v[i].getLevel();
+    printf("->%5d. |Imie: %12s| |Zycie: %3d| |Atak: %3d| |Lvl: %2d|\n", i, n.c_str(), h, a, l);
+    v[i].LVLUP();
+    n = v[i].getName();
+    h = v[i].getHP();
+    a = v[i].getAttack();
+    l = v[i].getLevel();
+    printf("->%5d. |Imie: %12s| |Zycie: %3d| |Atak: %3d| |Lvl: %2d|\n", i, n.c_str(), h, a, l);
 }
-
-//koniec

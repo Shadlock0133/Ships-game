@@ -293,6 +293,7 @@ void Player::Start()
         <<"###############################################################################"<<endl
         <<"            ***WCISNIJ ENTER BY KONTYNUOWAC***"<<endl<<"        ";
     char c = getchar();
+    cout<<"helo";
 }
 
 void Player::menu()
@@ -354,11 +355,10 @@ void Player::Option()
         <<"            ***2.ZMIENIC OKRET***"<<endl<<"        ";
     char choice;
     cin>>choice;
-    int nrship;
+    int nrship, colour;
     switch(choice)
     {
     case '1':
-        int colour;
         cout<<"            ***JAKI KOLOR TEKSTU BYS CHCIAL? ***"<<endl;
         for(int i=0; i<16; i++)
         {
@@ -366,7 +366,7 @@ void Player::Option()
             cout<<"["<<i<<"] ";
         }
         cout<<endl;
-        cin>>colour;
+        colour = inputNewStat("", 1, 15);
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),colour);
         break;
     case '2':
@@ -638,7 +638,6 @@ void Player::Fighting()
     int DMG = 0, y, x, z, numbercannons = ships[whichship].getCannons(), enemyHit;//y- atak od jednej armaty; x - szansa trafienia gracza; z - szansa trafienia przeciwnika;
     float lepszetrafianie = level/3; //co 5 armat trafie sie o 5% czesciej
     int c = lepszetrafianie;
-    cout<<c<<endl;
     float attackratio = 1.0;
     cout<<"        BOCIANIE GNIAZDO?! JAK SYTUACJA?!"<<endl
         <<"    Maja "<<enemy.ships2[0].getMasts()<<"-masztowca!"<<endl
@@ -669,6 +668,7 @@ void Player::Fighting()
     while(choice!='7')
     {
         x = rand()%20;
+        int error = 0;
         cout<<"        ";
         cin>>choice;
         cin.clear();
@@ -726,8 +726,11 @@ void Player::Fighting()
             else cout<<"    Kapitanie ucieczka sie udala :)"<<endl;
             break;
         default:
+            error = 1;
             cout<<"    Co takiego?!"<<endl;
         }
+        if(error!=1)
+        {
         y = rand()%11+40;
         z = rand()%20;
         enemyHit = numbercannons*y;
@@ -769,6 +772,8 @@ void Player::Fighting()
         //reset tury
         hit = 0;
         if(part[0]==0) attackratio = 2;
+        }
+        error = 0;
     }
 }
 
@@ -779,11 +784,11 @@ void Player::PiratesDetected()
         <<"    Co robimy?"<<endl
         <<"        1.TO CHYBA OCZYWISTE! BANDERA NA MASZT! WYTOCZYC DZIALA!"<<endl<<"          ZAGLE W GORE! I CALA NAPRZOD!"<<endl
         <<"        2.chyba uciekniemy :'("<<endl<<"        ";
+    do
+    {
     cin>>choice1;
     cin.clear();
     cin.ignore( 1000, '\n' );
-    do
-    {
     switch(choice1)
     {
     case '1':
@@ -1092,6 +1097,7 @@ void Player::HireCrewMember()//zatrudnianie piratow do konkretnego okretu z loso
             numbercrew++;
         }
         cout<<"    A wiec wyszlo "<<cost<<". Zycze milego dnia."<<endl;
+        money -= cost;
     }
     cout<<"###############################################################################"<<endl;
 }

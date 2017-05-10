@@ -1,7 +1,7 @@
 #ifndef SHOOT_H
 #define SHOOT_H
 
-#include <SFML/Graphics.hpp>
+//#include <SFML/Graphics.hpp>
 #include <iostream>
 
 

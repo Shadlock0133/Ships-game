@@ -1,0 +1,253 @@
+\hypertarget{class_ship}{}\section{Ship Class Reference}
+\label{class_ship}\index{Ship@{Ship}}
+
+
+{\ttfamily \#include $<$Ship.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_ship_a53f9329606690e48ed1ff3543fa4ae3e}{Ship} (string name\+\_\+)
+\begin{DoxyCompactList}\small\item\em Konstruktor prosty przypisuje imie, zycie aktualne i maksymalne, ilosc armat i ilosc masztow. \end{DoxyCompactList}\item 
+\hyperlink{class_ship_abb6276e9a6bfab2e74a2a74eda0fa705}{Ship} (string name\+\_\+, int hp\+\_\+, int hpmax\+\_\+, int cannons\+\_\+, int masts\+\_\+)
+\begin{DoxyCompactList}\small\item\em Konstruktor zwykly dodatkowo laczy z klasa piratow. \end{DoxyCompactList}\item 
+\hyperlink{class_my_vector}{My\+Vector}$<$ \hyperlink{class_crew_member}{Crew\+Member} $>$ \& \hyperlink{class_ship_a2e898baf9c4999fd2a2b14802aabc893}{Get\+Crews} ()
+\item 
+void \hyperlink{class_ship_a8e6cb2f38ab78b23ad63c8805829fe4a}{Add\+Crew\+Member} (\hyperlink{class_crew_member}{Crew\+Member} crew)
+\begin{DoxyCompactList}\small\item\em Dodaje pirata do statku. \end{DoxyCompactList}\item 
+void \hyperlink{class_ship_a1046a0f2b87a03252ffc13582880cc11}{Repair} ()
+\begin{DoxyCompactList}\small\item\em zmienia wartosc zycia aktualnego na maksymalne \end{DoxyCompactList}\item 
+string \hyperlink{class_ship_a70faa1b6274d9b9303d263e51071b29a}{get\+Name} ()
+\begin{DoxyCompactList}\small\item\em zwraca imie statku \end{DoxyCompactList}\item 
+void \hyperlink{class_ship_a53ac9d01792ca3cdbc7c35e38240867a}{set\+HP} (int hp\+\_\+)
+\begin{DoxyCompactList}\small\item\em zmienia zycie aktualne na podana \end{DoxyCompactList}\item 
+void \hyperlink{class_ship_a740a100b66b4f2ee628994c0c16da24b}{set\+Masts} (int masts\+\_\+)
+\begin{DoxyCompactList}\small\item\em zmienia ilosc masztow na podana \end{DoxyCompactList}\item 
+void \hyperlink{class_ship_a3b79ef24977758ea65b543dd30a7b008}{set\+Count\+Crew} (int countcrew\+\_\+)
+\begin{DoxyCompactList}\small\item\em zmienia ilosc zalogi na statku na podana \end{DoxyCompactList}\item 
+int \hyperlink{class_ship_a1da55c7ad0c972527a122e0bccc07fcd}{get\+Count\+Crew} ()
+\begin{DoxyCompactList}\small\item\em zwraca ilosc zalogi na statku \end{DoxyCompactList}\item 
+int \hyperlink{class_ship_ae99c45d37b4d1bd79a74d4745251b59c}{get\+HP} ()
+\begin{DoxyCompactList}\small\item\em zwraca ilosc zycia aktualnego \end{DoxyCompactList}\item 
+int \hyperlink{class_ship_accc55a9b14a92fb41ac2d3ebe80e23e5}{get\+H\+P\+Max} ()
+\begin{DoxyCompactList}\small\item\em zwraca ilosc zycia maksymalnego \end{DoxyCompactList}\item 
+int \hyperlink{class_ship_a7a9dc5f45fa613557853925235a3a752}{get\+Cannons} ()
+\begin{DoxyCompactList}\small\item\em zwraca ilosc armat na statku \end{DoxyCompactList}\item 
+int \hyperlink{class_ship_a937ffa88e426e8b0bb0006314111d1d2}{get\+Masts} ()
+\begin{DoxyCompactList}\small\item\em zwraca ilosc masztow na statku \end{DoxyCompactList}\item 
+void \hyperlink{class_ship_a90a24cf803f294ab17d0900379268fc2}{set\+H\+P\+Max} (int hpmax\+\_\+)
+\begin{DoxyCompactList}\small\item\em zmienia wartosc zycia maksymalnego na podana oraz zwieksza zycie aktualne o roznice podanego i maksymalnego \end{DoxyCompactList}\item 
+void \hyperlink{class_ship_ab3b9f082db652dd440736dc79a4ed507}{set\+Cannons} (int cannons\+\_\+)
+\begin{DoxyCompactList}\small\item\em zmienia ilosc armat na podana \end{DoxyCompactList}\item 
+void \hyperlink{class_ship_a13d7e59a6e96c98b342dd97473f71c38}{Hit} (int D\+MG)
+\begin{DoxyCompactList}\small\item\em zmniejsza wartosc zycia aktualnego o podana \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_my_vector}{My\+Vector}$<$ \hyperlink{class_crew_member}{Crew\+Member} $>$ \hyperlink{class_ship_a24150015bbbbf80f26f8384e93781600}{crews}
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+ostream \& \hyperlink{class_ship_a9c719ebfe58cebdabd53ebc0f6c16627}{operator$<$$<$} (std\+::ostream \&out, const \hyperlink{class_ship}{Ship} \&s)
+\begin{DoxyCompactList}\small\item\em wypisuje imie statku \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_ship_a53f9329606690e48ed1ff3543fa4ae3e}\label{class_ship_a53f9329606690e48ed1ff3543fa4ae3e}} 
+\index{Ship@{Ship}!Ship@{Ship}}
+\index{Ship@{Ship}!Ship@{Ship}}
+\subsubsection{\texorpdfstring{Ship()}{Ship()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Ship\+::\+Ship (\begin{DoxyParamCaption}\item[{string}]{name\+\_\+ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Konstruktor prosty przypisuje imie, zycie aktualne i maksymalne, ilosc armat i ilosc masztow. 
+
+\mbox{\Hypertarget{class_ship_abb6276e9a6bfab2e74a2a74eda0fa705}\label{class_ship_abb6276e9a6bfab2e74a2a74eda0fa705}} 
+\index{Ship@{Ship}!Ship@{Ship}}
+\index{Ship@{Ship}!Ship@{Ship}}
+\subsubsection{\texorpdfstring{Ship()}{Ship()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Ship\+::\+Ship (\begin{DoxyParamCaption}\item[{string}]{name\+\_\+,  }\item[{int}]{hp\+\_\+,  }\item[{int}]{hpmax\+\_\+,  }\item[{int}]{cannons\+\_\+,  }\item[{int}]{masts\+\_\+ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Konstruktor zwykly dodatkowo laczy z klasa piratow. 
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_ship_a8e6cb2f38ab78b23ad63c8805829fe4a}\label{class_ship_a8e6cb2f38ab78b23ad63c8805829fe4a}} 
+\index{Ship@{Ship}!Add\+Crew\+Member@{Add\+Crew\+Member}}
+\index{Add\+Crew\+Member@{Add\+Crew\+Member}!Ship@{Ship}}
+\subsubsection{\texorpdfstring{Add\+Crew\+Member()}{AddCrewMember()}}
+{\footnotesize\ttfamily void Ship\+::\+Add\+Crew\+Member (\begin{DoxyParamCaption}\item[{\hyperlink{class_crew_member}{Crew\+Member}}]{crew }\end{DoxyParamCaption})}
+
+
+
+Dodaje pirata do statku. 
+
+\mbox{\Hypertarget{class_ship_a7a9dc5f45fa613557853925235a3a752}\label{class_ship_a7a9dc5f45fa613557853925235a3a752}} 
+\index{Ship@{Ship}!get\+Cannons@{get\+Cannons}}
+\index{get\+Cannons@{get\+Cannons}!Ship@{Ship}}
+\subsubsection{\texorpdfstring{get\+Cannons()}{getCannons()}}
+{\footnotesize\ttfamily int Ship\+::get\+Cannons (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+zwraca ilosc armat na statku 
+
+\mbox{\Hypertarget{class_ship_a1da55c7ad0c972527a122e0bccc07fcd}\label{class_ship_a1da55c7ad0c972527a122e0bccc07fcd}} 
+\index{Ship@{Ship}!get\+Count\+Crew@{get\+Count\+Crew}}
+\index{get\+Count\+Crew@{get\+Count\+Crew}!Ship@{Ship}}
+\subsubsection{\texorpdfstring{get\+Count\+Crew()}{getCountCrew()}}
+{\footnotesize\ttfamily int Ship\+::get\+Count\+Crew (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+zwraca ilosc zalogi na statku 
+
+\mbox{\Hypertarget{class_ship_a2e898baf9c4999fd2a2b14802aabc893}\label{class_ship_a2e898baf9c4999fd2a2b14802aabc893}} 
+\index{Ship@{Ship}!Get\+Crews@{Get\+Crews}}
+\index{Get\+Crews@{Get\+Crews}!Ship@{Ship}}
+\subsubsection{\texorpdfstring{Get\+Crews()}{GetCrews()}}
+{\footnotesize\ttfamily \hyperlink{class_my_vector}{My\+Vector}$<$\hyperlink{class_crew_member}{Crew\+Member}$>$\& Ship\+::\+Get\+Crews (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_ship_ae99c45d37b4d1bd79a74d4745251b59c}\label{class_ship_ae99c45d37b4d1bd79a74d4745251b59c}} 
+\index{Ship@{Ship}!get\+HP@{get\+HP}}
+\index{get\+HP@{get\+HP}!Ship@{Ship}}
+\subsubsection{\texorpdfstring{get\+H\+P()}{getHP()}}
+{\footnotesize\ttfamily int Ship\+::get\+HP (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+zwraca ilosc zycia aktualnego 
+
+\mbox{\Hypertarget{class_ship_accc55a9b14a92fb41ac2d3ebe80e23e5}\label{class_ship_accc55a9b14a92fb41ac2d3ebe80e23e5}} 
+\index{Ship@{Ship}!get\+H\+P\+Max@{get\+H\+P\+Max}}
+\index{get\+H\+P\+Max@{get\+H\+P\+Max}!Ship@{Ship}}
+\subsubsection{\texorpdfstring{get\+H\+P\+Max()}{getHPMax()}}
+{\footnotesize\ttfamily int Ship\+::get\+H\+P\+Max (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+zwraca ilosc zycia maksymalnego 
+
+\mbox{\Hypertarget{class_ship_a937ffa88e426e8b0bb0006314111d1d2}\label{class_ship_a937ffa88e426e8b0bb0006314111d1d2}} 
+\index{Ship@{Ship}!get\+Masts@{get\+Masts}}
+\index{get\+Masts@{get\+Masts}!Ship@{Ship}}
+\subsubsection{\texorpdfstring{get\+Masts()}{getMasts()}}
+{\footnotesize\ttfamily int Ship\+::get\+Masts (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+zwraca ilosc masztow na statku 
+
+\mbox{\Hypertarget{class_ship_a70faa1b6274d9b9303d263e51071b29a}\label{class_ship_a70faa1b6274d9b9303d263e51071b29a}} 
+\index{Ship@{Ship}!get\+Name@{get\+Name}}
+\index{get\+Name@{get\+Name}!Ship@{Ship}}
+\subsubsection{\texorpdfstring{get\+Name()}{getName()}}
+{\footnotesize\ttfamily string Ship\+::get\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+zwraca imie statku 
+
+\mbox{\Hypertarget{class_ship_a13d7e59a6e96c98b342dd97473f71c38}\label{class_ship_a13d7e59a6e96c98b342dd97473f71c38}} 
+\index{Ship@{Ship}!Hit@{Hit}}
+\index{Hit@{Hit}!Ship@{Ship}}
+\subsubsection{\texorpdfstring{Hit()}{Hit()}}
+{\footnotesize\ttfamily void Ship\+::\+Hit (\begin{DoxyParamCaption}\item[{int}]{D\+MG }\end{DoxyParamCaption})}
+
+
+
+zmniejsza wartosc zycia aktualnego o podana 
+
+\mbox{\Hypertarget{class_ship_a1046a0f2b87a03252ffc13582880cc11}\label{class_ship_a1046a0f2b87a03252ffc13582880cc11}} 
+\index{Ship@{Ship}!Repair@{Repair}}
+\index{Repair@{Repair}!Ship@{Ship}}
+\subsubsection{\texorpdfstring{Repair()}{Repair()}}
+{\footnotesize\ttfamily void Ship\+::\+Repair (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+zmienia wartosc zycia aktualnego na maksymalne 
+
+\mbox{\Hypertarget{class_ship_ab3b9f082db652dd440736dc79a4ed507}\label{class_ship_ab3b9f082db652dd440736dc79a4ed507}} 
+\index{Ship@{Ship}!set\+Cannons@{set\+Cannons}}
+\index{set\+Cannons@{set\+Cannons}!Ship@{Ship}}
+\subsubsection{\texorpdfstring{set\+Cannons()}{setCannons()}}
+{\footnotesize\ttfamily void Ship\+::set\+Cannons (\begin{DoxyParamCaption}\item[{int}]{cannons\+\_\+ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+zmienia ilosc armat na podana 
+
+\mbox{\Hypertarget{class_ship_a3b79ef24977758ea65b543dd30a7b008}\label{class_ship_a3b79ef24977758ea65b543dd30a7b008}} 
+\index{Ship@{Ship}!set\+Count\+Crew@{set\+Count\+Crew}}
+\index{set\+Count\+Crew@{set\+Count\+Crew}!Ship@{Ship}}
+\subsubsection{\texorpdfstring{set\+Count\+Crew()}{setCountCrew()}}
+{\footnotesize\ttfamily void Ship\+::set\+Count\+Crew (\begin{DoxyParamCaption}\item[{int}]{countcrew\+\_\+ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+zmienia ilosc zalogi na statku na podana 
+
+\mbox{\Hypertarget{class_ship_a53ac9d01792ca3cdbc7c35e38240867a}\label{class_ship_a53ac9d01792ca3cdbc7c35e38240867a}} 
+\index{Ship@{Ship}!set\+HP@{set\+HP}}
+\index{set\+HP@{set\+HP}!Ship@{Ship}}
+\subsubsection{\texorpdfstring{set\+H\+P()}{setHP()}}
+{\footnotesize\ttfamily void Ship\+::set\+HP (\begin{DoxyParamCaption}\item[{int}]{hp\+\_\+ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+zmienia zycie aktualne na podana 
+
+\mbox{\Hypertarget{class_ship_a90a24cf803f294ab17d0900379268fc2}\label{class_ship_a90a24cf803f294ab17d0900379268fc2}} 
+\index{Ship@{Ship}!set\+H\+P\+Max@{set\+H\+P\+Max}}
+\index{set\+H\+P\+Max@{set\+H\+P\+Max}!Ship@{Ship}}
+\subsubsection{\texorpdfstring{set\+H\+P\+Max()}{setHPMax()}}
+{\footnotesize\ttfamily void Ship\+::set\+H\+P\+Max (\begin{DoxyParamCaption}\item[{int}]{hpmax\+\_\+ }\end{DoxyParamCaption})}
+
+
+
+zmienia wartosc zycia maksymalnego na podana oraz zwieksza zycie aktualne o roznice podanego i maksymalnego 
+
+\mbox{\Hypertarget{class_ship_a740a100b66b4f2ee628994c0c16da24b}\label{class_ship_a740a100b66b4f2ee628994c0c16da24b}} 
+\index{Ship@{Ship}!set\+Masts@{set\+Masts}}
+\index{set\+Masts@{set\+Masts}!Ship@{Ship}}
+\subsubsection{\texorpdfstring{set\+Masts()}{setMasts()}}
+{\footnotesize\ttfamily void Ship\+::set\+Masts (\begin{DoxyParamCaption}\item[{int}]{masts\+\_\+ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+zmienia ilosc masztow na podana 
+
+
+
+\subsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{class_ship_a9c719ebfe58cebdabd53ebc0f6c16627}\label{class_ship_a9c719ebfe58cebdabd53ebc0f6c16627}} 
+\index{Ship@{Ship}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!Ship@{Ship}}
+\subsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{out,  }\item[{const \hyperlink{class_ship}{Ship} \&}]{s }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+wypisuje imie statku 
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_ship_a24150015bbbbf80f26f8384e93781600}\label{class_ship_a24150015bbbbf80f26f8384e93781600}} 
+\index{Ship@{Ship}!crews@{crews}}
+\index{crews@{crews}!Ship@{Ship}}
+\subsubsection{\texorpdfstring{crews}{crews}}
+{\footnotesize\ttfamily \hyperlink{class_my_vector}{My\+Vector}$<$\hyperlink{class_crew_member}{Crew\+Member}$>$ Ship\+::crews}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_ship_8h}{Ship.\+h}\item 
+\hyperlink{_ship_8cpp}{Ship.\+cpp}\end{DoxyCompactItemize}

@@ -1,11 +1,5 @@
 #include "CrewMember.h"
 
-ostream& operator<<(std::ostream& out, const CrewMember& c)
-{
-    out<<"|Imie: "<<c.name<<"| |Zycie: "<<c.hp<<"| |Atak: "<<c.attack<<"| |Lvl: "<<c.level<<"|";
-    return out;
-}
-
 void CrewMember::vowel(string& name)//samogloska
 {
     int x;
@@ -76,6 +70,7 @@ CrewMember CrewMember::operator++(int)
 
 void CrewMember::LVLUP()
 {
+
     hp += rand()%3+5;
     attack += rand()%3+4;
     level++;

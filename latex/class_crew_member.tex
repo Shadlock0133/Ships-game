@@ -1,0 +1,182 @@
+\hypertarget{class_crew_member}{}\section{Crew\+Member Class Reference}
+\label{class_crew_member}\index{Crew\+Member@{Crew\+Member}}
+
+
+{\ttfamily \#include $<$Crew\+Member.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_crew_member_a822fee67c0e8a9416bc208824d966961}{consonant} (string \&name)
+\begin{DoxyCompactList}\small\item\em losuje spolgloske \end{DoxyCompactList}\item 
+void \hyperlink{class_crew_member_a9cef5974e00cdd38adfa6c472f551605}{vowel} (string \&name)
+\begin{DoxyCompactList}\small\item\em losuje samogloske \end{DoxyCompactList}\item 
+string \hyperlink{class_crew_member_a3b22e0361d970a65120f4f83be61a506}{Name\+Generator} ()
+\item 
+\hyperlink{class_crew_member_aa37f9cc1bc79a2661fa6cc61b148fb87}{Crew\+Member} ()
+\begin{DoxyCompactList}\small\item\em Konstruktor domyslny, przypisuje imie z generatora, losowe zycie i atak, przypisuje 1. poziom. \end{DoxyCompactList}\item 
+\hyperlink{class_crew_member_a93f235bcda7aabc4e97673e446fc17ea}{Crew\+Member} (string name\+\_\+, int hp\+\_\+, int attack\+\_\+, int level\+\_\+)
+\begin{DoxyCompactList}\small\item\em Konstruktor zwykly dodatkawo wprowadza koszt pirata. \end{DoxyCompactList}\item 
+\hyperlink{class_crew_member}{Crew\+Member} \& \hyperlink{class_crew_member_a6421e136cb395d24d3b7bcff7445decf}{operator++} ()
+\item 
+\hyperlink{class_crew_member}{Crew\+Member} \hyperlink{class_crew_member_a28fa041c3e2e9407dcfefb0a3c072c66}{operator++} (int)
+\item 
+void \hyperlink{class_crew_member_a704d4e951b7b794e1f2acc4072fd4234}{L\+V\+L\+UP} ()
+\begin{DoxyCompactList}\small\item\em Pirat awansuje na kolejny poziom, zwieksza sie jego zycie i atak. \end{DoxyCompactList}\item 
+string \hyperlink{class_crew_member_a730e140e62942ff6e0ecaf13a5659479}{get\+Name} ()
+\begin{DoxyCompactList}\small\item\em zwraca imie pirata \end{DoxyCompactList}\item 
+void \hyperlink{class_crew_member_ac2558ae043b9252881a2cbff11b9d27a}{set\+Name} (string name\+\_\+)
+\begin{DoxyCompactList}\small\item\em zmienia imie pirata \end{DoxyCompactList}\item 
+int \hyperlink{class_crew_member_ad2690b5ea050ff33c969b4b8c18d88b3}{get\+Level} ()
+\begin{DoxyCompactList}\small\item\em zwraca level pirata \end{DoxyCompactList}\item 
+int \hyperlink{class_crew_member_aa3af9da6005c0cde36e91ebac14ff833}{get\+Attack} ()
+\begin{DoxyCompactList}\small\item\em zwraca atak pirata \end{DoxyCompactList}\item 
+int \hyperlink{class_crew_member_aae0cd068de1105bf494869b3ad1c7bbd}{get\+HP} ()
+\begin{DoxyCompactList}\small\item\em zwraca zycie pirata \end{DoxyCompactList}\item 
+int \hyperlink{class_crew_member_a72be72a3277cb26d86e67687c46e3b3f}{get\+Cost} ()
+\begin{DoxyCompactList}\small\item\em zwraca koszt pirata \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_crew_member_aa37f9cc1bc79a2661fa6cc61b148fb87}\label{class_crew_member_aa37f9cc1bc79a2661fa6cc61b148fb87}} 
+\index{Crew\+Member@{Crew\+Member}!Crew\+Member@{Crew\+Member}}
+\index{Crew\+Member@{Crew\+Member}!Crew\+Member@{Crew\+Member}}
+\subsubsection{\texorpdfstring{Crew\+Member()}{CrewMember()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Crew\+Member\+::\+Crew\+Member (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Konstruktor domyslny, przypisuje imie z generatora, losowe zycie i atak, przypisuje 1. poziom. 
+
+\mbox{\Hypertarget{class_crew_member_a93f235bcda7aabc4e97673e446fc17ea}\label{class_crew_member_a93f235bcda7aabc4e97673e446fc17ea}} 
+\index{Crew\+Member@{Crew\+Member}!Crew\+Member@{Crew\+Member}}
+\index{Crew\+Member@{Crew\+Member}!Crew\+Member@{Crew\+Member}}
+\subsubsection{\texorpdfstring{Crew\+Member()}{CrewMember()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Crew\+Member\+::\+Crew\+Member (\begin{DoxyParamCaption}\item[{string}]{name\+\_\+,  }\item[{int}]{hp\+\_\+,  }\item[{int}]{attack\+\_\+,  }\item[{int}]{level\+\_\+ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Konstruktor zwykly dodatkawo wprowadza koszt pirata. 
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_crew_member_a822fee67c0e8a9416bc208824d966961}\label{class_crew_member_a822fee67c0e8a9416bc208824d966961}} 
+\index{Crew\+Member@{Crew\+Member}!consonant@{consonant}}
+\index{consonant@{consonant}!Crew\+Member@{Crew\+Member}}
+\subsubsection{\texorpdfstring{consonant()}{consonant()}}
+{\footnotesize\ttfamily void Crew\+Member\+::consonant (\begin{DoxyParamCaption}\item[{string \&}]{name }\end{DoxyParamCaption})}
+
+
+
+losuje spolgloske 
+
+\mbox{\Hypertarget{class_crew_member_aa3af9da6005c0cde36e91ebac14ff833}\label{class_crew_member_aa3af9da6005c0cde36e91ebac14ff833}} 
+\index{Crew\+Member@{Crew\+Member}!get\+Attack@{get\+Attack}}
+\index{get\+Attack@{get\+Attack}!Crew\+Member@{Crew\+Member}}
+\subsubsection{\texorpdfstring{get\+Attack()}{getAttack()}}
+{\footnotesize\ttfamily int Crew\+Member\+::get\+Attack (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+zwraca atak pirata 
+
+\mbox{\Hypertarget{class_crew_member_a72be72a3277cb26d86e67687c46e3b3f}\label{class_crew_member_a72be72a3277cb26d86e67687c46e3b3f}} 
+\index{Crew\+Member@{Crew\+Member}!get\+Cost@{get\+Cost}}
+\index{get\+Cost@{get\+Cost}!Crew\+Member@{Crew\+Member}}
+\subsubsection{\texorpdfstring{get\+Cost()}{getCost()}}
+{\footnotesize\ttfamily int Crew\+Member\+::get\+Cost (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+zwraca koszt pirata 
+
+\mbox{\Hypertarget{class_crew_member_aae0cd068de1105bf494869b3ad1c7bbd}\label{class_crew_member_aae0cd068de1105bf494869b3ad1c7bbd}} 
+\index{Crew\+Member@{Crew\+Member}!get\+HP@{get\+HP}}
+\index{get\+HP@{get\+HP}!Crew\+Member@{Crew\+Member}}
+\subsubsection{\texorpdfstring{get\+H\+P()}{getHP()}}
+{\footnotesize\ttfamily int Crew\+Member\+::get\+HP (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+zwraca zycie pirata 
+
+\mbox{\Hypertarget{class_crew_member_ad2690b5ea050ff33c969b4b8c18d88b3}\label{class_crew_member_ad2690b5ea050ff33c969b4b8c18d88b3}} 
+\index{Crew\+Member@{Crew\+Member}!get\+Level@{get\+Level}}
+\index{get\+Level@{get\+Level}!Crew\+Member@{Crew\+Member}}
+\subsubsection{\texorpdfstring{get\+Level()}{getLevel()}}
+{\footnotesize\ttfamily int Crew\+Member\+::get\+Level (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+zwraca level pirata 
+
+\mbox{\Hypertarget{class_crew_member_a730e140e62942ff6e0ecaf13a5659479}\label{class_crew_member_a730e140e62942ff6e0ecaf13a5659479}} 
+\index{Crew\+Member@{Crew\+Member}!get\+Name@{get\+Name}}
+\index{get\+Name@{get\+Name}!Crew\+Member@{Crew\+Member}}
+\subsubsection{\texorpdfstring{get\+Name()}{getName()}}
+{\footnotesize\ttfamily string Crew\+Member\+::get\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+zwraca imie pirata 
+
+\mbox{\Hypertarget{class_crew_member_a704d4e951b7b794e1f2acc4072fd4234}\label{class_crew_member_a704d4e951b7b794e1f2acc4072fd4234}} 
+\index{Crew\+Member@{Crew\+Member}!L\+V\+L\+UP@{L\+V\+L\+UP}}
+\index{L\+V\+L\+UP@{L\+V\+L\+UP}!Crew\+Member@{Crew\+Member}}
+\subsubsection{\texorpdfstring{L\+V\+L\+U\+P()}{LVLUP()}}
+{\footnotesize\ttfamily void Crew\+Member\+::\+L\+V\+L\+UP (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Pirat awansuje na kolejny poziom, zwieksza sie jego zycie i atak. 
+
+\mbox{\Hypertarget{class_crew_member_a3b22e0361d970a65120f4f83be61a506}\label{class_crew_member_a3b22e0361d970a65120f4f83be61a506}} 
+\index{Crew\+Member@{Crew\+Member}!Name\+Generator@{Name\+Generator}}
+\index{Name\+Generator@{Name\+Generator}!Crew\+Member@{Crew\+Member}}
+\subsubsection{\texorpdfstring{Name\+Generator()}{NameGenerator()}}
+{\footnotesize\ttfamily string Crew\+Member\+::\+Name\+Generator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Generuje imiona piratom
+
+Sluzy do tworzenia losowych nazw piratow na statku \begin{DoxyReturn}{Returns}
+nazwa 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_crew_member_a6421e136cb395d24d3b7bcff7445decf}\label{class_crew_member_a6421e136cb395d24d3b7bcff7445decf}} 
+\index{Crew\+Member@{Crew\+Member}!operator++@{operator++}}
+\index{operator++@{operator++}!Crew\+Member@{Crew\+Member}}
+\subsubsection{\texorpdfstring{operator++()}{operator++()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \hyperlink{class_crew_member}{Crew\+Member} \& Crew\+Member\+::operator++ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_crew_member_a28fa041c3e2e9407dcfefb0a3c072c66}\label{class_crew_member_a28fa041c3e2e9407dcfefb0a3c072c66}} 
+\index{Crew\+Member@{Crew\+Member}!operator++@{operator++}}
+\index{operator++@{operator++}!Crew\+Member@{Crew\+Member}}
+\subsubsection{\texorpdfstring{operator++()}{operator++()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \hyperlink{class_crew_member}{Crew\+Member} Crew\+Member\+::operator++ (\begin{DoxyParamCaption}\item[{int}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_crew_member_ac2558ae043b9252881a2cbff11b9d27a}\label{class_crew_member_ac2558ae043b9252881a2cbff11b9d27a}} 
+\index{Crew\+Member@{Crew\+Member}!set\+Name@{set\+Name}}
+\index{set\+Name@{set\+Name}!Crew\+Member@{Crew\+Member}}
+\subsubsection{\texorpdfstring{set\+Name()}{setName()}}
+{\footnotesize\ttfamily void Crew\+Member\+::set\+Name (\begin{DoxyParamCaption}\item[{string}]{name\+\_\+ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+zmienia imie pirata 
+
+\mbox{\Hypertarget{class_crew_member_a9cef5974e00cdd38adfa6c472f551605}\label{class_crew_member_a9cef5974e00cdd38adfa6c472f551605}} 
+\index{Crew\+Member@{Crew\+Member}!vowel@{vowel}}
+\index{vowel@{vowel}!Crew\+Member@{Crew\+Member}}
+\subsubsection{\texorpdfstring{vowel()}{vowel()}}
+{\footnotesize\ttfamily void Crew\+Member\+::vowel (\begin{DoxyParamCaption}\item[{string \&}]{name }\end{DoxyParamCaption})}
+
+
+
+losuje samogloske 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_crew_member_8h}{Crew\+Member.\+h}\item 
+\hyperlink{_crew_member_8cpp}{Crew\+Member.\+cpp}\end{DoxyCompactItemize}

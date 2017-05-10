@@ -1,5 +1,7 @@
-//Gra Jak Statki Na Niebie
-//projekt #1 na laboratoria z PROI
+///Gra Jak Statki Na Niebie
+///projekt na laboratoria z PROI
+///gra polega na interakcji z uzytkownikiem i wyborze akcji jakie klasa gracza ma wykonac, co zmienia je wartosci.
+///wiecej informacji mozna uzyskac grajac w gre
 #include "Player.h"
 #include "test.h"
 #include <SFML/Graphics.hpp>
@@ -7,19 +9,19 @@
 
 int main()
 {
-    //psie z kulawą nogą, nieokrzesane bydlaki
+    //psie z kulawą nogą, nieokrzesane bydlaki, malpy pokladowe, parszywe karaczany
     //Do armat slepe oszołomy! Arghhhh...
     //Do stu tysięcy kartaczy! Arghhhh...
-
     //Zobaczymy sie w luku Dawy'ego Jones'a! Arghhhh...
     srand(time(NULL));
-    //testAll();
+   /* test1();
+    test2();
     Player player("");
     player.Start();
-    player.menu();
+    player.menu();*/
 
 
-    /*int width = 1200, height = 900;
+    int width = 1200, height = 900;
     sf::RenderWindow window(sf::VideoMode(width, height, 32), "Jak Statki Na Niebie");
     sf::Texture ship_texture;
     ship_texture.loadFromFile("Grafika/ship1.png");
@@ -117,7 +119,7 @@ int main()
 
         window.display();
     }
-*/
+
 
 
     return 0;

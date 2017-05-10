@@ -1,0 +1,98 @@
+\hypertarget{class_ship}{}\section{Ship Class Reference}
+\label{class_ship}\index{Ship@{Ship}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_ship_a53f9329606690e48ed1ff3543fa4ae3e}\label{class_ship_a53f9329606690e48ed1ff3543fa4ae3e}} 
+\hyperlink{class_ship_a53f9329606690e48ed1ff3543fa4ae3e}{Ship} (string name\+\_\+)
+\begin{DoxyCompactList}\small\item\em Konstruktor prosty przypisuje imie, zycie aktualne i maksymalne, ilosc armat i ilosc masztow. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_ship_abb6276e9a6bfab2e74a2a74eda0fa705}\label{class_ship_abb6276e9a6bfab2e74a2a74eda0fa705}} 
+\hyperlink{class_ship_abb6276e9a6bfab2e74a2a74eda0fa705}{Ship} (string name\+\_\+, int hp\+\_\+, int hpmax\+\_\+, int cannons\+\_\+, int masts\+\_\+)
+\begin{DoxyCompactList}\small\item\em Konstruktor zwykly dodatkowo laczy z klasa piratow. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_ship_a340e2a42d7a6449514154dac2c4c8750}\label{class_ship_a340e2a42d7a6449514154dac2c4c8750}} 
+{\bfseries Ship} (const \hyperlink{class_ship}{Ship} \&other)
+\item 
+\mbox{\Hypertarget{class_ship_a2e898baf9c4999fd2a2b14802aabc893}\label{class_ship_a2e898baf9c4999fd2a2b14802aabc893}} 
+\hyperlink{class_my_vector}{My\+Vector}$<$ \hyperlink{class_crew_member}{Crew\+Member} $>$ \& {\bfseries Get\+Crews} ()
+\item 
+\mbox{\Hypertarget{class_ship_a8e6cb2f38ab78b23ad63c8805829fe4a}\label{class_ship_a8e6cb2f38ab78b23ad63c8805829fe4a}} 
+void \hyperlink{class_ship_a8e6cb2f38ab78b23ad63c8805829fe4a}{Add\+Crew\+Member} (\hyperlink{class_crew_member}{Crew\+Member} crew)
+\begin{DoxyCompactList}\small\item\em Dodaje pirata do statku. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_ship_a1046a0f2b87a03252ffc13582880cc11}\label{class_ship_a1046a0f2b87a03252ffc13582880cc11}} 
+void \hyperlink{class_ship_a1046a0f2b87a03252ffc13582880cc11}{Repair} ()
+\begin{DoxyCompactList}\small\item\em zmienia wartosc zycia aktualnego na maksymalne \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_ship_a70faa1b6274d9b9303d263e51071b29a}\label{class_ship_a70faa1b6274d9b9303d263e51071b29a}} 
+string \hyperlink{class_ship_a70faa1b6274d9b9303d263e51071b29a}{get\+Name} ()
+\begin{DoxyCompactList}\small\item\em zwraca imie statku \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_ship_a53ac9d01792ca3cdbc7c35e38240867a}\label{class_ship_a53ac9d01792ca3cdbc7c35e38240867a}} 
+void \hyperlink{class_ship_a53ac9d01792ca3cdbc7c35e38240867a}{set\+HP} (int hp\+\_\+)
+\begin{DoxyCompactList}\small\item\em zmienia zycie aktualne na podana \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_ship_a740a100b66b4f2ee628994c0c16da24b}\label{class_ship_a740a100b66b4f2ee628994c0c16da24b}} 
+void \hyperlink{class_ship_a740a100b66b4f2ee628994c0c16da24b}{set\+Masts} (int masts\+\_\+)
+\begin{DoxyCompactList}\small\item\em zmienia ilosc masztow na podana \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_ship_a3b79ef24977758ea65b543dd30a7b008}\label{class_ship_a3b79ef24977758ea65b543dd30a7b008}} 
+void \hyperlink{class_ship_a3b79ef24977758ea65b543dd30a7b008}{set\+Count\+Crew} (int countcrew\+\_\+)
+\begin{DoxyCompactList}\small\item\em zmienia ilosc zalogi na statku na podana \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_ship_a1da55c7ad0c972527a122e0bccc07fcd}\label{class_ship_a1da55c7ad0c972527a122e0bccc07fcd}} 
+int \hyperlink{class_ship_a1da55c7ad0c972527a122e0bccc07fcd}{get\+Count\+Crew} ()
+\begin{DoxyCompactList}\small\item\em zwraca ilosc zalogi na statku \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_ship_ae99c45d37b4d1bd79a74d4745251b59c}\label{class_ship_ae99c45d37b4d1bd79a74d4745251b59c}} 
+int \hyperlink{class_ship_ae99c45d37b4d1bd79a74d4745251b59c}{get\+HP} ()
+\begin{DoxyCompactList}\small\item\em zwraca ilosc zycia aktualnego \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_ship_accc55a9b14a92fb41ac2d3ebe80e23e5}\label{class_ship_accc55a9b14a92fb41ac2d3ebe80e23e5}} 
+int \hyperlink{class_ship_accc55a9b14a92fb41ac2d3ebe80e23e5}{get\+H\+P\+Max} ()
+\begin{DoxyCompactList}\small\item\em zwraca ilosc zycia maksymalnego \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_ship_a7a9dc5f45fa613557853925235a3a752}\label{class_ship_a7a9dc5f45fa613557853925235a3a752}} 
+int \hyperlink{class_ship_a7a9dc5f45fa613557853925235a3a752}{get\+Cannons} ()
+\begin{DoxyCompactList}\small\item\em zwraca ilosc armat na statku \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_ship_a937ffa88e426e8b0bb0006314111d1d2}\label{class_ship_a937ffa88e426e8b0bb0006314111d1d2}} 
+int \hyperlink{class_ship_a937ffa88e426e8b0bb0006314111d1d2}{get\+Masts} ()
+\begin{DoxyCompactList}\small\item\em zwraca ilosc masztow na statku \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_ship_a90a24cf803f294ab17d0900379268fc2}\label{class_ship_a90a24cf803f294ab17d0900379268fc2}} 
+void \hyperlink{class_ship_a90a24cf803f294ab17d0900379268fc2}{set\+H\+P\+Max} (int hpmax\+\_\+)
+\begin{DoxyCompactList}\small\item\em zmienia wartosc zycia maksymalnego na podana oraz zwieksza zycie aktualne o roznice podanego i maksymalnego \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_ship_ab3b9f082db652dd440736dc79a4ed507}\label{class_ship_ab3b9f082db652dd440736dc79a4ed507}} 
+void \hyperlink{class_ship_ab3b9f082db652dd440736dc79a4ed507}{set\+Cannons} (int cannons\+\_\+)
+\begin{DoxyCompactList}\small\item\em zmienia ilosc armat na podana \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_ship_a13d7e59a6e96c98b342dd97473f71c38}\label{class_ship_a13d7e59a6e96c98b342dd97473f71c38}} 
+void \hyperlink{class_ship_a13d7e59a6e96c98b342dd97473f71c38}{Hit} (int D\+MG)
+\begin{DoxyCompactList}\small\item\em zmniejsza wartosc zycia aktualnego o podana \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_ship_a24150015bbbbf80f26f8384e93781600}\label{class_ship_a24150015bbbbf80f26f8384e93781600}} 
+\hyperlink{class_my_vector}{My\+Vector}$<$ \hyperlink{class_crew_member}{Crew\+Member} $>$ {\bfseries crews}
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_ship_ae01c2006b542b0d65f8012d1dba2d1c3}\label{class_ship_ae01c2006b542b0d65f8012d1dba2d1c3}} 
+string {\bfseries name}
+\item 
+\mbox{\Hypertarget{class_ship_aa2d86cea2f0912918e0ab9d23cecb0b1}\label{class_ship_aa2d86cea2f0912918e0ab9d23cecb0b1}} 
+int {\bfseries hp}
+\item 
+\mbox{\Hypertarget{class_ship_a4ccfeb413e8177d3aed3dee53e66bc4e}\label{class_ship_a4ccfeb413e8177d3aed3dee53e66bc4e}} 
+int {\bfseries hpmax}
+\item 
+\mbox{\Hypertarget{class_ship_ab066c9ad7347d6b8e35a73b086288710}\label{class_ship_ab066c9ad7347d6b8e35a73b086288710}} 
+int {\bfseries cannons}
+\item 
+\mbox{\Hypertarget{class_ship_aaf6c37ba28c1009a3bbabf20d2b29db0}\label{class_ship_aaf6c37ba28c1009a3bbabf20d2b29db0}} 
+int {\bfseries masts}
+\item 
+\mbox{\Hypertarget{class_ship_a625f12227e2dc73098c50c6e85d36e43}\label{class_ship_a625f12227e2dc73098c50c6e85d36e43}} 
+int {\bfseries countcrew}
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_ship_a9c719ebfe58cebdabd53ebc0f6c16627}\label{class_ship_a9c719ebfe58cebdabd53ebc0f6c16627}} 
+ostream \& \hyperlink{class_ship_a9c719ebfe58cebdabd53ebc0f6c16627}{operator$<$$<$} (std\+::ostream \&out, const \hyperlink{class_ship}{Ship} \&s)
+\begin{DoxyCompactList}\small\item\em wypisuje imie statku \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+G\+:/\+Jak\+\_\+\+Statki\+\_\+\+Na\+\_\+\+Niebie!2/Ship.\+h\item 
+G\+:/\+Jak\+\_\+\+Statki\+\_\+\+Na\+\_\+\+Niebie!2/Ship.\+cpp\end{DoxyCompactItemize}

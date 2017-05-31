@@ -14,7 +14,16 @@ using namespace std;
 
 const static string ENEMY_TEXTURE = "assets/enemy1.png";
 const static string BALL_TEXTURE = "assets/ball.png";
-const static string PLAYER_TEXTURE1 = "assets/ship1.png";
+const static int PLAYER_FRAMES_COUNT = 8;
+const static string PLAYER_TEXTURE[PLAYER_FRAMES_COUNT] = [
+    "assets/ship1.png",
+    "assets/ship8.png",
+    "assets/ship7.png",
+    "assets/ship6.png",
+    "assets/ship5.png",
+    "assets/ship4.png",
+    "assets/ship3.png",
+    "assets/ship2.png"];
 const static string FONT = "assets/Treamd.ttf";
 
 template<typename T>
@@ -44,9 +53,10 @@ string to_string(T value)
 
 class Entity
 {
+protected:
+    sf::Sprite sprite;
 private:
     int hp;
-    sf::Sprite sprite;
     sf::Texture texture;
     sf::Vector2f velocity;
 public:
@@ -67,7 +77,6 @@ public:
     bool isDead() { return hp <= 0; }
     void damage() { hp--; }
     int getHP() { return hp; }
-    /// Used mainly while loading game
     void setHP(int hp_) { hp = hp_; }
     void draw(sf::RenderWindow &window)
     {
@@ -115,15 +124,22 @@ public:
 class PlayerShipEntity : public Entity
 {
 private:
+    sf::Texture textures;
+    int frame_counter;
     float cannon_timer = 0;
     float cannon_timer_limit = 1.0;
 public:
     PlayerShipEntity(int pos_x, int pos_y):
-        Entity(PLAYER_TEXTURE1, 30, pos_x, pos_y, 0, 0, 0)
-    {}
+        Entity(PLAYER_TEXTURE[0], 30, pos_x, pos_y, 0, 0, 0)
+    {
+        for(int i = 0; i < PLAYER_FRAMES_COUNT; i++)
+            textures[i].loadFromFile(PLAYER_TEXTURE[i]);
+    }
     void update(float rotation, float delta)
     {
         setRotation(rotation);
+        frame_counter = clamp(frame_counter - 1, 0, PLAYER_FRAMES_COUNT - 1);
+        sprite.setTexture(textures[frame_counter]);
         cannon_timer = clamp(cannon_timer + delta, 0.0f, cannon_timer_limit);
     }
     bool canShoot()
@@ -133,6 +149,7 @@ public:
     void restartCannon()
     {
         cannon_timer = 0;
+        frame_counter = frame_counter_limit;
     }
 };
 

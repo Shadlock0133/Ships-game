@@ -239,8 +239,10 @@ class World
     {
         for(int i = numBalls - 1; i >= 0; i--)
             delete balls[i];
+        numBalls = 0;
         for(int i = numEnemies - 1; i >= 0; i--)
             delete enemies[i];
+        numEnemies = 0;
     }
     void spawnEnemy(int pos_x, int pos_y, float vel_x, float vel_y, float rotation)
     {

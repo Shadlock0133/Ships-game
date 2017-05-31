@@ -25,6 +25,7 @@ const static string PLAYER_TEXTURE[PLAYER_FRAMES_COUNT] = [
     "assets/ship3.png",
     "assets/ship2.png"];
 const static string FONT = "assets/Treamd.ttf";
+const float DEG_TO_RADS = 3.14159265 / 180;
 
 template<typename T>
 T clamp(T v, T lo, T hi)
@@ -183,7 +184,7 @@ class World
 
     bool keys[sf::Keyboard::KeyCount];
 
-    float rotation_rads() { return player.getRotation() * 3.14159265 / 180; }
+    float rotation_rads() { return player.getRotation() * DEG_TO_RADS; }
 
     bool outsideView(sf::Vector2f entity_pos)
     {
@@ -387,7 +388,7 @@ public:
             float dist = sqrt(dist_x * dist_x + dist_y * dist_y);
             float sin_e = dist_y / dist;
             float cos_e = dist_x / dist;
-            float Enemy_rot = 1 / 3.1415926 * 180;
+            float Enemy_rot = 1 / DEG_TO_RADS;
             if(dir == 0 || (where < 5 && (dir == 1 || dir == 2))) Enemy_rot = Enemy_rot * asin(sin_e) - 180;
             else Enemy_rot *= asin(-sin_e);
             spawnEnemy(x, y, cos_e * ENEMY_SPEED, sin_e * ENEMY_SPEED, Enemy_rot);
@@ -417,7 +418,7 @@ public:
             float py_e = enemies[i]->getPosition().y;
             float sin_rot_e = sin(rot_e);
             float cos_rot_e = cos(rot_e);
-            if( enemies[i]->canShoot())
+            if(enemies[i]->canShoot())
             {
                 fireCannons(px_e, py_e, sin_rot_e, cos_rot_e);
                 enemies[i]->restartCannon();

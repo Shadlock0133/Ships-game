@@ -319,6 +319,7 @@ public:
 
         if(keys[sf::Keyboard::F7]) saveToFile("test1.sav");
         if(keys[sf::Keyboard::F8]) loadFromFile("test1.sav");
+        if(keys[sf::Keyboard::F9]) points = 1000;
 
         float px = player.getPosition().x;
         float py = player.getPosition().y;

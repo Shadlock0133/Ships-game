@@ -12,10 +12,13 @@
 
 using namespace std;
 
-const static string ENEMY_TEXTURE = "assets/enemy1.png";
-const static string BALL_TEXTURE = "assets/ball.png";
+const static string ENEMY_TEXTURE_FILE = "assets/enemy1.png";
+static sf::Texture ENEMY_TEXTURE;
+const static string BALL_TEXTURE_FILE = "assets/ball.png";
+static sf::Texture BALL_TEXTURE;
 const static int PLAYER_FRAMES_COUNT = 8;
-const static string PLAYER_TEXTURE[PLAYER_FRAMES_COUNT] = { "assets/ship2.png", "assets/ship3.png", "assets/ship4.png", "assets/ship5.png", "assets/ship6.png", "assets/ship7.png", "assets/ship8.png", "assets/ship1.png" };
+const static string PLAYER_TEXTURE_FILE[PLAYER_FRAMES_COUNT] = { "assets/ship2.png", "assets/ship3.png", "assets/ship4.png", "assets/ship5.png", "assets/ship6.png", "assets/ship7.png", "assets/ship8.png", "assets/ship1.png" };
+static sf::Texture PLAYER_TEXTURE[PLAYER_FRAMES_COUNT];
 const static string FONT = "assets/Treamd.ttf";
 const float DEG_TO_RADS = 3.14159265 / 180;
 
@@ -53,11 +56,11 @@ private:
     sf::Texture texture;
     sf::Vector2f velocity;
 public:
-    Entity(string texture_file, int hp, int pos_x, int pos_y, float vel_x, float vel_y, float rotation):
+    Entity(sf::Texture &texture, int hp, int pos_x, int pos_y, float vel_x, float vel_y, float rotation):
         hp(hp),
+        texture(texture),
         velocity(vel_x, vel_y)
     {
-        texture.loadFromFile(texture_file);
         sf::Vector2u dims = texture.getSize();
         sprite.setTexture(texture);
         sprite.setOrigin((float)dims.x / 2, (float)dims.y / 2);
@@ -117,7 +120,6 @@ public:
 class PlayerShipEntity : public Entity
 {
 private:
-    sf::Texture textures;
     int frame_counter = 0;
     float cannon_timer = 0;
     float cannon_timer_limit = 1.0;
@@ -126,9 +128,7 @@ private:
 public:
     PlayerShipEntity(int pos_x, int pos_y):
         Entity(PLAYER_TEXTURE[0], 11, pos_x, pos_y, 0, 0, 0)
-    {
-        textures.loadFromFile(PLAYER_TEXTURE[7]);
-    }
+    {}
     void update(float rotation, float delta)
     {
         setRotation(rotation);
@@ -136,10 +136,9 @@ public:
         if(canTextureBeChanged())
         {
             frame_counter = clamp(frame_counter + 1, 0, PLAYER_FRAMES_COUNT - 1);
-            textures.loadFromFile(PLAYER_TEXTURE[frame_counter]);
             texture_timer = 0;
         }
-        sprite.setTexture(textures);
+        sprite.setTexture(PLAYER_TEXTURE[frame_counter]);
         cannon_timer = clamp(cannon_timer + delta, 0.0f, cannon_timer_limit);
     }
     bool canTextureBeChanged()
@@ -482,6 +481,11 @@ public:
 
 int main()
 {
+    ENEMY_TEXTURE.loadFromFile(ENEMY_TEXTURE_FILE);
+    BALL_TEXTURE.loadFromFile(BALL_TEXTURE_FILE);
+    for(int i = 0; i < PLAYER_FRAMES_COUNT; i++)
+        PLAYER_TEXTURE[i].loadFromFile(PLAYER_TEXTURE_FILE[i]);
+    
     srand(time(NULL));
     const int width = 1200, height = 900;
     World zaWarudo(width, height);

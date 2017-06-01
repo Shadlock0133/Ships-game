@@ -514,23 +514,51 @@ public:
     ~World() { clearEntities(); }
 };
 
-void ranking(World zaWarudo)
+bool rank_sorter(pair<string, long long int> p1, pair<string, long long int> p2)
 {
-    ifstream ifile; ifile.open("ranking.rnk");
+    return p1.second > p2.second;
+}
 
+void ranking(long long int points)
+{
+    vector<pair<string, long long int>> ranking;
+    ifstream ifile; ifile.open("ranking.rnk");
+    if(ifile.is_open())
+    {
+        while(!ifile.eof())
+        {
+            string name; long long int score;
+            ifile >> name >> score;
+            ranking.push_back(pair<string, long long int>(name, score));
+        }
+    }
     ifile.close();
 
     cout << "NICKNAME: ";
-    string c;
-    cin >> c;
+    string name;
+    cin >> name;
     cout << "Dead man tell no tales." << endl
-         << c << " gained score: " << zaWarudo.getPoints() << endl
-         << "Game over" << endl << endl
-         << "Press any letter then enter to end, because c++ sucks..." << endl << endl;
+         << name << " gained score: " << points << endl
+         << "Game over" << endl << endl;
+
+    ranking.push_back(pair<string, long long int>(name, points));
+
+    sort(ranking.begin(), ranking.end(), rank_sorter);
+
+    for(pair<string, long long int> score : ranking)
+    {
+        cout << score.first << ": " << score.second << endl;
+    }
+
+    cout << "Press any letter then enter to end, because c++ sucks..." << endl << endl;
+    string c;
     cin >> c;
 
     ofstream ofile; ofile.open("ranking.rnk");
-    
+    for(pair<string, long long int> score : ranking)
+    {
+        ofile << score.first << endl << score.second << endl;
+    }
     ofile.close();
 }
 
@@ -558,7 +586,7 @@ int main()
         }
         //sf::sleep(sf::seconds(0.016 - delta));
     }
-    //ranking();
+    ranking(zaWarudo.getPoints());
     return 0;
 }
 

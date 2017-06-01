@@ -525,7 +525,7 @@ void ranking(long long int points)
     ifstream ifile; ifile.open("ranking.rnk");
     if(ifile.is_open())
     {
-        while(!ifile.eof())
+        for(int i = 0; i < 10; i++)
         {
             string name; long long int score;
             ifile >> name >> score;
@@ -555,9 +555,9 @@ void ranking(long long int points)
     cin >> c;
 
     ofstream ofile; ofile.open("ranking.rnk");
-    for(pair<string, long long int> score : ranking)
+    for(int i = 0; i < 10; i++)
     {
-        ofile << score.first << endl << score.second << endl;
+        ofile << ranking[i].first << endl << ranking[i].second << endl;
     }
     ofile.close();
 }

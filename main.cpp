@@ -15,15 +15,7 @@ using namespace std;
 const static string ENEMY_TEXTURE = "assets/enemy1.png";
 const static string BALL_TEXTURE = "assets/ball.png";
 const static int PLAYER_FRAMES_COUNT = 8;
-const static string PLAYER_TEXTURE[PLAYER_FRAMES_COUNT] = [
-    "assets/ship1.png",
-    "assets/ship8.png",
-    "assets/ship7.png",
-    "assets/ship6.png",
-    "assets/ship5.png",
-    "assets/ship4.png",
-    "assets/ship3.png",
-    "assets/ship2.png"];
+const static string PLAYER_TEXTURE[PLAYER_FRAMES_COUNT] = { "assets/ship2.png", "assets/ship3.png", "assets/ship4.png", "assets/ship5.png", "assets/ship6.png", "assets/ship7.png", "assets/ship8.png", "assets/ship1.png" };
 const static string FONT = "assets/Treamd.ttf";
 const float DEG_TO_RADS = 3.14159265 / 180;
 
@@ -126,22 +118,33 @@ class PlayerShipEntity : public Entity
 {
 private:
     sf::Texture textures;
-    int frame_counter;
+    int frame_counter = 0;
     float cannon_timer = 0;
     float cannon_timer_limit = 1.0;
+    float texture_timer = 0;
+    float texture_timer_limit = 0.06;
 public:
     PlayerShipEntity(int pos_x, int pos_y):
         Entity(PLAYER_TEXTURE[0], 30, pos_x, pos_y, 0, 0, 0)
     {
-        for(int i = 0; i < PLAYER_FRAMES_COUNT; i++)
-            textures[i].loadFromFile(PLAYER_TEXTURE[i]);
+        textures.loadFromFile(PLAYER_TEXTURE[7]);
     }
     void update(float rotation, float delta)
     {
         setRotation(rotation);
-        frame_counter = clamp(frame_counter - 1, 0, PLAYER_FRAMES_COUNT - 1);
-        sprite.setTexture(textures[frame_counter]);
+        texture_timer = clamp(texture_timer + delta, 0.0f, texture_timer_limit);
+        if(canTextureBeChanged())
+        {
+            frame_counter = clamp(frame_counter + 1, 0, PLAYER_FRAMES_COUNT - 1);
+            textures.loadFromFile(PLAYER_TEXTURE[frame_counter]);
+            texture_timer = 0;
+        }
+        sprite.setTexture(textures);
         cannon_timer = clamp(cannon_timer + delta, 0.0f, cannon_timer_limit);
+    }
+    bool canTextureBeChanged()
+    {
+        return texture_timer >= texture_timer_limit;
     }
     bool canShoot()
     {
@@ -150,7 +153,7 @@ public:
     void restartCannon()
     {
         cannon_timer = 0;
-        frame_counter = frame_counter_limit;
+        frame_counter = 0;
     }
 };
 

@@ -514,9 +514,28 @@ public:
     ~World() { clearEntities(); }
 };
 
+void ranking(World zaWarudo)
+{
+    ifstream ifile; ifile.open("ranking.rnk");
+
+    ifile.close();
+
+    cout << "NICKNAME: ";
+    string c;
+    cin >> c;
+    cout << "Dead man tell no tales." << endl
+         << c << " gained score: " << zaWarudo.getPoints() << endl
+         << "Game over" << endl << endl
+         << "Press any letter then enter to end, because c++ sucks..." << endl << endl;
+    cin >> c;
+
+    ofstream ofile; ofile.open("ranking.rnk");
+    
+    ofile.close();
+}
+
 int main()
 {
-
     for(int i = 0; i < ENEMY_FRAMES_COUNT; i++)
         ENEMY_TEXTURE[i].loadFromFile(ENEMY_TEXTURE_FILE[i]);
     BALL_TEXTURE.loadFromFile(BALL_TEXTURE_FILE);
@@ -538,15 +557,7 @@ int main()
             zaWarudo.WindowClose();
         }
     }
-    cout << "NICKNAME: ";
-    string c;
-    cin >> c;
-    cout << "Dead man tell no tales." << endl
-         << c << " gained score: " << zaWarudo.getPoints() << endl
-         << "Game over" << endl << endl
-         << "Press any letter then enter to end, because c++ sucks..." << endl << endl;
-    cin >> c;
-    //ranking
+    //ranking();
     return 0;
 }
 

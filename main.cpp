@@ -357,7 +357,7 @@ public:
         file >> hp_ >> points_;
         player.setHP(hp_);
         points = points_;
-
+        clearEntities();
         file.close();
     }
     void WindowClose() { window.close(); }
@@ -551,8 +551,11 @@ void ranking(long long int points)
     {
         for(int i = 0; i < 10; i++)
         {
-            string name; long long int score;
-            ifile >> name >> score;
+            string name, score_str;
+            long long int score;
+            getline(ifile, name);
+            getline(ifile, score_str);
+            score = atoll(score_str.c_str());
             ranking.push_back(pair<string, long long int>(name, score));
         }
     }

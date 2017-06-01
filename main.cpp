@@ -125,7 +125,7 @@ private:
     float texture_timer_limit = 0.06;
 public:
     PlayerShipEntity(int pos_x, int pos_y):
-        Entity(PLAYER_TEXTURE[0], 30, pos_x, pos_y, 0, 0, 0)
+        Entity(PLAYER_TEXTURE[0], 11, pos_x, pos_y, 0, 0, 0)
     {
         textures.loadFromFile(PLAYER_TEXTURE[7]);
     }

@@ -165,6 +165,8 @@ class World
     float boost_timer_limit = 0.3;
     float boost_load_timer = 0;
     float boost_load_timer_limit = 3.0;
+    float credits_timer = 0;
+    float credits_timer_limit = 5.0;
 
     const static int MAX_BALLS = 120;
     const static int MAX_ENEMIES = 5;
@@ -324,6 +326,8 @@ public:
         if(keys[sf::Keyboard::F8]) loadFromFile("test1.sav");
         if(keys[sf::Keyboard::F9]) points = 1000;
 
+        credits_timer = clamp(credits_timer + delta, 0.0f, credits_timer_limit);
+
         float px = player.getPosition().x;
         float py = player.getPosition().y;
         float sin_rot = sin(rotation_rads());
@@ -450,11 +454,22 @@ public:
             enemies[i]->draw(window);
         player.draw(window);
 
+        if(credits_timer < credits_timer_limit)
+        {
+            sf::Text credits_text("GAME by ADMEXTER", font);
+            credits_text.setFillColor(sf::Color::White);
+            credits_text.setStyle(sf::Text::Bold);
+            credits_text.setCharacterSize(60);
+            credits_text.setPosition(WIDTH / 4, HEIGHT / 2 - 120);
+            window.draw(credits_text);
+        }
+
         sf::Text health_text("HEALTH: " + to_string(player.getHP()), font);
         health_text.setFillColor(sf::Color(205,23,20));
         health_text.setStyle(sf::Text::Bold);
         health_text.setPosition(10, 0);
         window.draw(health_text);
+
         sf::Text points_text("POINTS: " + to_string(points), font);
         points_text.setFillColor(sf::Color::Yellow);
         points_text.setPosition(10, 40);

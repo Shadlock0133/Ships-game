@@ -225,16 +225,19 @@ class World
                     enemies[i]->damage();
                     balls[j]->damage();
                 }
-                if(doCollide(player.getPosition(), balls[j]->getPosition(), 40))
-                {
-                    player.damage();
-                    balls[j]->damage();
-                }
             }
             if(doCollide(enemies[i]->getPosition(), player.getPosition(), 100))
             {
                 enemies[i]->damage();
                 player.damage();
+            }
+        }
+        for(int j = numBalls - 1; j >= 0; j--)
+        {
+            if(doCollide(player.getPosition(), balls[j]->getPosition(), 40))
+            {
+                player.damage();
+                balls[j]->damage();
             }
         }
     }

@@ -12,13 +12,33 @@
 
 using namespace std;
 
-const static string ENEMY_TEXTURE_FILE = "assets/enemy1.png";
-static sf::Texture ENEMY_TEXTURE;
+const static int ENEMY_FRAMES_COUNT = 8;
+const static string ENEMY_TEXTURE_FILE[ENEMY_FRAMES_COUNT] = { 
+    "assets/enemy2.png",
+    "assets/enemy3.png",
+    "assets/enemy4.png",
+    "assets/enemy5.png",
+    "assets/enemy6.png",
+    "assets/enemy7.png",
+    "assets/enemy8.png",
+    "assets/enemy1.png"};
+static sf::Texture ENEMY_TEXTURE[ENEMY_FRAMES_COUNT];
+
 const static string BALL_TEXTURE_FILE = "assets/ball.png";
 static sf::Texture BALL_TEXTURE;
+
 const static int PLAYER_FRAMES_COUNT = 8;
-const static string PLAYER_TEXTURE_FILE[PLAYER_FRAMES_COUNT] = { "assets/ship2.png", "assets/ship3.png", "assets/ship4.png", "assets/ship5.png", "assets/ship6.png", "assets/ship7.png", "assets/ship8.png", "assets/ship1.png" };
+const static string PLAYER_TEXTURE_FILE[PLAYER_FRAMES_COUNT] = { 
+    "assets/ship2.png",
+    "assets/ship3.png",
+    "assets/ship4.png",
+    "assets/ship5.png",
+    "assets/ship6.png",
+    "assets/ship7.png",
+    "assets/ship8.png",
+    "assets/ship1.png"};
 static sf::Texture PLAYER_TEXTURE[PLAYER_FRAMES_COUNT];
+
 const static string FONT = "assets/Treamd.ttf";
 const float DEG_TO_RADS = 3.14159265 / 180;
 
@@ -88,16 +108,30 @@ public:
 
 class EnemyEntity : public Entity
 {
+    int frame_counter = 0;
+    float texture_timer = 0;
+    float texture_timer_limit = 0.06;
     float cannon_timer = 0;
     float cannon_timer_limit = 1.5;
 public:
     EnemyEntity(int pos_x, int pos_y, float vel_x, float vel_y, float rotation):
-        Entity(ENEMY_TEXTURE, 5, pos_x, pos_y, vel_x, vel_y, rotation)
+        Entity(ENEMY_TEXTURE[0], 5, pos_x, pos_y, vel_x, vel_y, rotation)
     {}
     void update(sf::Vector2f movement, float delta)
     {
         Entity::update(movement, delta);
+        texture_timer = clamp(texture_timer + delta, 0.0f, texture_timer_limit);
+        if(canTextureBeChanged())
+        {
+            frame_counter = clamp(frame_counter + 1, 0, ENEMY_FRAMES_COUNT - 1);
+            texture_timer = 0;
+        }
+        sprite.setTexture(ENEMY_TEXTURE[frame_counter]);
         cannon_timer = clamp(cannon_timer + delta, 0.0f, cannon_timer_limit);
+    }
+    bool canTextureBeChanged()
+    {
+        return texture_timer >= texture_timer_limit;
     }
     bool canShoot()
     {
@@ -106,6 +140,7 @@ public:
     void restartCannon()
     {
         cannon_timer = 0;
+        frame_counter = 0;
     }
 };
 
@@ -121,10 +156,10 @@ class PlayerShipEntity : public Entity
 {
 private:
     int frame_counter = 0;
-    float cannon_timer = 0;
-    float cannon_timer_limit = 1.0;
     float texture_timer = 0;
     float texture_timer_limit = 0.06;
+    float cannon_timer = 0;
+    float cannon_timer_limit = 1.0;
 public:
     PlayerShipEntity(int pos_x, int pos_y):
         Entity(PLAYER_TEXTURE[0], 11, pos_x, pos_y, 0, 0, 0)
@@ -481,7 +516,9 @@ public:
 
 int main()
 {
-    ENEMY_TEXTURE.loadFromFile(ENEMY_TEXTURE_FILE);
+
+    for(int i = 0; i < ENEMY_FRAMES_COUNT; i++)
+        ENEMY_TEXTURE[i].loadFromFile(ENEMY_TEXTURE_FILE[i]);
     BALL_TEXTURE.loadFromFile(BALL_TEXTURE_FILE);
     for(int i = 0; i < PLAYER_FRAMES_COUNT; i++)
         PLAYER_TEXTURE[i].loadFromFile(PLAYER_TEXTURE_FILE[i]);

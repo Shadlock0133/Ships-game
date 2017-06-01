@@ -556,6 +556,7 @@ int main()
         {
             zaWarudo.WindowClose();
         }
+        //sf::sleep(sf::seconds(0.016 - delta));
     }
     //ranking();
     return 0;

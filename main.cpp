@@ -13,7 +13,7 @@
 using namespace std;
 
 const static int ENEMY_FRAMES_COUNT = 8;
-const static string ENEMY_TEXTURE_FILE[ENEMY_FRAMES_COUNT] = { 
+const static string ENEMY_TEXTURE_FILE[ENEMY_FRAMES_COUNT] = {
     "assets/enemy2.png",
     "assets/enemy3.png",
     "assets/enemy4.png",
@@ -28,7 +28,7 @@ const static string BALL_TEXTURE_FILE = "assets/ball.png";
 static sf::Texture BALL_TEXTURE;
 
 const static int PLAYER_FRAMES_COUNT = 8;
-const static string PLAYER_TEXTURE_FILE[PLAYER_FRAMES_COUNT] = { 
+const static string PLAYER_TEXTURE_FILE[PLAYER_FRAMES_COUNT] = {
     "assets/ship2.png",
     "assets/ship3.png",
     "assets/ship4.png",
@@ -199,6 +199,11 @@ class World
     float boost_timer_limit = 0.3;
     float boost_load_timer = 0;
     float boost_load_timer_limit = 3.0;
+    float break_timer = 0;
+    float break_timer_limit = 0.3;
+    float break_load_timer = 0;
+    float break_load_timer_limit = 3.0;
+
     float credits_timer = 0;
     float credits_timer_limit = 5.0;
 
@@ -307,10 +312,15 @@ class World
         spawnBall(px + cos *   BACK + sin *  DISTANCE, py + sin *   BACK + cos * -DISTANCE,  sin * BALL_SPEED, -cos * BALL_SPEED);
     }
     bool canCoup_de_Burst() { return boost_timer < boost_timer_limit; }
-    bool canSpawnEnemy() { return spawnEnemy_timer >= spawnEnemy_timer_limit; }
-    void restartSpawnerEnemy() { spawnEnemy_timer = 0; }
     void restartCoup_de_Burst() { boost_timer = 0; }
     void restartCoup_de_Burst_Load() { boost_load_timer = 0; }
+
+    bool canHalt() { return break_timer < break_timer_limit; }
+    void restartHalt() { break_timer = 0; }
+    void restartHalt_Load() { break_load_timer = 0; }
+
+    bool canSpawnEnemy() { return spawnEnemy_timer >= spawnEnemy_timer_limit; }
+    void restartSpawnerEnemy() { spawnEnemy_timer = 0; }
 public:
     World(const int width, const int height):
         WIDTH(width),
@@ -322,6 +332,7 @@ public:
         speed(0),
         window(sf::VideoMode(width, height, 32), "Jak Statki Na Niebie")
     {
+        window.setVerticalSyncEnabled(true);
         font.loadFromFile(FONT);
         for(int i = 0; i < sf::Keyboard::KeyCount; i++) keys[i] = false;
     }
@@ -368,8 +379,9 @@ public:
         float cos_rot = cos(rotation_rads());
         float rot_step = 60 * delta;
         float player_speed = 0;
-        bool up = keys[sf::Keyboard::Up] || keys[sf::Keyboard::W];
         bool left = keys[sf::Keyboard::Left] || keys[sf::Keyboard::A];
+        bool up = keys[sf::Keyboard::Up] || keys[sf::Keyboard::W];
+        bool down = keys[sf::Keyboard::Down] || keys[sf::Keyboard::S];
         bool right = keys[sf::Keyboard::Right] || keys[sf::Keyboard::D];
 
         //if(player.canShoot()) cout << "PRESS SPACE TO WIN" << endl;
@@ -384,13 +396,24 @@ public:
             boost_timer = clamp(boost_timer + delta, 0.0f, boost_timer_limit);
             player_speed = 500;
         }
+        else if(down && canHalt())
+        {
+            break_timer = clamp(break_timer + delta, 0.0f, break_timer_limit);
+            player_speed = 0;
+        }
         else
         {
             boost_load_timer = clamp(boost_load_timer + delta, 0.0f, boost_load_timer_limit);
+            break_load_timer = clamp(break_load_timer + delta, 0.0f, break_load_timer_limit);
             if(boost_load_timer >= boost_load_timer_limit)
             {
                 restartCoup_de_Burst();
                 restartCoup_de_Burst_Load();
+            }
+            if(break_load_timer >= break_load_timer_limit)
+            {
+                restartHalt();
+                restartHalt_Load();
             }
             player_speed = 50;
         }
@@ -522,7 +545,8 @@ bool rank_sorter(pair<string, long long int> p1, pair<string, long long int> p2)
 void ranking(long long int points)
 {
     vector<pair<string, long long int>> ranking;
-    ifstream ifile; ifile.open("ranking.rnk");
+    ifstream ifile;
+    ifile.open("ranking.rnk");
     if(ifile.is_open())
     {
         for(int i = 0; i < 10; i++)
@@ -536,7 +560,7 @@ void ranking(long long int points)
 
     cout << "NICKNAME: ";
     string name;
-    cin >> name;
+    getline(cin, name);
     cout << "Dead man tell no tales." << endl
          << name << " gained score: " << points << endl
          << "Game over" << endl << endl;
@@ -554,7 +578,8 @@ void ranking(long long int points)
     string c;
     cin >> c;
 
-    ofstream ofile; ofile.open("ranking.rnk");
+    ofstream ofile;
+    ofile.open("ranking.rnk");
     for(int i = 0; i < 10; i++)
     {
         ofile << ranking[i].first << endl << ranking[i].second << endl;
@@ -569,7 +594,7 @@ int main()
     BALL_TEXTURE.loadFromFile(BALL_TEXTURE_FILE);
     for(int i = 0; i < PLAYER_FRAMES_COUNT; i++)
         PLAYER_TEXTURE[i].loadFromFile(PLAYER_TEXTURE_FILE[i]);
-    
+
     srand(time(NULL));
     const int width = 1200, height = 900;
     World zaWarudo(width, height);
@@ -584,7 +609,7 @@ int main()
         {
             zaWarudo.WindowClose();
         }
-        //sf::sleep(sf::seconds(0.016 - delta));
+        sf::sleep(sf::seconds(0.016 - delta));
     }
     ranking(zaWarudo.getPoints());
     return 0;

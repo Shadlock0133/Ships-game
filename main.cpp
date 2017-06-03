@@ -1,7 +1,4 @@
 ///Gra Jak Statki Na Niebie
-///projekt na laboratoria z PROI
-///gra polega na interakcji z uzytkownikiem i wyborze akcji jakie klasa gracza ma wykonac, co zmienia je wartosci.
-///wiecej informacji mozna uzyskac grajac w gre
 #include <iostream>
 #include <fstream>
 // To please the RNGods

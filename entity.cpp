@@ -1,3 +1,5 @@
+
+
 class Entity
 {
 protected:

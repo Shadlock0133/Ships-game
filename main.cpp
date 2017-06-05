@@ -9,17 +9,17 @@
 
 using namespace std;
 
-const static int SWIMMING_FRAMES_COUNT = 4;
-const static string SWIMMING_FILE[SWIMMING_FRAMES_COUNT] = {
+const static int SWIMMING_FRAME_COUNT = 4;
+const static string SWIMMING_FILE[SWIMMING_FRAME_COUNT] = {
     "assets/swimming1.png",
     "assets/swimming2.png",
     "assets/swimming3.png",
     "assets/swimming4.png"
 };
-static sf::Texture SWIMMING_TEXTURE[SWIMMING_FRAMES_COUNT];
+static sf::Texture SWIMMING_TEXTURE[SWIMMING_FRAME_COUNT];
 
-const static int SHOOT_FRAMES_COUNT = 8;
-const static string SHOOT_FILE[SHOOT_FRAMES_COUNT] = {
+const static int SHOOT_FRAME_COUNT = 8;
+const static string SHOOT_FILE[SHOOT_FRAME_COUNT] = {
     "assets/shoot1.png",
     "assets/shoot2.png",
     "assets/shoot3.png",
@@ -29,10 +29,10 @@ const static string SHOOT_FILE[SHOOT_FRAMES_COUNT] = {
     "assets/shoot7.png",
     "assets/shoot8.png"
 };
-static sf::Texture SHOOT_TEXTURE[SHOOT_FRAMES_COUNT];
+static sf::Texture SHOOT_TEXTURE[SHOOT_FRAME_COUNT];
 
-const static int BARREL_EXPLOSION_FRAMES_COUNT = 11;
-const static string BARREL_EXPLOSION_FILE[BARREL_EXPLOSION_FRAMES_COUNT] = {
+const static int BARREL_EXPLOSION_FRAME_COUNT = 11;
+const static string BARREL_EXPLOSION_FILE[BARREL_EXPLOSION_FRAME_COUNT] = {
     "assets/barrelexplosion1.png",
     "assets/barrelexplosion2.png",
     "assets/barrelexplosion3.png",
@@ -45,29 +45,29 @@ const static string BARREL_EXPLOSION_FILE[BARREL_EXPLOSION_FRAMES_COUNT] = {
     "assets/barrelexplosion10.png",
     "assets/barrelexplosion11.png"
 };
-static sf::Texture BARREL_EXPLOSION_TEXTURE[BARREL_EXPLOSION_FRAMES_COUNT];
+static sf::Texture BARREL_EXPLOSION_TEXTURE[BARREL_EXPLOSION_FRAME_COUNT];
 
-const static int BARREL_SWIMMING_FRAMES_COUNT = 4;
-const static string BARREL_SWIMMING_FILE[BARREL_SWIMMING_FRAMES_COUNT] = {
+const static int BARREL_SWIMMING_FRAME_COUNT = 4;
+const static string BARREL_SWIMMING_FILE[BARREL_SWIMMING_FRAME_COUNT] = {
     "assets/barrelswimming1.png",
     "assets/barrelswimming2.png",
     "assets/barrelswimming3.png",
     "assets/barrelswimming4.png"
 };
-static sf::Texture BARREL_SWIMMING_TEXTURE[BARREL_SWIMMING_FRAMES_COUNT];
-
-const static string ENEMY_TEXTURE_FILE = "assets/enemy.png";
-static sf::Texture ENEMY_TEXTURE;
+static sf::Texture BARREL_SWIMMING_TEXTURE[BARREL_SWIMMING_FRAME_COUNT];
 
 const static string BALL_TEXTURE_FILE = "assets/ball.png";
 static sf::Texture BALL_TEXTURE;
 
-const static int PLAYER_FRAMES_COUNT = 3;
-const static string PLAYER_TEXTURE_FILE[PLAYER_FRAMES_COUNT] = {
+const static string ENEMY_TEXTURE_FILE = "assets/enemy.png";
+static sf::Texture ENEMY_TEXTURE;
+
+const static int PLAYER_FRAME_COUNT = 3;
+const static string PLAYER_TEXTURE_FILE[PLAYER_FRAME_COUNT] = {
     "assets/ship1.png",
     "assets/ship2.png",
     "assets/ship3.png"};
-static sf::Texture PLAYER_TEXTURE[PLAYER_FRAMES_COUNT];
+static sf::Texture PLAYER_TEXTURE[PLAYER_FRAME_COUNT];
 
 const static string FONT_FILE = "assets/Treamd.ttf";
 static sf::Font FONT;
@@ -107,13 +107,13 @@ void init_textures(const int count, sf::Texture texture[], const string file[])
 
 void init_assets()
 {
-    init_textures(SWIMMING_FRAMES_COUNT, SWIMMING_TEXTURE, SWIMMING_FILE);
-    init_textures(SHOOT_FRAMES_COUNT, SHOOT_TEXTURE, SHOOT_FILE);
-    init_textures(BARREL_SWIMMING_FRAMES_COUNT, BARREL_EXPLOSION_TEXTURE, BARREL_EXPLOSION_FILE);
-    init_textures(BARREL_SWIMMING_FRAMES_COUNT, BARREL_SWIMMING_TEXTURE, BARREL_SWIMMING_FILE);
-    ENEMY_TEXTURE.loadFromFile(ENEMY_TEXTURE_FILE);
+    init_textures(SWIMMING_FRAME_COUNT, SWIMMING_TEXTURE, SWIMMING_FILE);
+    init_textures(SHOOT_FRAME_COUNT, SHOOT_TEXTURE, SHOOT_FILE);
+    init_textures(BARREL_SWIMMING_FRAME_COUNT, BARREL_EXPLOSION_TEXTURE, BARREL_EXPLOSION_FILE);
+    init_textures(BARREL_SWIMMING_FRAME_COUNT, BARREL_SWIMMING_TEXTURE, BARREL_SWIMMING_FILE);
     BALL_TEXTURE.loadFromFile(BALL_TEXTURE_FILE);
-    init_textures(PLAYER_FRAMES_COUNT, PLAYER_TEXTURE, PLAYER_TEXTURE_FILE);
+    ENEMY_TEXTURE.loadFromFile(ENEMY_TEXTURE_FILE);
+    init_textures(PLAYER_FRAME_COUNT, PLAYER_TEXTURE, PLAYER_TEXTURE_FILE);
     FONT.loadFromFile(FONT_FILE);
 }
 
@@ -131,7 +131,7 @@ public:
     float get_counter() { return counter; }
     void reset() { counter = 0; }
     bool isLimit() { return counter >= limit; }
-}
+};
 
 class Entity
 {
@@ -142,7 +142,7 @@ private:
     sf::Texture texture;
     sf::Vector2f velocity;
 public:
-    Entity(sf::Texture &texture, int hp, int pos_x, int pos_y, float vel_x, float vel_y, float rotation):
+    Entity(sf::Texture &texture, int hp, int pos_x, int pos_y, float vel_x, float vel_y, float rot):
         hp(hp),
         texture(texture),
         velocity(vel_x, vel_y)
@@ -151,11 +151,10 @@ public:
         sprite.setTexture(texture);
         sprite.setOrigin((float)dims.x / 2, (float)dims.y / 2);
         sprite.setPosition(pos_x, pos_y);
-        sprite.setRotation(rotation);
+        sprite.setRotation(rot);
     }
     sf::Vector2f getPosition() { return sprite.getPosition(); }
     float getRotation() { return sprite.getRotation(); }
-    void setRotation(float rotation) { sprite.setRotation(rotation); }
     bool isDead() { return hp <= 0; }
     void damage() { hp--; }
     int getHP() { return hp; }
@@ -172,40 +171,39 @@ public:
     }
 };
 
-class EnemyEntity : public Entity
+class ShipEntity : public Entity
 {
     int frame_counter = 0;
-    float texture_timer = 0;
-    float texture_timer_limit = 0.06;
-    float cannon_timer = 0;
-    float cannon_timer_limit = 1.5;
+    const static int cannons_amount = 6;
+    sf::Sprite cannons[cannons_amount];
+    Timer cannon_texture_timer;
+    Timer cannon_timer;
 public:
-    EnemyEntity(int pos_x, int pos_y, float vel_x, float vel_y, float rotation):
-        Entity(ENEMY_TEXTURE, 5, pos_x, pos_y, vel_x, vel_y, rotation)
+    ShipEntity(sf::Texture &tex, int hp, int pos_x, int pos_y, float vel_x, float vel_y, float rot):
+        Entity(tex, hp, pos_x, pos_y, vel_x, vel_y, rot),
+        cannon_texture_timer(0.06),
+        cannon_timer(1.5)
     {}
     void update(sf::Vector2f movement, float delta)
     {
         Entity::update(movement, delta);
-        texture_timer = clamp(texture_timer + delta, 0.0f, texture_timer_limit);
-        if(canTextureBeChanged())
+        cannon_texture_timer.add(delta);
+        if(cannon_texture_timer.isLimit())
         {
-            frame_counter = clamp(frame_counter + 1, 0, ENEMY_FRAMES_COUNT - 1);
-            texture_timer = 0;
+            frame_counter = clamp(frame_counter + 1, 0, SHOOT_FRAME_COUNT - 1);
+            cannon_texture_timer.reset();
         }
-        sprite.setTexture(ENEMY_TEXTURE[frame_counter]);
-        cannon_timer = clamp(cannon_timer + delta, 0.0f, cannon_timer_limit);
-    }
-    bool canTextureBeChanged()
-    {
-        return texture_timer >= texture_timer_limit;
+        for(int i = 0; i < cannons_amount; i++)
+            cannons[i].setTexture(SHOOT_TEXTURE[frame_counter]);
+        cannon_timer.add(delta);
     }
     bool canShoot()
     {
-        return cannon_timer >= cannon_timer_limit;
+        return cannon_timer.isLimit();
     }
     void restartCannon()
     {
-        cannon_timer = 0;
+        cannon_timer.reset();
         frame_counter = 0;
     }
 };
@@ -218,42 +216,24 @@ public:
     {}
 };
 
-class PlayerShipEntity : public Entity
+class EnemyEntity: public ShipEntity
 {
-private:
-    int frame_counter = 0;
-    float texture_timer = 0;
-    float texture_timer_limit = 0.06;
-    float cannon_timer = 0;
-    float cannon_timer_limit = 1.0;
+public:
+    EnemyEntity(int pos_x, int pos_y, float vel_x, float vel_y, float rot):
+        ShipEntity(ENEMY_TEXTURE, 5, pos_x, pos_y, vel_x, vel_y, rot)
+    {}
+};
+
+class PlayerShipEntity: public ShipEntity
+{
 public:
     PlayerShipEntity(int pos_x, int pos_y):
-        Entity(PLAYER_TEXTURE[0], 11, pos_x, pos_y, 0, 0, 0)
+        ShipEntity(PLAYER_TEXTURE[0], 11, pos_x, pos_y, 0, 0, 0)
     {}
     void update(float rotation, float delta)
     {
-        setRotation(rotation);
-        texture_timer = clamp(texture_timer + delta, 0.0f, texture_timer_limit);
-        if(canTextureBeChanged())
-        {
-            frame_counter = clamp(frame_counter + 1, 0, PLAYER_FRAMES_COUNT - 1);
-            texture_timer = 0;
-        }
-        sprite.setTexture(PLAYER_TEXTURE[frame_counter]);
-        cannon_timer = clamp(cannon_timer + delta, 0.0f, cannon_timer_limit);
-    }
-    bool canTextureBeChanged()
-    {
-        return texture_timer >= texture_timer_limit;
-    }
-    bool canShoot()
-    {
-        return cannon_timer >= cannon_timer_limit;
-    }
-    void restartCannon()
-    {
-        cannon_timer = 0;
-        frame_counter = 0;
+        sprite.setRotation(rotation);
+        ShipEntity::update(sf::Vector2f(), delta);
     }
 };
 

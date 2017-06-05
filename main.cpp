@@ -117,6 +117,22 @@ void init_assets()
     FONT.loadFromFile(FONT_FILE);
 }
 
+class Timer
+{
+private:
+    float counter;
+    float limit;
+public:
+    Timer(float limit):
+        counter(0),
+        limit(limit)
+    {}
+    void add(float delta) { counter = clamp(counter + delta, 0.0f, limit); }
+    float get_counter() { return counter; }
+    void reset() { counter = 0; }
+    bool isLimit() { return counter >= limit; }
+}
+
 class Entity
 {
 protected:

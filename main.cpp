@@ -86,7 +86,7 @@ void init_textures(const int count, sf::Texture texture[],
 void init_assets() {
     init_textures(SWIMMING_FRAME_COUNT, SWIMMING_TEXTURE, SWIMMING_FILE);
     init_textures(SHOOT_FRAME_COUNT, SHOOT_TEXTURE, SHOOT_FILE);
-    init_textures(BARREL_SWIMMING_FRAME_COUNT, BARREL_EXPLOSION_TEXTURE,
+    init_textures(BARREL_EXPLOSION_FRAME_COUNT, BARREL_EXPLOSION_TEXTURE,
                   BARREL_EXPLOSION_FILE);
     init_textures(BARREL_SWIMMING_FRAME_COUNT, BARREL_SWIMMING_TEXTURE,
                   BARREL_SWIMMING_FILE);

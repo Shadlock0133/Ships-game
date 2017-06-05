@@ -595,7 +595,7 @@ int main() {
         if (zaWarudo.isPlayerDead()) {
             zaWarudo.WindowClose();
         }
-        sf::sleep(sf::seconds(0.016 - delta));
+        sf::sleep(sf::seconds(clamp(0.016 - delta, 0., 0.016)));
     }
     ranking(zaWarudo.getPoints());
     return 0;

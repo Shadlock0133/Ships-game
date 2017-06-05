@@ -2,10 +2,10 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
 #include <cstdio>
-#include <fstream>
-#include <iostream>
 // To please the RNGods
 #include <ctime>
+#include <fstream>
+#include <iostream>
 
 using namespace std;
 

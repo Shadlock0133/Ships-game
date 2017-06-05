@@ -6,8 +6,6 @@
 #include <cstdio>
 #include <cmath>
 #include <SFML/Graphics.hpp>
-#include "entity.cpp"
-#include "util.cpp"
 
 using namespace std;
 
@@ -40,6 +38,70 @@ static sf::Texture PLAYER_TEXTURE[PLAYER_FRAMES_COUNT];
 
 const static string FONT = "assets/Treamd.ttf";
 const float DEG_TO_RADS = 3.14159265 / 180;
+
+template<typename T>
+T clamp(T v, T lo, T hi)
+{
+    if(v < lo) return lo;
+    if(v > hi) return hi;
+    return v;
+}
+
+template<typename T>
+T wrap(T v, T limit)
+{
+    T r = v;
+    if(r < 0) r = limit + r;
+    while(r > limit) r -= limit;
+    return r;
+}
+
+template<typename T>
+string to_string(T value)
+{
+    string buffer;
+    sprintf((char*)buffer.c_str(), "%i", value);
+    return buffer.c_str();
+}
+
+class Entity
+{
+protected:
+    sf::Sprite sprite;
+private:
+    int hp;
+    sf::Texture texture;
+    sf::Vector2f velocity;
+public:
+    Entity(sf::Texture &texture, int hp, int pos_x, int pos_y, float vel_x, float vel_y, float rotation):
+        hp(hp),
+        texture(texture),
+        velocity(vel_x, vel_y)
+    {
+        sf::Vector2u dims = texture.getSize();
+        sprite.setTexture(texture);
+        sprite.setOrigin((float)dims.x / 2, (float)dims.y / 2);
+        sprite.setPosition(pos_x, pos_y);
+        sprite.setRotation(rotation);
+    }
+    sf::Vector2f getPosition() { return sprite.getPosition(); }
+    float getRotation() { return sprite.getRotation(); }
+    void setRotation(float rotation) { sprite.setRotation(rotation); }
+    bool isDead() { return hp <= 0; }
+    void damage() { hp--; }
+    int getHP() { return hp; }
+    void setHP(int hp_) { hp = hp_; }
+    void draw(sf::RenderWindow &window)
+    {
+        window.draw(sprite);
+    }
+    void update(sf::Vector2f movement, float delta)
+    {
+        float x = (velocity.x + movement.x) * delta;
+        float y = (velocity.y + movement.y) * delta;
+        sprite.move(x, y);
+    }
+};
 
 class EnemyEntity : public Entity
 {

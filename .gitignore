@@ -6,3 +6,4 @@ obj/*
 main
 main.o
 .vscode/*
+.clang-format

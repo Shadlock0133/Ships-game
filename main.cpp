@@ -9,30 +9,63 @@
 
 using namespace std;
 
-const static int ENEMY_FRAMES_COUNT = 8;
-const static string ENEMY_TEXTURE_FILE[ENEMY_FRAMES_COUNT] = {
-    "assets/enemy2.png",
-    "assets/enemy3.png",
-    "assets/enemy4.png",
-    "assets/enemy5.png",
-    "assets/enemy6.png",
-    "assets/enemy7.png",
-    "assets/enemy8.png",
-    "assets/enemy1.png"};
-static sf::Texture ENEMY_TEXTURE[ENEMY_FRAMES_COUNT];
+const static int SWIMMING_FRAMES_COUNT = 4;
+const static string SWIMMING_FILE[SWIMMING_FRAMES_COUNT] = {
+    "assets/swimming1.png",
+    "assets/swimming2.png",
+    "assets/swimming3.png",
+    "assets/swimming4.png"
+};
+static sf::Texture SWIMMING_TEXTURE[SWIMMING_FRAMES_COUNT];
+
+const static int SHOOT_FRAMES_COUNT = 8;
+const static string SHOOT_FILE[SHOOT_FRAMES_COUNT] = {
+    "assets/shoot1.png",
+    "assets/shoot2.png",
+    "assets/shoot3.png",
+    "assets/shoot4.png",
+    "assets/shoot5.png",
+    "assets/shoot6.png",
+    "assets/shoot7.png",
+    "assets/shoot8.png"
+};
+static sf::Texture SHOOT_TEXTURE[SHOOT_FRAMES_COUNT];
+
+const static int BARREL_EXPLOSION_FRAMES_COUNT = 11;
+const static string BARREL_EXPLOSION_FILE[BARREL_EXPLOSION_FRAMES_COUNT] = {
+    "assets/barrelexplosion1.png",
+    "assets/barrelexplosion2.png",
+    "assets/barrelexplosion3.png",
+    "assets/barrelexplosion4.png",
+    "assets/barrelexplosion5.png",
+    "assets/barrelexplosion6.png",
+    "assets/barrelexplosion7.png",
+    "assets/barrelexplosion8.png",
+    "assets/barrelexplosion9.png",
+    "assets/barrelexplosion10.png",
+    "assets/barrelexplosion11.png"
+};
+static sf::Texture BARREL_EXPLOSION_TEXTURE[BARREL_EXPLOSION_FRAMES_COUNT];
+
+const static int BARREL_SWIMMING_FRAMES_COUNT = 4;
+const static string BARREL_SWIMMING_FILE[BARREL_SWIMMING_FRAMES_COUNT] = {
+    "assets/barrelswimming1.png",
+    "assets/barrelswimming2.png",
+    "assets/barrelswimming3.png",
+    "assets/barrelswimming4.png"
+};
+static sf::Texture BARREL_SWIMMING_TEXTURE[BARREL_SWIMMING_FRAMES_COUNT];
+
+const static string ENEMY_TEXTURE_FILE = "assets/enemy.png";
+static sf::Texture ENEMY_TEXTURE;
 
 const static string BALL_TEXTURE_FILE = "assets/ball.png";
 static sf::Texture BALL_TEXTURE;
 
-const static int PLAYER_FRAMES_COUNT = 8;
+const static int PLAYER_FRAMES_COUNT = 3;
 const static string PLAYER_TEXTURE_FILE[PLAYER_FRAMES_COUNT] = {
     "assets/ship2.png",
     "assets/ship3.png",
-    "assets/ship4.png",
-    "assets/ship5.png",
-    "assets/ship6.png",
-    "assets/ship7.png",
-    "assets/ship8.png",
     "assets/ship1.png"};
 static sf::Texture PLAYER_TEXTURE[PLAYER_FRAMES_COUNT];
 
@@ -112,7 +145,7 @@ class EnemyEntity : public Entity
     float cannon_timer_limit = 1.5;
 public:
     EnemyEntity(int pos_x, int pos_y, float vel_x, float vel_y, float rotation):
-        Entity(ENEMY_TEXTURE[0], 5, pos_x, pos_y, vel_x, vel_y, rotation)
+        Entity(ENEMY_TEXTURE, 5, pos_x, pos_y, vel_x, vel_y, rotation)
     {}
     void update(sf::Vector2f movement, float delta)
     {

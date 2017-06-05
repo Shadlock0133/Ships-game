@@ -64,12 +64,14 @@ static sf::Texture BALL_TEXTURE;
 
 const static int PLAYER_FRAMES_COUNT = 3;
 const static string PLAYER_TEXTURE_FILE[PLAYER_FRAMES_COUNT] = {
+    "assets/ship1.png",
     "assets/ship2.png",
-    "assets/ship3.png",
-    "assets/ship1.png"};
+    "assets/ship3.png"};
 static sf::Texture PLAYER_TEXTURE[PLAYER_FRAMES_COUNT];
 
-const static string FONT = "assets/Treamd.ttf";
+const static string FONT_FILE = "assets/Treamd.ttf";
+static sf::Font FONT;
+
 const float DEG_TO_RADS = 3.14159265 / 180;
 
 template<typename T>
@@ -95,6 +97,24 @@ string to_string(T value)
     string buffer;
     sprintf((char*)buffer.c_str(), "%i", value);
     return buffer.c_str();
+}
+
+void init_textures(const int count, sf::Texture texture[], const string file[])
+{
+    for(int i = 0; i < count; i++)
+        texture[i].loadFromFile(file[i]);
+}
+
+void init_assets()
+{
+    init_textures(SWIMMING_FRAMES_COUNT, SWIMMING_TEXTURE, SWIMMING_FILE);
+    init_textures(SHOOT_FRAMES_COUNT, SHOOT_TEXTURE, SHOOT_FILE);
+    init_textures(BARREL_SWIMMING_FRAMES_COUNT, BARREL_EXPLOSION_TEXTURE, BARREL_EXPLOSION_FILE);
+    init_textures(BARREL_SWIMMING_FRAMES_COUNT, BARREL_SWIMMING_TEXTURE, BARREL_SWIMMING_FILE);
+    ENEMY_TEXTURE.loadFromFile(ENEMY_TEXTURE_FILE);
+    BALL_TEXTURE.loadFromFile(BALL_TEXTURE_FILE);
+    init_textures(PLAYER_FRAMES_COUNT, PLAYER_TEXTURE, PLAYER_TEXTURE_FILE);
+    FONT.loadFromFile(FONT_FILE);
 }
 
 class Entity
@@ -245,7 +265,6 @@ class World
     const int WIDTH;
     const int HEIGHT;
 
-    sf::Font font;
     BallEntity* balls[MAX_BALLS];
     EnemyEntity* enemies[MAX_ENEMIES];
     int numBalls;
@@ -363,7 +382,6 @@ public:
         window(sf::VideoMode(width, height, 32), "Jak Statki Na Niebie")
     {
         window.setVerticalSyncEnabled(true);
-        font.loadFromFile(FONT);
         for(int i = 0; i < sf::Keyboard::KeyCount; i++) keys[i] = false;
     }
     bool isPlayerDead() { return player.isDead(); }
@@ -543,7 +561,7 @@ public:
 
         if(credits_timer < credits_timer_limit)
         {
-            sf::Text credits_text("GAME by ADMEXTER", font);
+            sf::Text credits_text("GAME by ADMEXTER", FONT);
             credits_text.setFillColor(sf::Color::White);
             credits_text.setStyle(sf::Text::Bold);
             credits_text.setCharacterSize(60);
@@ -551,13 +569,13 @@ public:
             window.draw(credits_text);
         }
 
-        sf::Text health_text("HEALTH: " + to_string(player.getHP()), font);
+        sf::Text health_text("HEALTH: " + to_string(player.getHP()), FONT);
         health_text.setFillColor(sf::Color(205,23,20));
         health_text.setStyle(sf::Text::Bold);
         health_text.setPosition(10, 0);
         window.draw(health_text);
 
-        sf::Text points_text("POINTS: " + to_string(points), font);
+        sf::Text points_text("POINTS: " + to_string(points), FONT);
         points_text.setFillColor(sf::Color::Yellow);
         points_text.setPosition(10, 40);
         window.draw(points_text);
@@ -622,13 +640,8 @@ void ranking(long long int points)
 
 int main()
 {
-    for(int i = 0; i < ENEMY_FRAMES_COUNT; i++)
-        ENEMY_TEXTURE[i].loadFromFile(ENEMY_TEXTURE_FILE[i]);
-    BALL_TEXTURE.loadFromFile(BALL_TEXTURE_FILE);
-    for(int i = 0; i < PLAYER_FRAMES_COUNT; i++)
-        PLAYER_TEXTURE[i].loadFromFile(PLAYER_TEXTURE_FILE[i]);
-
     srand(time(NULL));
+    init_assets();
     const int width = 1200, height = 900;
     World zaWarudo(width, height);
     sf::Clock timer = sf::Clock();

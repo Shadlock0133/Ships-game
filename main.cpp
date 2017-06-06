@@ -2,10 +2,10 @@
 #include <cmath>
 #include <cstdio>
 // To please the RNGods
+#include <SFML/Graphics.hpp>
 #include <ctime>
 #include <fstream>
 #include <iostream>
-#include <SFML/Graphics.hpp>
 
 using namespace std;
 
@@ -177,9 +177,7 @@ class ShipEntity : public Entity {
         frame_counter = 0;
     }
 
-    void restartPutBarrel() {
-        spawnBarrel_timer.reset();
-    }
+    void restartPutBarrel() { spawnBarrel_timer.reset(); }
 };
 
 class BallEntity : public Entity {
@@ -191,16 +189,17 @@ class BallEntity : public Entity {
 class BarrelEntity : public Entity {
     int frame_counter = 0;
     Timer barrel_texture_timer;
-public:
+
+  public:
     BarrelEntity(int pos_x, int pos_y, float vel_x, float vel_y)
         : Entity(BARREL_SWIMMING_TEXTURE[0], 1, pos_x, pos_y, vel_x, vel_y, 0),
-        barrel_texture_timer(0.1) {}
+          barrel_texture_timer(0.1) {}
     void update(sf::Vector2f movement, float delta) {
         Entity::update(movement, delta);
         barrel_texture_timer.add(delta);
         if (barrel_texture_timer.isLimit()) {
-            cout<<"hej"<<endl;
-            frame_counter = clamp(frame_counter + 1, 0, BARREL_SWIMMING_FRAME_COUNT - 1);
+            frame_counter =
+                clamp(frame_counter + 1, 0, BARREL_SWIMMING_FRAME_COUNT - 1);
             barrel_texture_timer.reset();
             sprite.setTexture(BARREL_SWIMMING_TEXTURE[frame_counter]);
         }
@@ -297,7 +296,8 @@ class World {
                     balls[j]->damage();
                 }
             }
-            if (doCollide(enemies[i]->getPosition(), player.getPosition(), 100)) {
+            if (doCollide(enemies[i]->getPosition(), player.getPosition(),
+                          100)) {
                 enemies[i]->damage();
                 player.damage();
             }
@@ -308,8 +308,9 @@ class World {
                 balls[j]->damage();
             }
         }
-        for (int i = numBarrels - 1; i>= 0; i--) {
-            if (doCollide(player.getPosition(), barrels[i]->getPosition(), 100)) {
+        for (int i = numBarrels - 1; i >= 0; i--) {
+            if (doCollide(player.getPosition(), barrels[i]->getPosition(),
+                          100)) {
                 player.damage();
                 barrels[i]->damage();
             }
@@ -332,12 +333,14 @@ class World {
         if (numEnemies < MAX_ENEMIES && numEnemies < max_enemies) {
             enemies[numEnemies++] =
                 new EnemyEntity(pos_x, pos_y, vel_x, vel_y, rotation);
-            if (50 * en * ( 1 + en ) <= points) max_enemies++;
+            if (50 * en * (1 + en) <= points)
+                max_enemies++;
         }
     }
     void spawnBarrel(int pos_x, int pos_y, float vel_x, float vel_y) {
         if (numBarrels < MAX_BARRELS)
-            barrels[numBarrels++] = new BarrelEntity(pos_x, pos_y, vel_x, vel_y);
+            barrels[numBarrels++] =
+                new BarrelEntity(pos_x, pos_y, vel_x, vel_y);
     }
     void spawnBall(int pos_x, int pos_y, float vel_x, float vel_y) {
         if (numBalls < MAX_BALLS)
@@ -370,7 +373,7 @@ class World {
     void putBarrel(float px, float py, float sin, float cos) {
         const int BACK = 71;
         spawnBarrel(px + cos * BACK, py + sin * BACK, -cos * BARREL_SPEED,
-                  sin * BARREL_SPEED);
+                    sin * BARREL_SPEED);
     }
 
     bool canCoup_de_Burst() { return boost_timer < boost_timer_limit; }
@@ -386,8 +389,8 @@ class World {
 
   public:
     World(const int width, const int height)
-        : WIDTH(width), HEIGHT(height), numBalls(0), numEnemies(0), numBarrels(0),
-          player(width / 2, height / 2), points(0), speed(0),
+        : WIDTH(width), HEIGHT(height), numBalls(0), numEnemies(0),
+          numBarrels(0), player(width / 2, height / 2), points(0), speed(0),
           window(sf::VideoMode(width, height, 32), "Jak Statki Na Niebie") {
         window.setVerticalSyncEnabled(true);
         for (int i = 0; i < sf::Keyboard::KeyCount; i++)
@@ -534,7 +537,8 @@ class World {
         }
         for (int i = numBarrels - 1; i >= 0; i--) {
             barrels[i]->update(move_step, delta);
-            if (barrels[i]->isDead() || outsideView(barrels[i]->getPosition())) {
+            if (barrels[i]->isDead() ||
+                outsideView(barrels[i]->getPosition())) {
                 *barrels[i] = *barrels[numBarrels - 1];
                 delete barrels[numBarrels - 1];
                 numBarrels--;

@@ -17,9 +17,9 @@ static sf::Texture SWIMMING_TEXTURE[SWIMMING_FRAME_COUNT];
 
 const static int SHOOT_FRAME_COUNT = 8;
 const static string SHOOT_FILE[SHOOT_FRAME_COUNT] = {
-    "assets/shoot1.png", "assets/shoot2.png", "assets/shoot3.png",
-    "assets/shoot4.png", "assets/shoot5.png", "assets/shoot6.png",
-    "assets/shoot7.png", "assets/shoot8.png"};
+    "assets/shoot2.png", "assets/shoot3.png", "assets/shoot4.png",
+    "assets/shoot5.png", "assets/shoot6.png", "assets/shoot7.png",
+    "assets/shoot8.png", "assets/shoot1.png"};
 static sf::Texture SHOOT_TEXTURE[SHOOT_FRAME_COUNT];
 
 const static int BARREL_EXPLOSION_FRAME_COUNT = 11;
@@ -175,7 +175,16 @@ class ShipEntity : public Entity {
                float vel_y, float rot)
         : Entity(tex, hp, pos_x, pos_y, vel_x, vel_y, rot),
           cannon_texture_timer(0.06), cannon_timer(1.5), spawnBarrel_timer(7.0),
-          wave_texture_timer(0.3) {}
+          wave_texture_timer(0.3) {
+        const int FRONT = -20, MIDDLE = 10, BACK = 40, DISTANCE = 40,
+                  OFFSET_X = 12, OFFSET_Y = 4;
+        cannons[0].setOrigin(FRONT, DISTANCE);
+        cannons[1].setOrigin(MIDDLE, DISTANCE);
+        cannons[2].setOrigin(BACK, DISTANCE);
+        cannons[3].setOrigin(FRONT + OFFSET_X, DISTANCE + OFFSET_Y);
+        cannons[4].setOrigin(MIDDLE + OFFSET_X, DISTANCE + OFFSET_Y);
+        cannons[5].setOrigin(BACK + OFFSET_X, DISTANCE + OFFSET_Y);
+    }
     void update(sf::Vector2f movement, float delta) {
         Entity::update(movement, delta);
 
@@ -197,9 +206,18 @@ class ShipEntity : public Entity {
         wave.setPosition(sprite.getPosition());
         wave.setRotation(sprite.getRotation());
         window.draw(wave);
-        for (int i = 0; i < cannons_amount; i++)
-            window.draw(cannons[i]);
+
         Entity::draw(window);
+        for (int i = 0; i < cannons_amount; i++) {
+            cannons[i].setPosition(sprite.getPosition());
+            float rot;
+            if (i < 3)
+                rot = 0;
+            else
+                rot = 180;
+            cannons[i].setRotation(wrap(sprite.getRotation() + rot, 360.0f));
+            window.draw(cannons[i]);
+        }
     }
     bool canShoot() { return cannon_timer.isLimit(); }
 
@@ -235,8 +253,7 @@ class BarrelEntity : public Entity {
         barrel_texture_timer.add(delta);
         barrel_explosion_texture_timer.add(delta);
         if (barrel_texture_timer.isLimit() && animation == true) {
-            frame_counter =
-                (frame_counter + 1) % BARREL_SWIMMING_FRAME_COUNT;
+            frame_counter = (frame_counter + 1) % BARREL_SWIMMING_FRAME_COUNT;
             barrel_texture_timer.reset();
             sprite.setTexture(BARREL_SWIMMING_TEXTURE[frame_counter]);
         }
@@ -676,7 +693,7 @@ class World {
             intro_bg.setFillColor(sf::Color(
                 0, 0, 0, 1 - (credits_timer * 255 / credits_timer_limit)));
             window.draw(intro_bg);
-            sf::Text credits_text("GAME by ADMEXTER", FONT);
+            sf::Text credits_text("SHIPS by FLOATint Studios", FONT);
             credits_text.setFillColor(sf::Color::White);
             credits_text.setStyle(sf::Text::Bold);
             credits_text.setCharacterSize(60);

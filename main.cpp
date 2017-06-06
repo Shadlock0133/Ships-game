@@ -111,10 +111,10 @@ class Timer {
 
 class Entity {
   protected:
+    int hp;
     sf::Sprite sprite;
 
   private:
-    int hp;
     sf::Texture texture;
     sf::Vector2f velocity;
 
@@ -202,24 +202,47 @@ class BarrelEntity : public Entity {
                 wrap(frame_counter + 1, BARREL_SWIMMING_FRAME_COUNT - 1);
             barrel_texture_timer.reset();
             sprite.setTexture(BARREL_SWIMMING_TEXTURE[frame_counter]);
-            cout << frame_counter << endl;
         }
     }
 };
 
 class EnemyEntity : public ShipEntity {
+    const static int MAX_HP = 7;
   public:
     EnemyEntity(int pos_x, int pos_y, float vel_x, float vel_y, float rot)
-        : ShipEntity(ENEMY_TEXTURE, 7, pos_x, pos_y, vel_x, vel_y, rot) {}
+        : ShipEntity(ENEMY_TEXTURE, MAX_HP, pos_x, pos_y, vel_x, vel_y, rot) {}
+    void draw(sf::RenderWindow &window) {
+        ShipEntity::draw(window);
+
+        const int HP_BAR_SIZE = 10;
+        sf::RectangleShape hp_bar(sf::Vector2f(HP_BAR_SIZE * hp, HP_BAR_SIZE));
+        hp_bar.setPosition(sprite.getPosition() + sf::Vector2f(-HP_BAR_SIZE * MAX_HP / 2, 80));
+        hp_bar.setFillColor(sf::Color::Red);
+        hp_bar.setOutlineColor(sf::Color::Black);
+        hp_bar.setOutlineThickness(1.0);
+        window.draw(hp_bar);
+    }
 };
 
 class PlayerShipEntity : public ShipEntity {
+    const static int MAX_HP = 15;
   public:
     PlayerShipEntity(int pos_x, int pos_y)
-        : ShipEntity(PLAYER_TEXTURE[2], 15, pos_x, pos_y, 0, 0, 0) {}
+        : ShipEntity(PLAYER_TEXTURE[2], MAX_HP, pos_x, pos_y, 0, 0, 0) {}
     void update(float rotation, float delta) {
         sprite.setRotation(rotation);
         ShipEntity::update(sf::Vector2f(), delta);
+    }
+    void draw(sf::RenderWindow &window) {
+        ShipEntity::draw(window);
+
+        const int HP_BAR_SIZE = 10;
+        sf::RectangleShape hp_bar(sf::Vector2f(HP_BAR_SIZE * hp, HP_BAR_SIZE));
+        hp_bar.setPosition(sprite.getPosition() + sf::Vector2f(-HP_BAR_SIZE * MAX_HP / 2, 80));
+        hp_bar.setFillColor(sf::Color::Green);
+        hp_bar.setOutlineColor(sf::Color::Black);
+        hp_bar.setOutlineThickness(1.0);
+        window.draw(hp_bar);
     }
 };
 

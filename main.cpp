@@ -199,9 +199,10 @@ class BarrelEntity : public Entity {
         barrel_texture_timer.add(delta);
         if (barrel_texture_timer.isLimit()) {
             frame_counter =
-                clamp(frame_counter + 1, 0, BARREL_SWIMMING_FRAME_COUNT - 1);
+                wrap(frame_counter + 1, BARREL_SWIMMING_FRAME_COUNT - 1);
             barrel_texture_timer.reset();
             sprite.setTexture(BARREL_SWIMMING_TEXTURE[frame_counter]);
+            cout << frame_counter << endl;
         }
     }
 };

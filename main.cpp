@@ -189,21 +189,32 @@ class BallEntity : public Entity {
 class BarrelEntity : public Entity {
     int frame_counter = 0;
     Timer barrel_texture_timer;
-
+    Timer barrel_explosion_texture_timer;
+    bool animation = true;
   public:
     BarrelEntity(int pos_x, int pos_y, float vel_x, float vel_y)
         : Entity(BARREL_SWIMMING_TEXTURE[0], 1, pos_x, pos_y, vel_x, vel_y, 0),
-          barrel_texture_timer(0.3) {}
+          barrel_texture_timer(0.3), barrel_explosion_texture_timer(0.1) {}
+
     void update(sf::Vector2f movement, float delta) {
         Entity::update(movement, delta);
         barrel_texture_timer.add(delta);
-        if (barrel_texture_timer.isLimit()) {
+        barrel_explosion_texture_timer.add(delta);
+        if (barrel_texture_timer.isLimit() && animation == true) {
             frame_counter =
                 wrap(frame_counter + 1, BARREL_SWIMMING_FRAME_COUNT - 1);
             barrel_texture_timer.reset();
             sprite.setTexture(BARREL_SWIMMING_TEXTURE[frame_counter]);
         }
+        if (barrel_explosion_texture_timer.isLimit() && animation == false) {
+            frame_counter = clamp(frame_counter + 1, 0, BARREL_EXPLOSION_FRAME_COUNT - 1);
+            barrel_explosion_texture_timer.reset();
+            sprite.setTexture(BARREL_EXPLOSION_TEXTURE[frame_counter]);
+        }
     }
+    void closeanimation() { animation = false; }
+    bool getanimation() { return animation; }
+    int getFrameCounter() { return frame_counter; }
 };
 
 class EnemyEntity : public ShipEntity {
@@ -335,9 +346,14 @@ class World {
         for (int i = numBarrels - 1; i >= 0; i--) {
             if (doCollide(player.getPosition(), barrels[i]->getPosition(),
                           100)) {
-                player.damage();
-                barrels[i]->damage();
+                barrels[i]->closeanimation();
             }
+            if (barrels[i]->getFrameCounter() == 1 && barrels[i]->getanimation() == false) {
+                    player.damage();
+                    player.damage();
+                    player.damage();
+            }
+            if (barrels[i]->getFrameCounter() == 10 && barrels[i]->getanimation() == false) barrels[i]->damage();
         }
     }
     void clearEntities() {
@@ -396,7 +412,7 @@ class World {
     }
     void putBarrel(float px, float py, float sin, float cos) {
         const int BACK = 71;
-        spawnBarrel(px + cos * BACK, py + sin * BACK, -cos * BARREL_SPEED,
+        spawnBarrel(px + cos * BACK, py + sin * BACK, cos * BARREL_SPEED,
                     sin * BARREL_SPEED);
     }
 

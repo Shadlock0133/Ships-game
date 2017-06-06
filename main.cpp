@@ -160,7 +160,7 @@ class ShipEntity : public Entity {
         Entity::update(movement, delta);
         cannon_texture_timer.add(delta);
         if (cannon_texture_timer.isLimit()) {
-            frame_counter = clamp(frame_counter + 1, 0, SHOOT_FRAME_COUNT - 1);
+            frame_counter = wrap(frame_counter + 1, SHOOT_FRAME_COUNT - 1);
             cannon_texture_timer.reset();
         }
         for (int i = 0; i < cannons_amount; i++)

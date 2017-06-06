@@ -646,7 +646,8 @@ class World {
 
         if (credits_timer < credits_timer_limit) {
             sf::RectangleShape intro_bg(sf::Vector2f(WIDTH, HEIGHT));
-            intro_bg.setFillColor(sf::Color(0, 0, 0, 1 - (credits_timer * 255 / credits_timer_limit)));
+            intro_bg.setFillColor(sf::Color(
+                0, 0, 0, 1 - (credits_timer * 255 / credits_timer_limit)));
             window.draw(intro_bg);
             sf::Text credits_text("GAME by ADMEXTER", FONT);
             credits_text.setFillColor(sf::Color::White);

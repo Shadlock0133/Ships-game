@@ -116,6 +116,13 @@ class Timer {
     float get_counter() { return counter; }
     void reset() { counter = 0; }
     bool isLimit() { return counter >= limit; }
+    bool didWrap(float delta) {
+        add(delta);
+        bool result = isLimit();
+        if (result)
+            reset();
+        return result;
+    }
 };
 
 class Entity {
@@ -152,30 +159,47 @@ class Entity {
 };
 
 class ShipEntity : public Entity {
-    int frame_counter = 0;
     const static int cannons_amount = 6;
     sf::Sprite cannons[cannons_amount];
+    sf::Sprite wave;
+    int frame_counter = 0;
     Timer cannon_texture_timer;
     Timer cannon_timer;
     Timer spawnBarrel_timer;
+    int wave_frame_counter = 0;
+    Timer wave_texture_timer;
 
   public:
+    float wave_scale = 1;
     ShipEntity(sf::Texture &tex, int hp, int pos_x, int pos_y, float vel_x,
                float vel_y, float rot)
         : Entity(tex, hp, pos_x, pos_y, vel_x, vel_y, rot),
-          cannon_texture_timer(0.06), cannon_timer(1.5),
-          spawnBarrel_timer(7.0) {}
+          cannon_texture_timer(0.06), cannon_timer(1.5), spawnBarrel_timer(7.0),
+          wave_texture_timer(0.3) {}
     void update(sf::Vector2f movement, float delta) {
         Entity::update(movement, delta);
-        cannon_texture_timer.add(delta);
-        if (cannon_texture_timer.isLimit()) {
+
+        if (cannon_texture_timer.didWrap(delta))
             frame_counter = clamp(frame_counter + 1, 0, SHOOT_FRAME_COUNT - 1);
-            cannon_texture_timer.reset();
-        }
         for (int i = 0; i < cannons_amount; i++)
             cannons[i].setTexture(SHOOT_TEXTURE[frame_counter]);
         cannon_timer.add(delta);
         spawnBarrel_timer.add(delta);
+
+        if (wave_texture_timer.didWrap(delta))
+            wave_frame_counter =
+                (wave_frame_counter + 1) % SWIMMING_FRAME_COUNT;
+        wave.setTexture(SWIMMING_TEXTURE[wave_frame_counter]);
+    }
+    void draw(sf::RenderWindow &window) {
+        wave.setOrigin(-70 / wave_scale, 24);
+        wave.setScale(wave_scale, wave_scale);
+        wave.setPosition(sprite.getPosition());
+        wave.setRotation(sprite.getRotation());
+        window.draw(wave);
+        for (int i = 0; i < cannons_amount; i++)
+            window.draw(cannons[i]);
+        Entity::draw(window);
     }
     bool canShoot() { return cannon_timer.isLimit(); }
 
@@ -212,7 +236,7 @@ class BarrelEntity : public Entity {
         barrel_explosion_texture_timer.add(delta);
         if (barrel_texture_timer.isLimit() && animation == true) {
             frame_counter =
-                wrap(frame_counter + 1, BARREL_SWIMMING_FRAME_COUNT);
+                (frame_counter + 1) % BARREL_SWIMMING_FRAME_COUNT;
             barrel_texture_timer.reset();
             sprite.setTexture(BARREL_SWIMMING_TEXTURE[frame_counter]);
         }
@@ -512,9 +536,11 @@ class World {
         if (up && canCoup_de_Burst()) {
             boost_timer = clamp(boost_timer + delta, 0.0f, boost_timer_limit);
             player_speed = 500;
+            player.wave_scale = 2;
         } else if (down && canHalt()) {
             break_timer = clamp(break_timer + delta, 0.0f, break_timer_limit);
             player_speed = 0;
+            player.wave_scale = 0;
         } else {
             boost_load_timer =
                 clamp(boost_load_timer + delta, 0.0f, boost_load_timer_limit);
@@ -529,6 +555,7 @@ class World {
                 restartHalt_Load();
             }
             player_speed = 50;
+            player.wave_scale = 1;
         }
 
         if (left && !right)

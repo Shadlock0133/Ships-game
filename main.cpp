@@ -193,7 +193,7 @@ class BarrelEntity : public Entity {
   public:
     BarrelEntity(int pos_x, int pos_y, float vel_x, float vel_y)
         : Entity(BARREL_SWIMMING_TEXTURE[0], 1, pos_x, pos_y, vel_x, vel_y, 0),
-          barrel_texture_timer(0.1) {}
+          barrel_texture_timer(0.3) {}
     void update(sf::Vector2f movement, float delta) {
         Entity::update(movement, delta);
         barrel_texture_timer.add(delta);
@@ -202,7 +202,6 @@ class BarrelEntity : public Entity {
                 wrap(frame_counter + 1, BARREL_SWIMMING_FRAME_COUNT - 1);
             barrel_texture_timer.reset();
             sprite.setTexture(BARREL_SWIMMING_TEXTURE[frame_counter]);
-            cout << frame_counter << endl;
         }
     }
 };
@@ -244,7 +243,7 @@ class World {
     const float MAX_SPEED = 500;
     const float BALL_SPEED = 300;
     const float ENEMY_SPEED = 60;
-    const float BARREL_SPEED = 10;
+    const float BARREL_SPEED = 20;
     const int WIDTH;
     const int HEIGHT;
 

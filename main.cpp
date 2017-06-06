@@ -1,11 +1,11 @@
 /// Gra Jak Statki Na Niebie
-#include <SFML/Graphics.hpp>
 #include <cmath>
 #include <cstdio>
 // To please the RNGods
 #include <ctime>
 #include <fstream>
 #include <iostream>
+#include <SFML/Graphics.hpp>
 
 using namespace std;
 
@@ -148,12 +148,14 @@ class ShipEntity : public Entity {
     sf::Sprite cannons[cannons_amount];
     Timer cannon_texture_timer;
     Timer cannon_timer;
+    Timer spawnBarrel_timer;
 
   public:
     ShipEntity(sf::Texture &tex, int hp, int pos_x, int pos_y, float vel_x,
                float vel_y, float rot)
         : Entity(tex, hp, pos_x, pos_y, vel_x, vel_y, rot),
-          cannon_texture_timer(0.06), cannon_timer(1.5) {}
+          cannon_texture_timer(0.06), cannon_timer(1.5),
+          spawnBarrel_timer(7.0) {}
     void update(sf::Vector2f movement, float delta) {
         Entity::update(movement, delta);
         cannon_texture_timer.add(delta);
@@ -164,11 +166,19 @@ class ShipEntity : public Entity {
         for (int i = 0; i < cannons_amount; i++)
             cannons[i].setTexture(SHOOT_TEXTURE[frame_counter]);
         cannon_timer.add(delta);
+        spawnBarrel_timer.add(delta);
     }
     bool canShoot() { return cannon_timer.isLimit(); }
+
+    bool canPutBarrel() { return spawnBarrel_timer.isLimit(); }
+
     void restartCannon() {
         cannon_timer.reset();
         frame_counter = 0;
+    }
+
+    void restartPutBarrel() {
+        spawnBarrel_timer.reset();
     }
 };
 
@@ -178,16 +188,35 @@ class BallEntity : public Entity {
         : Entity(BALL_TEXTURE, 1, pos_x, pos_y, vel_x, vel_y, 0) {}
 };
 
+class BarrelEntity : public Entity {
+    int frame_counter = 0;
+    Timer barrel_texture_timer;
+public:
+    BarrelEntity(int pos_x, int pos_y, float vel_x, float vel_y)
+        : Entity(BARREL_SWIMMING_TEXTURE[0], 1, pos_x, pos_y, vel_x, vel_y, 0),
+        barrel_texture_timer(0.1) {}
+    void update(sf::Vector2f movement, float delta) {
+        Entity::update(movement, delta);
+        barrel_texture_timer.add(delta);
+        if (barrel_texture_timer.isLimit()) {
+            cout<<"hej"<<endl;
+            frame_counter = clamp(frame_counter + 1, 0, BARREL_SWIMMING_FRAME_COUNT - 1);
+            barrel_texture_timer.reset();
+            sprite.setTexture(BARREL_SWIMMING_TEXTURE[frame_counter]);
+        }
+    }
+};
+
 class EnemyEntity : public ShipEntity {
   public:
     EnemyEntity(int pos_x, int pos_y, float vel_x, float vel_y, float rot)
-        : ShipEntity(ENEMY_TEXTURE, 5, pos_x, pos_y, vel_x, vel_y, rot) {}
+        : ShipEntity(ENEMY_TEXTURE, 7, pos_x, pos_y, vel_x, vel_y, rot) {}
 };
 
 class PlayerShipEntity : public ShipEntity {
   public:
     PlayerShipEntity(int pos_x, int pos_y)
-        : ShipEntity(PLAYER_TEXTURE[0], 11, pos_x, pos_y, 0, 0, 0) {}
+        : ShipEntity(PLAYER_TEXTURE[2], 15, pos_x, pos_y, 0, 0, 0) {}
     void update(float rotation, float delta) {
         sprite.setRotation(rotation);
         ShipEntity::update(sf::Vector2f(), delta);
@@ -209,18 +238,24 @@ class World {
     float credits_timer = 0;
     float credits_timer_limit = 5.0;
 
-    const static int MAX_BALLS = 120;
-    const static int MAX_ENEMIES = 5;
+    const static int MAX_BALLS = 200;
+    const static int MAX_ENEMIES = 11;
+    const static int MAX_BARRELS = 50;
     const float MAX_SPEED = 500;
     const float BALL_SPEED = 300;
     const float ENEMY_SPEED = 60;
+    const float BARREL_SPEED = 10;
     const int WIDTH;
     const int HEIGHT;
 
+    int max_enemies = 2;
+
     BallEntity *balls[MAX_BALLS];
     EnemyEntity *enemies[MAX_ENEMIES];
+    BarrelEntity *barrels[MAX_BARRELS];
     int numBalls;
     int numEnemies;
+    int numBarrels;
     PlayerShipEntity player;
     long long int points;
     float speed;
@@ -262,8 +297,7 @@ class World {
                     balls[j]->damage();
                 }
             }
-            if (doCollide(enemies[i]->getPosition(), player.getPosition(),
-                          100)) {
+            if (doCollide(enemies[i]->getPosition(), player.getPosition(), 100)) {
                 enemies[i]->damage();
                 player.damage();
             }
@@ -274,6 +308,12 @@ class World {
                 balls[j]->damage();
             }
         }
+        for (int i = numBarrels - 1; i>= 0; i--) {
+            if (doCollide(player.getPosition(), barrels[i]->getPosition(), 100)) {
+                player.damage();
+                barrels[i]->damage();
+            }
+        }
     }
     void clearEntities() {
         for (int i = numBalls - 1; i >= 0; i--)
@@ -282,17 +322,28 @@ class World {
         for (int i = numEnemies - 1; i >= 0; i--)
             delete enemies[i];
         numEnemies = 0;
+        for (int i = numBarrels - 1; i >= 0; i--)
+            delete barrels[i];
+        numBarrels = 0;
     }
     void spawnEnemy(int pos_x, int pos_y, float vel_x, float vel_y,
                     float rotation) {
-        if (numEnemies < MAX_ENEMIES)
+        int en = max_enemies - 1;
+        if (numEnemies < MAX_ENEMIES && numEnemies < max_enemies) {
             enemies[numEnemies++] =
                 new EnemyEntity(pos_x, pos_y, vel_x, vel_y, rotation);
+            if (50 * en * ( 1 + en ) <= points) max_enemies++;
+        }
+    }
+    void spawnBarrel(int pos_x, int pos_y, float vel_x, float vel_y) {
+        if (numBarrels < MAX_BARRELS)
+            barrels[numBarrels++] = new BarrelEntity(pos_x, pos_y, vel_x, vel_y);
     }
     void spawnBall(int pos_x, int pos_y, float vel_x, float vel_y) {
         if (numBalls < MAX_BALLS)
             balls[numBalls++] = new BallEntity(pos_x, pos_y, vel_x, vel_y);
     }
+
     void fireCannons(float px, float py, float sin, float cos) {
         const int FRONT = -20, MIDDLE = 10, BACK = 40, DISTANCE = 55;
         // Left side
@@ -316,6 +367,12 @@ class World {
                   py + sin * BACK + cos * -DISTANCE, sin * BALL_SPEED,
                   -cos * BALL_SPEED);
     }
+    void putBarrel(float px, float py, float sin, float cos) {
+        const int BACK = 71;
+        spawnBarrel(px + cos * BACK, py + sin * BACK, -cos * BARREL_SPEED,
+                  sin * BARREL_SPEED);
+    }
+
     bool canCoup_de_Burst() { return boost_timer < boost_timer_limit; }
     void restartCoup_de_Burst() { boost_timer = 0; }
     void restartCoup_de_Burst_Load() { boost_load_timer = 0; }
@@ -329,7 +386,7 @@ class World {
 
   public:
     World(const int width, const int height)
-        : WIDTH(width), HEIGHT(height), numBalls(0), numEnemies(0),
+        : WIDTH(width), HEIGHT(height), numBalls(0), numEnemies(0), numBarrels(0),
           player(width / 2, height / 2), points(0), speed(0),
           window(sf::VideoMode(width, height, 32), "Jak Statki Na Niebie") {
         window.setVerticalSyncEnabled(true);
@@ -475,6 +532,14 @@ class World {
                 numBalls--;
             }
         }
+        for (int i = numBarrels - 1; i >= 0; i--) {
+            barrels[i]->update(move_step, delta);
+            if (barrels[i]->isDead() || outsideView(barrels[i]->getPosition())) {
+                *barrels[i] = *barrels[numBarrels - 1];
+                delete barrels[numBarrels - 1];
+                numBarrels--;
+            }
+        }
         for (int i = numEnemies - 1; i >= 0; i--) {
             enemies[i]->update(move_step, delta);
             if (enemies[i]->isDead()) {
@@ -488,6 +553,10 @@ class World {
             if (enemies[i]->canShoot()) {
                 fireCannons(px_e, py_e, sin_rot_e, cos_rot_e);
                 enemies[i]->restartCannon();
+            }
+            if (enemies[i]->canPutBarrel()) {
+                putBarrel(px_e, py_e, sin_rot_e, cos_rot_e);
+                enemies[i]->restartPutBarrel();
             }
             if (enemies[i]->isDead() ||
                 outsideView(enemies[i]->getPosition())) {
@@ -504,6 +573,8 @@ class World {
             balls[i]->draw(window);
         for (int i = numEnemies - 1; i >= 0; i--)
             enemies[i]->draw(window);
+        for (int i = numBarrels - 1; i >= 0; i--)
+            barrels[i]->draw(window);
         player.draw(window);
 
         if (credits_timer < credits_timer_limit) {

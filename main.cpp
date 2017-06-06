@@ -66,7 +66,7 @@ template <typename T> T wrap(T v, T limit) {
     T r = v;
     if (r < 0)
         r = limit + r;
-    while (r > limit)
+    while (r >= limit)
         r -= limit;
     return r;
 }
@@ -75,6 +75,15 @@ template <typename T> string to_string(T value) {
     string buffer;
     sprintf((char *)buffer.c_str(), "%i", value);
     return buffer.c_str();
+}
+
+template <typename T> T mix(T t1, T t2, float amount) {
+    return (t1 * (1.0 - amount)) + (t2 * amount);
+}
+
+sf::Color mix(sf::Color c1, sf::Color c2, float amount) {
+    return sf::Color(mix(c1.r, c2.r, amount), mix(c1.g, c2.g, amount),
+                     mix(c1.b, c2.b, amount), mix(c1.a, c2.a, amount));
 }
 
 void init_textures(const int count, sf::Texture texture[],
@@ -191,6 +200,7 @@ class BarrelEntity : public Entity {
     Timer barrel_texture_timer;
     Timer barrel_explosion_texture_timer;
     bool animation = true;
+
   public:
     BarrelEntity(int pos_x, int pos_y, float vel_x, float vel_y)
         : Entity(BARREL_SWIMMING_TEXTURE[0], 1, pos_x, pos_y, vel_x, vel_y, 0),
@@ -207,7 +217,8 @@ class BarrelEntity : public Entity {
             sprite.setTexture(BARREL_SWIMMING_TEXTURE[frame_counter]);
         }
         if (barrel_explosion_texture_timer.isLimit() && animation == false) {
-            frame_counter = clamp(frame_counter + 1, 0, BARREL_EXPLOSION_FRAME_COUNT - 1);
+            frame_counter =
+                clamp(frame_counter + 1, 0, BARREL_EXPLOSION_FRAME_COUNT - 1);
             barrel_explosion_texture_timer.reset();
             sprite.setTexture(BARREL_EXPLOSION_TEXTURE[frame_counter]);
         }
@@ -219,6 +230,7 @@ class BarrelEntity : public Entity {
 
 class EnemyEntity : public ShipEntity {
     const static int MAX_HP = 7;
+
   public:
     EnemyEntity(int pos_x, int pos_y, float vel_x, float vel_y, float rot)
         : ShipEntity(ENEMY_TEXTURE, MAX_HP, pos_x, pos_y, vel_x, vel_y, rot) {}
@@ -227,7 +239,8 @@ class EnemyEntity : public ShipEntity {
 
         const int HP_BAR_SIZE = 10;
         sf::RectangleShape hp_bar(sf::Vector2f(HP_BAR_SIZE * hp, HP_BAR_SIZE));
-        hp_bar.setPosition(sprite.getPosition() + sf::Vector2f(-HP_BAR_SIZE * MAX_HP / 2, 80));
+        hp_bar.setPosition(sprite.getPosition() +
+                           sf::Vector2f(-HP_BAR_SIZE * MAX_HP / 2, 80));
         hp_bar.setFillColor(sf::Color::Red);
         hp_bar.setOutlineColor(sf::Color::Black);
         hp_bar.setOutlineThickness(1.0);
@@ -237,6 +250,7 @@ class EnemyEntity : public ShipEntity {
 
 class PlayerShipEntity : public ShipEntity {
     const static int MAX_HP = 15;
+
   public:
     PlayerShipEntity(int pos_x, int pos_y)
         : ShipEntity(PLAYER_TEXTURE[2], MAX_HP, pos_x, pos_y, 0, 0, 0) {}
@@ -249,7 +263,8 @@ class PlayerShipEntity : public ShipEntity {
 
         const int HP_BAR_SIZE = 10;
         sf::RectangleShape hp_bar(sf::Vector2f(HP_BAR_SIZE * hp, HP_BAR_SIZE));
-        hp_bar.setPosition(sprite.getPosition() + sf::Vector2f(-HP_BAR_SIZE * MAX_HP / 2, 80));
+        hp_bar.setPosition(sprite.getPosition() +
+                           sf::Vector2f(-HP_BAR_SIZE * MAX_HP / 2, 80));
         hp_bar.setFillColor(sf::Color::Green);
         hp_bar.setOutlineColor(sf::Color::Black);
         hp_bar.setOutlineThickness(1.0);
@@ -348,12 +363,15 @@ class World {
                           100)) {
                 barrels[i]->closeanimation();
             }
-            if (barrels[i]->getFrameCounter() == 1 && barrels[i]->getanimation() == false) {
-                    player.damage();
-                    player.damage();
-                    player.damage();
+            if (barrels[i]->getFrameCounter() == 1 &&
+                barrels[i]->getanimation() == false) {
+                player.damage();
+                player.damage();
+                player.damage();
             }
-            if (barrels[i]->getFrameCounter() == 10 && barrels[i]->getanimation() == false) barrels[i]->damage();
+            if (barrels[i]->getFrameCounter() == 10 &&
+                barrels[i]->getanimation() == false)
+                barrels[i]->damage();
         }
     }
     void clearEntities() {
@@ -621,7 +639,15 @@ class World {
             barrels[i]->draw(window);
         player.draw(window);
 
+        sf::Text points_text("POINTS: " + to_string(points), FONT);
+        points_text.setFillColor(sf::Color::Yellow);
+        points_text.setPosition(10, 0);
+        window.draw(points_text);
+
         if (credits_timer < credits_timer_limit) {
+            sf::RectangleShape intro_bg(sf::Vector2f(WIDTH, HEIGHT));
+            intro_bg.setFillColor(sf::Color(0, 0, 0, 1 - (credits_timer * 255 / credits_timer_limit)));
+            window.draw(intro_bg);
             sf::Text credits_text("GAME by ADMEXTER", FONT);
             credits_text.setFillColor(sf::Color::White);
             credits_text.setStyle(sf::Text::Bold);
@@ -629,11 +655,6 @@ class World {
             credits_text.setPosition(WIDTH / 4, HEIGHT / 2 - 120);
             window.draw(credits_text);
         }
-
-        sf::Text points_text("POINTS: " + to_string(points), FONT);
-        points_text.setFillColor(sf::Color::Yellow);
-        points_text.setPosition(10, 0);
-        window.draw(points_text);
 
         window.display();
     }

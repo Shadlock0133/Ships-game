@@ -614,15 +614,9 @@ class World {
             window.draw(credits_text);
         }
 
-        sf::Text health_text("HEALTH: " + to_string(player.getHP()), FONT);
-        health_text.setFillColor(sf::Color(205, 23, 20));
-        health_text.setStyle(sf::Text::Bold);
-        health_text.setPosition(10, 0);
-        window.draw(health_text);
-
         sf::Text points_text("POINTS: " + to_string(points), FONT);
         points_text.setFillColor(sf::Color::Yellow);
-        points_text.setPosition(10, 40);
+        points_text.setPosition(10, 0);
         window.draw(points_text);
 
         window.display();

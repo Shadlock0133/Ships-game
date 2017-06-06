@@ -199,7 +199,7 @@ class BarrelEntity : public Entity {
         barrel_texture_timer.add(delta);
         if (barrel_texture_timer.isLimit()) {
             frame_counter =
-                wrap(frame_counter + 1, BARREL_SWIMMING_FRAME_COUNT - 1);
+                wrap(frame_counter + 1, BARREL_SWIMMING_FRAME_COUNT);
             barrel_texture_timer.reset();
             sprite.setTexture(BARREL_SWIMMING_TEXTURE[frame_counter]);
         }

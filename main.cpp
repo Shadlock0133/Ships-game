@@ -282,7 +282,7 @@ class World {
     const int WIDTH;
     const int HEIGHT;
 
-    int max_enemies = 2;
+    int max_enemies = 4;
 
     BallEntity *balls[MAX_BALLS];
     EnemyEntity *enemies[MAX_ENEMIES];

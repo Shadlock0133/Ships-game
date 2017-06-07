@@ -6,6 +6,7 @@
 #include <ctime>
 #include <fstream>
 #include <iostream>
+#pragma once
 
 using namespace std;
 
@@ -207,7 +208,6 @@ class ShipEntity : public Entity {
         wave.setRotation(sprite.getRotation());
         window.draw(wave);
 
-        Entity::draw(window);
         for (int i = 0; i < cannons_amount; i++) {
             cannons[i].setPosition(sprite.getPosition());
             float rot;
@@ -217,6 +217,7 @@ class ShipEntity : public Entity {
                 rot = 180;
             cannons[i].setRotation(wrap(sprite.getRotation() + rot, 360.0f));
             window.draw(cannons[i]);
+        Entity::draw(window);
         }
     }
     bool canShoot() { return cannon_timer.isLimit(); }
@@ -264,7 +265,10 @@ class BarrelEntity : public Entity {
             sprite.setTexture(BARREL_EXPLOSION_TEXTURE[frame_counter]);
         }
     }
-    void closeanimation() { animation = false; }
+    void closeanimation() {
+        if(animation == true) frame_counter = 0;
+        animation = false;
+    }
     bool getanimation() { return animation; }
     int getFrameCounter() { return frame_counter; }
 };
@@ -277,11 +281,10 @@ class EnemyEntity : public ShipEntity {
         : ShipEntity(ENEMY_TEXTURE, MAX_HP, pos_x, pos_y, vel_x, vel_y, rot) {}
     void draw(sf::RenderWindow &window) {
         ShipEntity::draw(window);
-        window.draw(sprite);
         const int HP_BAR_SIZE = 10;
         sf::RectangleShape hp_bar(sf::Vector2f(HP_BAR_SIZE * hp, HP_BAR_SIZE));
         hp_bar.setPosition(sprite.getPosition() +
-                           sf::Vector2f(-HP_BAR_SIZE * MAX_HP / 2, 80));
+                           sf::Vector2f(-HP_BAR_SIZE / 2 * MAX_HP, 80));
         hp_bar.setFillColor(sf::Color::Red);
         hp_bar.setOutlineColor(sf::Color::Black);
         hp_bar.setOutlineThickness(1.0);
@@ -290,7 +293,7 @@ class EnemyEntity : public ShipEntity {
 };
 
 class PlayerShipEntity : public ShipEntity {
-    const static int MAX_HP = 15;
+    const static int MAX_HP = 25;
 
   public:
     PlayerShipEntity(int pos_x, int pos_y)
@@ -301,11 +304,10 @@ class PlayerShipEntity : public ShipEntity {
     }
     void draw(sf::RenderWindow &window) {
         ShipEntity::draw(window);
-        window.draw(sprite);
         const int HP_BAR_SIZE = 10;
-        sf::RectangleShape hp_bar(sf::Vector2f(HP_BAR_SIZE * hp, HP_BAR_SIZE));
+        sf::RectangleShape hp_bar(sf::Vector2f(HP_BAR_SIZE / 2 * hp, HP_BAR_SIZE));
         hp_bar.setPosition(sprite.getPosition() +
-                           sf::Vector2f(-HP_BAR_SIZE * MAX_HP / 2, 80));
+                           sf::Vector2f(-HP_BAR_SIZE / 4 * MAX_HP, 80));
         hp_bar.setFillColor(sf::Color::Green);
         hp_bar.setOutlineColor(sf::Color::Black);
         hp_bar.setOutlineThickness(1.0);
@@ -328,17 +330,21 @@ class World {
     float credits_timer = 0;
     float credits_timer_limit = 5.0;
 
+    float points_timer = 0;
+    float points_timer_limit = 1.0;
+
     const static int MAX_BALLS = 200;
     const static int MAX_ENEMIES = 11;
     const static int MAX_BARRELS = 50;
     const float MAX_SPEED = 500;
     const float BALL_SPEED = 300;
-    const float ENEMY_SPEED = 60;
+    const float ENEMY_SPEED = 55;
     const float BARREL_SPEED = 20;
     const int WIDTH;
     const int HEIGHT;
 
-    int max_enemies = 4;
+    int TIME = 0;
+    int max_enemies = 3;
 
     BallEntity *balls[MAX_BALLS];
     EnemyEntity *enemies[MAX_ENEMIES];
@@ -347,7 +353,8 @@ class World {
     int numEnemies;
     int numBarrels;
     PlayerShipEntity player;
-    long long int points;
+    long long int points = 0;
+    long int kills = 0;
     float speed;
 
     sf::RenderWindow window;
@@ -404,7 +411,7 @@ class World {
                           100)) {
                 barrels[i]->closeanimation();
             }
-            if (barrels[i]->getFrameCounter() == 1 &&
+            if (barrels[i]->getFrameCounter() == 0 &&
                 barrels[i]->getanimation() == false) {
                 player.damage();
                 player.damage();
@@ -486,6 +493,9 @@ class World {
     bool canSpawnEnemy() { return spawnEnemy_timer >= spawnEnemy_timer_limit; }
     void restartSpawnerEnemy() { spawnEnemy_timer = 0; }
 
+    bool canGivePoints() { return points_timer >= points_timer_limit; }
+    void restartGivingPoints() { points_timer = 0; }
+
   public:
     World(const int width, const int height)
         : WIDTH(width), HEIGHT(height), numBalls(0), numEnemies(0),
@@ -497,6 +507,8 @@ class World {
     }
     bool isPlayerDead() { return player.isDead(); }
     long long int getPoints() { return points; }
+    long int getKills() { return kills; }
+    int getTime() { return TIME; }
     void saveToFile(string filename) {
         ofstream file;
         file.open(filename);
@@ -532,6 +544,13 @@ class World {
             points = 1000;
 
         credits_timer = clamp(credits_timer + delta, 0.0f, credits_timer_limit);
+
+        points_timer = clamp(points_timer + delta, 0.0f, points_timer_limit);
+        if(canGivePoints()) {
+            TIME++;
+            points += 3;
+            restartGivingPoints();
+        }
 
         float px = player.getPosition().x;
         float py = player.getPosition().y;
@@ -650,6 +669,7 @@ class World {
             enemies[i]->update(move_step, delta);
             if (enemies[i]->isDead()) {
                 points += 11;
+                kills++;
             }
             float rot_e = enemies[i]->getRotation() * 3.14159265 / 180;
             float px_e = enemies[i]->getPosition().x;
@@ -673,6 +693,22 @@ class World {
         }
         player.update(rotation, delta);
     }
+    string show_time(int temp) {
+        int tab[3];
+        string time;
+        tab[0] = temp%60;
+        temp = temp/60;
+        tab[1] = temp%60;
+        temp = temp/60;
+        tab[2] = temp;
+        time = to_string(tab[2]) + ":";// + to_string(tab[1]) + ":" + to_string(tab[0]);
+        if(tab[1] < 10) time += "0" + to_string(tab[1]) + ":";
+        else time += to_string(tab[1]) + ":";
+        if(tab[0] < 10) time += "0" + to_string(tab[0]);
+        else time += to_string(tab[0]);
+
+        return time;
+    }
     void draw() {
         window.clear(sf::Color(0, 128, 183));
         for (int i = numBalls - 1; i >= 0; i--)
@@ -683,21 +719,31 @@ class World {
             barrels[i]->draw(window);
         player.draw(window);
 
-        sf::Text points_text("POINTS: " + to_string(points), FONT);
+        sf::Text points_text("POINTS:  " + to_string(points), FONT);
         points_text.setFillColor(sf::Color::Yellow);
         points_text.setPosition(10, 0);
         window.draw(points_text);
+
+        sf::Text time_text("SURVIVAL TIME:  " + show_time(TIME), FONT);
+        time_text.setFillColor(sf::Color(255, 104, 4));
+        time_text.setPosition(WIDTH / 2 - 170, 0);
+        window.draw(time_text);
+
+        sf::Text kills_text("KILLS:  " + to_string(kills), FONT);
+        kills_text.setFillColor(sf::Color::Black);
+        kills_text.setPosition(WIDTH - 180, 0);
+        window.draw(kills_text);
 
         if (credits_timer < credits_timer_limit) {
             sf::RectangleShape intro_bg(sf::Vector2f(WIDTH, HEIGHT));
             intro_bg.setFillColor(sf::Color(
                 0, 0, 0, 1 - (credits_timer * 255 / credits_timer_limit)));
             window.draw(intro_bg);
-            sf::Text credits_text("SHIPS by FLOATint Studios", FONT);
+            sf::Text credits_text("        SHIPS by\n Admexter & Shadlock", FONT);
             credits_text.setFillColor(sf::Color::White);
             credits_text.setStyle(sf::Text::Bold);
             credits_text.setCharacterSize(60);
-            credits_text.setPosition(WIDTH / 4, HEIGHT / 2 - 120);
+            credits_text.setPosition(WIDTH / 4, HEIGHT / 4 - 20);
             window.draw(credits_text);
         }
 
@@ -711,7 +757,7 @@ bool rank_sorter(pair<string, long long int> p1,
     return p1.second > p2.second;
 }
 
-void ranking(long long int points) {
+void ranking(long long int points, long int kills, string Time) {
     vector<pair<string, long long int>> ranking;
     ifstream ifile;
     ifile.open("ranking.rnk");
@@ -732,6 +778,8 @@ void ranking(long long int points) {
     getline(cin, name);
     cout << "Dead man tell no tales." << endl
          << name << " gained score: " << points << endl
+         <<"got kills: " << kills << endl
+         <<"and survived: " + Time << endl
          << "Game over" << endl
          << endl;
 
@@ -759,7 +807,7 @@ void ranking(long long int points) {
 int main() {
     srand(time(NULL));
     init_assets();
-    const int width = 1200, height = 900;
+    const int width = 1100, height = 750;
     World zaWarudo(width, height);
     sf::Clock timer = sf::Clock();
     while (zaWarudo.isWindowOpen()) {
@@ -772,7 +820,7 @@ int main() {
         }
         sf::sleep(sf::seconds(clamp(0.016 - delta, 0., 0.016)));
     }
-    ranking(zaWarudo.getPoints());
+    ranking(zaWarudo.getPoints(), zaWarudo.getKills(), zaWarudo.show_time(zaWarudo.getTime()));
     return 0;
 }
 

@@ -719,7 +719,7 @@ class World {
             barrels[i]->draw(window);
         player.draw(window);
 
-        sf::Text points_text("POINTS:  " + to_string(points), FONT);
+        sf::Text points_text("SCORE:  " + to_string(points), FONT);
         points_text.setFillColor(sf::Color::Yellow);
         points_text.setPosition(10, 0);
         window.draw(points_text);

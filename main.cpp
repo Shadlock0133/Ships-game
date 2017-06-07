@@ -328,7 +328,7 @@ class World {
     float break_load_timer_limit = 3.0;
 
     float credits_timer = 0;
-    float credits_timer_limit = 5.0;
+    float credits_timer_limit = 7.0;
 
     float points_timer = 0;
     float points_timer_limit = 1.0;
@@ -739,12 +739,20 @@ class World {
             intro_bg.setFillColor(sf::Color(
                 0, 0, 0, 1 - (credits_timer * 255 / credits_timer_limit)));
             window.draw(intro_bg);
+
             sf::Text credits_text("        SHIPS by\n Admexter & Shadlock", FONT);
             credits_text.setFillColor(sf::Color::White);
             credits_text.setStyle(sf::Text::Bold);
             credits_text.setCharacterSize(60);
             credits_text.setPosition(WIDTH / 4, HEIGHT / 4 - 20);
             window.draw(credits_text);
+
+            sf::Text instr_text("LEFT or A and RIGHT or steer\nSPACE to shoot\nUP or W to boost", FONT);
+            instr_text.setFillColor(sf::Color::White);
+            instr_text.setStyle(sf::Text::Bold);
+            instr_text.setCharacterSize(30);
+            instr_text.setPosition(WIDTH / 2, HEIGHT / 4 - 20);
+            window.draw(instr_text);
         }
 
         window.display();

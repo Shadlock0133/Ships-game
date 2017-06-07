@@ -795,8 +795,10 @@ void ranking(long long int points, long int kills, string Time) {
 
     sort(ranking.begin(), ranking.end(), rank_sorter);
 
+    // Print scores to terminal
+    int i = 1;
     for (pair<string, long long int> score : ranking) {
-        cout << score.first << ": " << score.second << endl;
+        cout << i++ << ". " << score.first << ": " << score.second << endl;
     }
 
     cout << "Press any letter then enter to end, because c++ sucks..." << endl
@@ -806,6 +808,7 @@ void ranking(long long int points, long int kills, string Time) {
 
     ofstream ofile;
     ofile.open("ranking.rnk");
+    // Save to file
     for (int i = 0; i < 10; i++) {
         ofile << ranking[i].first << endl << ranking[i].second << endl;
     }

@@ -176,13 +176,13 @@ class ShipEntity : public Entity {
         : Entity(tex, hp, pos_x, pos_y, vel_x, vel_y, rot),
           cannon_texture_timer(0.06), cannon_timer(1.5), spawnBarrel_timer(7.0),
           wave_texture_timer(0.3) {
-        const int FRONT = -20, MIDDLE = 10, BACK = 40, DISTANCE = 40,
+        const int FRONT = -15, MIDDLE = 5, BACK = 35, DISTANCE = 40,
                   OFFSET_X = 12, OFFSET_Y = 4;
         cannons[0].setOrigin(FRONT, DISTANCE);
         cannons[1].setOrigin(MIDDLE, DISTANCE);
         cannons[2].setOrigin(BACK, DISTANCE);
         cannons[3].setOrigin(FRONT + OFFSET_X, DISTANCE + OFFSET_Y);
-        cannons[4].setOrigin(MIDDLE + OFFSET_X, DISTANCE + OFFSET_Y);
+        cannons[4].setOrigin(3 * MIDDLE + OFFSET_X, DISTANCE + OFFSET_Y);
         cannons[5].setOrigin(BACK + OFFSET_X, DISTANCE + OFFSET_Y);
     }
     void update(sf::Vector2f movement, float delta) {
@@ -277,7 +277,7 @@ class EnemyEntity : public ShipEntity {
         : ShipEntity(ENEMY_TEXTURE, MAX_HP, pos_x, pos_y, vel_x, vel_y, rot) {}
     void draw(sf::RenderWindow &window) {
         ShipEntity::draw(window);
-
+        window.draw(sprite);
         const int HP_BAR_SIZE = 10;
         sf::RectangleShape hp_bar(sf::Vector2f(HP_BAR_SIZE * hp, HP_BAR_SIZE));
         hp_bar.setPosition(sprite.getPosition() +
@@ -301,7 +301,7 @@ class PlayerShipEntity : public ShipEntity {
     }
     void draw(sf::RenderWindow &window) {
         ShipEntity::draw(window);
-
+        window.draw(sprite);
         const int HP_BAR_SIZE = 10;
         sf::RectangleShape hp_bar(sf::Vector2f(HP_BAR_SIZE * hp, HP_BAR_SIZE));
         hp_bar.setPosition(sprite.getPosition() +

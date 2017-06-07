@@ -744,14 +744,14 @@ class World {
             credits_text.setFillColor(sf::Color::White);
             credits_text.setStyle(sf::Text::Bold);
             credits_text.setCharacterSize(60);
-            credits_text.setPosition(WIDTH / 4, HEIGHT / 4 - 20);
+            credits_text.setPosition(WIDTH / 4, HEIGHT / 4 - 60);
             window.draw(credits_text);
 
-            sf::Text instr_text("LEFT or A and RIGHT or steer\nSPACE to shoot\nUP or W to boost", FONT);
+            sf::Text instr_text("LEFT or A and RIGHT or steer\n           SPACE to shoot\n           UP or W to boost", FONT);
             instr_text.setFillColor(sf::Color::White);
-            instr_text.setStyle(sf::Text::Bold);
-            instr_text.setCharacterSize(30);
-            instr_text.setPosition(WIDTH / 2, HEIGHT / 4 - 20);
+            //instr_text.setStyle(sf::Text::Bold);
+            instr_text.setCharacterSize(40);
+            instr_text.setPosition(WIDTH / 4, HEIGHT / 4 * 3);
             window.draw(instr_text);
         }
 
